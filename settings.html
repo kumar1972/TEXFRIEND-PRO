@@ -2,7 +2,7 @@
 <html lang="ta">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <title>ERP Master Settings</title>
 
@@ -19,8 +19,7 @@
     font-family:'Poppins',sans-serif;
 }
 
-html,
-body{
+html,body{
     width:100%;
     min-height:100vh;
     background:#030712;
@@ -133,9 +132,7 @@ body{
     color:#4A554A;
 }
 
-input,
-select,
-textarea{
+input,select,textarea{
     width:100%;
     padding:12px 14px;
     border-radius:8px;
@@ -299,7 +296,7 @@ input[type=file]::file-selector-button{
 .btn-action:disabled{
     opacity:.65;
     cursor:wait;
-    transform:none !important;
+    transform:none!important;
 }
 
 .btn-action:hover{
@@ -308,9 +305,6 @@ input[type=file]::file-selector-button{
 
 .btn-primary{
     background:linear-gradient(135deg,#4A7C59,#2F4F38);
-    font-size:13px;
-    padding:14px;
-    width:100%;
 }
 
 .btn-success{
@@ -415,13 +409,10 @@ ERP Master Settings
 </h2>
 
 <div id="settingsStatus"></div>
-
 <div id="saveProgress" class="save-progress"></div>
 
 
-<!-- =========================================================
-     USER ACCESS
-========================================================= -->
+<!-- USER ACCESS -->
 
 <div class="form-section" style="border-left:4px solid #EF4444">
 
@@ -548,9 +539,7 @@ Update User Permissions
 </div>
 
 
-<!-- =========================================================
-     USER MANAGEMENT
-========================================================= -->
+<!-- USER MANAGEMENT -->
 
 <div class="form-section"
      style="border-left:4px solid #3B82F6">
@@ -562,23 +551,17 @@ Update User Permissions
 <div class="form-grid">
 
 <div class="form-group">
-
 <label>Username</label>
-
 <input type="text"
        id="newUsername"
        placeholder="Enter Username...">
-
 </div>
 
 <div class="form-group">
-
 <label>Password</label>
-
 <input type="password"
        id="newPassword"
        placeholder="Enter Password...">
-
 </div>
 
 </div>
@@ -616,14 +599,12 @@ Create New User Account
 <table class="users-table">
 
 <thead>
-
 <tr>
 <th>Username</th>
 <th>Password</th>
 <th>Role</th>
 <th>Action</th>
 </tr>
-
 </thead>
 
 <tbody id="usersTableBody"></tbody>
@@ -635,9 +616,7 @@ Create New User Account
 </div>
 
 
-<!-- =========================================================
-     GENERAL PROFILE
-========================================================= -->
+<!-- GENERAL PROFILE -->
 
 <div class="form-section">
 
@@ -677,8 +656,7 @@ General Profile
 </div>
 
 <div id="logoStatus"
-     class="logo-status">
-</div>
+     class="logo-status"></div>
 
 </div>
 
@@ -697,9 +675,7 @@ General Profile
 </div>
 
 
-<!-- =========================================================
-     DESIGN ASSETS
-========================================================= -->
+<!-- DESIGN ASSETS -->
 
 <div class="form-section">
 
@@ -750,9 +726,7 @@ Select Design Number
 </div>
 
 
-<!-- =========================================================
-     PARTY DIRECTORY
-========================================================= -->
+<!-- PARTY DIRECTORY -->
 
 <div class="form-section">
 
@@ -821,9 +795,7 @@ Select Party to Edit/View
 </div>
 
 
-<!-- =========================================================
-     ADVANCED CONFIG
-========================================================= -->
+<!-- ADVANCED CONFIG -->
 
 <div class="form-section">
 
@@ -865,14 +837,23 @@ Advanced Config
 </div>
 
 
-<!-- =========================================================
-     SYSTEM ACTIONS
-========================================================= -->
+<!-- SYSTEM ACTIONS -->
 
 <div class="exit-section">
 
+<!-- SAVE ALL -->
 
-<!-- NEW EXIT BUTTON -->
+<button type="button"
+        id="saveAllButton"
+        class="btn-action btn-success"
+        style="width:100%;font-size:13px;padding:14px"
+        onclick="executeSaveAll()">
+
+💾 SAVE ALL SETTINGS & EXIT
+
+</button>
+
+<!-- EXIT -->
 
 <button type="button"
         class="btn-action btn-info"
@@ -882,19 +863,6 @@ Advanced Config
 🏠 EXIT TO DASHBOARD
 
 </button>
-
-
-<!-- SAVE AND EXIT -->
-
-<button type="button"
-        id="saveAllButton"
-        class="btn-action btn-primary"
-        onclick="executeSaveAll()">
-
-✅ SAVE ALL SETTINGS & EXIT
-
-</button>
-
 
 <!-- BACKUP -->
 
@@ -907,8 +875,7 @@ Advanced Config
 
 </button>
 
-
-<!-- CLEAR / RESET -->
+<!-- RESET -->
 
 <div class="action-row">
 
@@ -942,7 +909,6 @@ Advanced Config
 
 /* ============================================================
    TEXFRIEND ERP SETTINGS
-   MOBILE SAFE VERSION
 ============================================================ */
 
 let tempLogoData = "";
@@ -965,13 +931,11 @@ const MAX_IMAGE_BYTES = 350 * 1024;
 
 
 /* ============================================================
-   SHORT GET ELEMENT
+   GET ELEMENT
 ============================================================ */
 
 function $(id){
-
     return document.getElementById(id);
-
 }
 
 
@@ -983,17 +947,12 @@ function status(message,ok=true){
 
     const el = $("settingsStatus");
 
-    if(!el){
-        return;
-    }
+    if(!el) return;
 
     el.textContent = message;
 
     el.style.color =
-        ok
-            ? "#2563EB"
-            : "#DC2626";
-
+        ok ? "#2563EB" : "#DC2626";
 }
 
 
@@ -1005,13 +964,10 @@ function saveProgress(message){
 
     const el = $("saveProgress");
 
-    if(!el){
-        return;
-    }
+    if(!el) return;
 
     el.style.display = "block";
     el.textContent = message;
-
 }
 
 
@@ -1022,12 +978,11 @@ function hideSaveProgress(){
     if(el){
         el.style.display = "none";
     }
-
 }
 
 
 /* ============================================================
-   SAFE LOCAL LOAD
+   SAFE LOAD
 ============================================================ */
 
 function safeLoad(key,fallback){
@@ -1036,10 +991,7 @@ function safeLoad(key,fallback){
 
         if(typeof window.localLoad === "function"){
 
-            return window.localLoad(
-                key,
-                fallback
-            );
+            return window.localLoad(key,fallback);
 
         }
 
@@ -1051,32 +1003,22 @@ function safeLoad(key,fallback){
         }
 
         try{
-
             return JSON.parse(raw);
-
         }catch(e){
-
             return raw;
-
         }
 
     }catch(e){
 
-        console.error(
-            "safeLoad:",
-            key,
-            e
-        );
+        console.error("safeLoad:",key,e);
 
         return fallback;
-
     }
-
 }
 
 
 /* ============================================================
-   SAFE LOCAL SAVE
+   SAFE SAVE
 ============================================================ */
 
 function safeSave(key,value){
@@ -1085,10 +1027,7 @@ function safeSave(key,value){
 
         if(typeof window.localSave === "function"){
 
-            return window.localSave(
-                key,
-                value
-            );
+            return window.localSave(key,value);
 
         }
 
@@ -1101,16 +1040,10 @@ function safeSave(key,value){
 
     }catch(e){
 
-        console.error(
-            "safeSave:",
-            key,
-            e
-        );
+        console.error("safeSave:",key,e);
 
         return false;
-
     }
-
 }
 
 
@@ -1131,28 +1064,20 @@ async function cloudSave(key,value){
 
         }
 
-        return safeSave(
-            key,
-            value
-        );
+        return safeSave(key,value);
 
     }catch(e){
 
-        console.error(
-            "Cloud save:",
+        console.warn(
+            "Cloud save fallback:",
             key,
             e
         );
 
-        safeSave(
-            key,
-            value
-        );
+        safeSave(key,value);
 
         return true;
-
     }
-
 }
 
 
@@ -1168,7 +1093,6 @@ function cleanInputText(v){
             .replace(/\\/g,"")
             .replace(/"/g,"")
             .trim();
-
 }
 
 
@@ -1178,44 +1102,30 @@ function cleanInputText(v){
 
 function normalizeImageData(value){
 
-    if(!value){
-        return "";
-    }
+    if(!value) return "";
 
-    let data =
-        String(value).trim();
+    let data = String(value).trim();
 
     if(
-        (
-            data.startsWith('"') &&
-            data.endsWith('"')
-        ) ||
-        (
-            data.startsWith("'") &&
-            data.endsWith("'")
-        )
+        (data.startsWith('"') && data.endsWith('"')) ||
+        (data.startsWith("'") && data.endsWith("'"))
     ){
 
-        data =
-            data.slice(1,-1);
-
+        data = data.slice(1,-1);
     }
 
-    data =
-        data
-            .replace(/\\"/g,'"')
-            .trim();
+    data = data
+        .replace(/\\"/g,'"')
+        .trim();
 
     if(
         /^(data:image\/|blob:|https?:\/\/)/i.test(data)
     ){
 
         return data;
-
     }
 
     return "";
-
 }
 
 
@@ -1231,9 +1141,7 @@ function getDataUrlBytes(dataUrl){
             !dataUrl ||
             !dataUrl.startsWith("data:")
         ){
-
             return 0;
-
         }
 
         const base64 =
@@ -1246,9 +1154,7 @@ function getDataUrlBytes(dataUrl){
     }catch(e){
 
         return 0;
-
     }
-
 }
 
 
@@ -1264,10 +1170,8 @@ function compressImageSafe(
 ){
 
     if(!file){
-
         callback("");
         return;
-
     }
 
     if(
@@ -1277,88 +1181,126 @@ function compressImageSafe(
 
         callback("");
         return;
-
     }
 
     const reader =
         new FileReader();
 
-    reader.onload =
-        function(e){
+    reader.onload = function(e){
 
-            const img =
-                new Image();
+        const img = new Image();
 
-            img.onload =
-                function(){
+        img.onload = function(){
+
+            try{
+
+                let w =
+                    img.naturalWidth ||
+                    img.width;
+
+                let h =
+                    img.naturalHeight ||
+                    img.height;
+
+                if(!w || !h){
+                    callback("");
+                    return;
+                }
+
+                const scale =
+                    Math.min(
+                        1,
+                        maxW / w,
+                        maxH / h
+                    );
+
+                w =
+                    Math.max(
+                        1,
+                        Math.round(w * scale)
+                    );
+
+                h =
+                    Math.max(
+                        1,
+                        Math.round(h * scale)
+                    );
+
+                const canvas =
+                    document.createElement("canvas");
+
+                canvas.width = w;
+                canvas.height = h;
+
+                const ctx =
+                    canvas.getContext(
+                        "2d",
+                        {alpha:true}
+                    );
+
+                if(!ctx){
+                    callback("");
+                    return;
+                }
+
+                ctx.clearRect(
+                    0,
+                    0,
+                    w,
+                    h
+                );
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    w,
+                    h
+                );
+
+                let result = "";
+
+                try{
+
+                    result =
+                        canvas.toDataURL(
+                            "image/webp",
+                            0.78
+                        );
+
+                }catch(e){
+
+                    result = "";
+                }
+
+                if(
+                    !result ||
+                    !result.startsWith("data:image/")
+                ){
 
                     try{
 
-                        let w =
-                            img.naturalWidth ||
-                            img.width;
-
-                        let h =
-                            img.naturalHeight ||
-                            img.height;
-
-                        if(!w || !h){
-
-                            callback("");
-                            return;
-
-                        }
-
-                        const scale =
-                            Math.min(
-                                1,
-                                maxW / w,
-                                maxH / h
-                            );
-
-                        w =
-                            Math.max(
-                                1,
-                                Math.round(w * scale)
-                            );
-
-                        h =
-                            Math.max(
-                                1,
-                                Math.round(h * scale)
-                            );
-
-                        const canvas =
+                        const c =
                             document.createElement(
                                 "canvas"
                             );
 
-                        canvas.width = w;
-                        canvas.height = h;
+                        c.width = w;
+                        c.height = h;
 
-                        const ctx =
-                            canvas.getContext(
-                                "2d",
-                                {
-                                    alpha:true
-                                }
-                            );
+                        const cctx =
+                            c.getContext("2d");
 
-                        if(!ctx){
+                        cctx.fillStyle = "#FFFFFF";
 
-                            callback("");
-                            return;
-
-                        }
-
-                        ctx.clearRect(
+                        cctx.fillRect(
                             0,
                             0,
                             w,
                             h
                         );
 
-                        ctx.drawImage(
+                        cctx.drawImage(
                             img,
                             0,
                             0,
@@ -1366,184 +1308,99 @@ function compressImageSafe(
                             h
                         );
 
-                        let result = "";
+                        result =
+                            c.toDataURL(
+                                "image/jpeg",
+                                0.78
+                            );
+
+                    }catch(err){
+
+                        result = "";
+                    }
+                }
+
+                if(
+                    getDataUrlBytes(result) >
+                    MAX_IMAGE_BYTES
+                ){
+
+                    const qualities = [
+                        0.65,
+                        0.55,
+                        0.45,
+                        0.35
+                    ];
+
+                    for(const q of qualities){
 
                         try{
 
-                            result =
+                            const smaller =
                                 canvas.toDataURL(
                                     "image/webp",
-                                    0.78
+                                    q
                                 );
 
-                        }catch(e){
-
-                            result = "";
-
-                        }
-
-                        if(
-                            !result ||
-                            !result.startsWith("data:image/")
-                        ){
-
-                            try{
-
-                                const jpegCanvas =
-                                    document.createElement(
-                                        "canvas"
-                                    );
-
-                                jpegCanvas.width = w;
-                                jpegCanvas.height = h;
-
-                                const jpegCtx =
-                                    jpegCanvas.getContext(
-                                        "2d"
-                                    );
-
-                                jpegCtx.fillStyle =
-                                    "#FFFFFF";
-
-                                jpegCtx.fillRect(
-                                    0,
-                                    0,
-                                    w,
-                                    h
-                                );
-
-                                jpegCtx.drawImage(
-                                    img,
-                                    0,
-                                    0,
-                                    w,
-                                    h
-                                );
-
-                                result =
-                                    jpegCanvas.toDataURL(
-                                        "image/jpeg",
-                                        0.78
-                                    );
-
-                            }catch(err){
-
-                                result = "";
-
-                            }
-
-                        }
-
-                        if(
-                            getDataUrlBytes(result) >
-                            MAX_IMAGE_BYTES
-                        ){
-
-                            const qualities =
-                                [
-                                    0.65,
-                                    0.55,
-                                    0.45,
-                                    0.35
-                                ];
-
-                            for(
-                                const q of qualities
+                            if(
+                                getDataUrlBytes(smaller) <
+                                getDataUrlBytes(result)
                             ){
 
-                                try{
-
-                                    const smaller =
-                                        canvas.toDataURL(
-                                            "image/webp",
-                                            q
-                                        );
-
-                                    if(
-                                        getDataUrlBytes(
-                                            smaller
-                                        ) <
-                                        getDataUrlBytes(
-                                            result
-                                        )
-                                    ){
-
-                                        result =
-                                            smaller;
-
-                                    }
-
-                                    if(
-                                        getDataUrlBytes(
-                                            result
-                                        ) <=
-                                        MAX_IMAGE_BYTES
-                                    ){
-
-                                        break;
-
-                                    }
-
-                                }catch(err){}
-
+                                result = smaller;
                             }
 
-                        }
+                            if(
+                                getDataUrlBytes(result) <=
+                                MAX_IMAGE_BYTES
+                            ){
+                                break;
+                            }
 
-                        if(
-                            getDataUrlBytes(result) >
-                            MAX_IMAGE_BYTES
-                        ){
-
-                            alert(
-                                "Image is still too large after compression.\n\nPlease select a smaller image."
-                            );
-
-                            callback("");
-                            return;
-
-                        }
-
-                        callback(
-                            normalizeImageData(
-                                result
-                            )
-                        );
-
-                    }catch(error){
-
-                        console.error(
-                            "Image compression error:",
-                            error
-                        );
-
-                        callback("");
-
+                        }catch(err){}
                     }
+                }
 
-                };
+                if(
+                    getDataUrlBytes(result) >
+                    MAX_IMAGE_BYTES
+                ){
 
-            img.onerror =
-                function(){
+                    alert(
+                        "Image is still too large.\n\nPlease select a smaller image."
+                    );
 
                     callback("");
+                    return;
+                }
 
-                };
+                callback(
+                    normalizeImageData(result)
+                );
 
-            img.src =
-                e.target.result;
+            }catch(error){
 
+                console.error(
+                    "Image compression:",
+                    error
+                );
+
+                callback("");
+            }
         };
 
-    reader.onerror =
-        function(){
-
+        img.onerror = function(){
             callback("");
-
         };
+
+        img.src = e.target.result;
+    };
+
+    reader.onerror = function(){
+        callback("");
+    };
 
     reader.readAsDataURL(file);
-
 }
 
 
@@ -1567,12 +1424,9 @@ function toast(
         }
 
         const t =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
-        t.id =
-            "customToast";
+        t.id = "customToast";
 
         t.textContent =
             (ok ? "✅ " : "⚠️ ") +
@@ -1601,49 +1455,35 @@ function toast(
 
         document.body.appendChild(t);
 
-        setTimeout(
-            function(){
+        setTimeout(function(){
 
-                if(t && t.parentNode){
-                    t.remove();
-                }
+            if(t && t.parentNode){
+                t.remove();
+            }
 
-                if(callback){
-                    callback();
-                }
+            if(callback){
+                callback();
+            }
 
-            },
-            1200
-        );
+        },1200);
 
     }catch(e){
 
-        console.log(
-            "Toast:",
-            message
-        );
+        console.log("Toast:",message);
 
         if(callback){
             callback();
         }
-
     }
-
 }
 
 
 /* ============================================================
    EXIT TO DASHBOARD
-   ============================================================ */
+   DIRECT - NO SAVE - NO WAIT
+============================================================ */
 
 function exitToDashboard(){
-
-    /*
-     * Direct navigation.
-     * No Firebase call.
-     * No save operation.
-     * No waiting.
-     */
 
     try{
 
@@ -1660,14 +1500,12 @@ function exitToDashboard(){
 
         location.href =
             "dashboard.html";
-
     }
-
 }
 
 
 /* ============================================================
-   GET STORED COMPANY LOGO
+   STORED COMPANY LOGO
 ============================================================ */
 
 function getStoredCompanyLogo(){
@@ -1678,49 +1516,36 @@ function getStoredCompanyLogo(){
         "logo"
     ];
 
-    for(
-        const key of keys
-    ){
+    for(const key of keys){
 
         try{
 
             const raw =
-                localStorage.getItem(
-                    key
-                );
+                localStorage.getItem(key);
 
             const value =
-                normalizeImageData(
-                    raw
-                );
+                normalizeImageData(raw);
 
             if(value){
                 return value;
             }
 
         }catch(e){}
-
     }
 
     return "";
-
 }
 
 
 /* ============================================================
-   SHOW COMPANY LOGO
+   SHOW LOGO
 ============================================================ */
 
 function showCompanyLogo(src){
 
-    const img =
-        $("logoImgTag");
-
-    const box =
-        $("logoPreviewBox");
-
-    const st =
-        $("logoStatus");
+    const img = $("logoImgTag");
+    const box = $("logoPreviewBox");
+    const st = $("logoStatus");
 
     if(!img || !box){
         return;
@@ -1733,62 +1558,46 @@ function showCompanyLogo(src){
 
         img.removeAttribute("src");
 
-        box.style.display =
-            "none";
+        box.style.display = "none";
 
         if(st){
             st.textContent = "";
         }
 
         return;
-
     }
 
-    img.onload =
-        function(){
+    img.onload = function(){
 
-            box.style.display =
-                "flex";
+        box.style.display = "flex";
 
-            if(st){
+        if(st){
 
-                st.textContent =
-                    "✅ Company Logo Ready";
+            st.textContent =
+                "✅ Company Logo Ready";
 
-                st.style.color =
-                    "#4A7C59";
+            st.style.color =
+                "#4A7C59";
+        }
+    };
 
-            }
+    img.onerror = function(){
 
-        };
+        box.style.display = "none";
 
-    img.onerror =
-        function(){
+        if(st){
 
-            box.style.display =
-                "none";
+            st.textContent =
+                "⚠️ Saved logo could not be displayed";
 
-            if(st){
+            st.style.color =
+                "#DC2626";
+        }
+    };
 
-                st.textContent =
-                    "⚠️ Saved logo could not be displayed";
-
-                st.style.color =
-                    "#DC2626";
-
-            }
-
-        };
-
-    img.src =
-        clean;
-
+    img.src = clean;
 }
 
-
-/* ============================================================
-   LOGO ERROR
-============================================================ */
 
 function handleLogoImageError(img){
 
@@ -1797,18 +1606,10 @@ function handleLogoImageError(img){
     }
 
     if($("logoPreviewBox")){
-
-        $("logoPreviewBox").style.display =
-            "none";
-
+        $("logoPreviewBox").style.display = "none";
     }
-
 }
 
-
-/* ============================================================
-   DESIGN IMAGE ERROR
-============================================================ */
 
 function handleDesignImageError(img){
 
@@ -1817,29 +1618,20 @@ function handleDesignImageError(img){
     }
 
     if($("designBitmapPreviewBox")){
-
-        $("designBitmapPreviewBox")
-            .style.display =
-            "none";
-
+        $("designBitmapPreviewBox").style.display = "none";
     }
-
 }
 
 
 /* ============================================================
-   USER PERMISSION CHECK
+   USER PERMISSION
 ============================================================ */
 
 function checkUserPermission(){
 
     const role =
-        localStorage.getItem(
-            "erp_logged_role"
-        ) ||
-        localStorage.getItem(
-            "user_role"
-        );
+        localStorage.getItem("erp_logged_role") ||
+        localStorage.getItem("user_role");
 
     if(
         role === "Administrator" ||
@@ -1847,7 +1639,6 @@ function checkUserPermission(){
     ){
 
         return true;
-
     }
 
     const p =
@@ -1863,7 +1654,6 @@ function checkUserPermission(){
             p["settings.html"] === false
         )
     );
-
 }
 
 
@@ -1895,48 +1685,45 @@ function loadDesignDropdownInSettings(){
         safeLoad(
             "party_orders_data",
             []
-        ) || {};
+        ) || [];
 
     const all =
         new Set();
 
     (
-        Array.isArray(pre)
-            ? pre
-            : []
-    ).forEach(
-        function(d){
+        Array.isArray(pre) ? pre : []
+    ).forEach(function(d){
 
-            all.add(
-                typeof d === "object"
-                    ? (
-                        d.designNo ||
-                        d.designNumber
-                    )
-                    : d
-            );
+        const value =
+            typeof d === "object"
+                ? (
+                    d.designNo ||
+                    d.designNumber
+                )
+                : d;
 
+        if(value){
+            all.add(value);
         }
-    );
+    });
 
     (
         Array.isArray(masters)
             ? masters
             : []
-    ).forEach(
-        function(d){
+    ).forEach(function(d){
 
-            all.add(
-                d &&
-                (
-                    d.name ||
-                    d.designNo ||
-                    d.designNumber
-                )
+        const value =
+            d && (
+                d.name ||
+                d.designNo ||
+                d.designNumber
             );
 
+        if(value){
+            all.add(value);
         }
-    );
+    });
 
     if(
         specs &&
@@ -1944,33 +1731,27 @@ function loadDesignDropdownInSettings(){
     ){
 
         Object.keys(specs)
-            .forEach(
-                function(k){
-
-                    all.add(k);
-
-                }
-            );
-
+            .forEach(function(k){
+                all.add(k);
+            });
     }
 
     (
         Array.isArray(orders)
             ? orders
             : []
-    ).forEach(
-        function(o){
+    ).forEach(function(o){
 
-            all.add(
-                o &&
-                (
-                    o.designNumber ||
-                    o.designNo
-                )
+        const value =
+            o && (
+                o.designNumber ||
+                o.designNo
             );
 
+        if(value){
+            all.add(value);
         }
-    );
+    });
 
     const select =
         $("settingDesignSelect");
@@ -1984,27 +1765,19 @@ function loadDesignDropdownInSettings(){
 
     Array.from(all)
         .filter(Boolean)
-        .forEach(
-            function(d){
+        .forEach(function(d){
 
-                const opt =
-                    document.createElement(
-                        "option"
-                    );
+            const opt =
+                document.createElement("option");
 
-                opt.value =
-                    String(d);
+            opt.value =
+                String(d);
 
-                opt.textContent =
-                    String(d);
+            opt.textContent =
+                String(d);
 
-                select.appendChild(
-                    opt
-                );
-
-            }
-        );
-
+            select.appendChild(opt);
+        });
 }
 
 
@@ -2022,15 +1795,13 @@ function loadDesignBitmap(designNo){
 
     if(!designNo){
 
-        tempDesignBitmapData =
-            "";
+        tempDesignBitmapData = "";
 
         if(box){
             box.style.display = "none";
         }
 
         return;
-
     }
 
     const specs =
@@ -2047,17 +1818,15 @@ function loadDesignBitmap(designNo){
 
     const key =
         Object.keys(specs)
-            .find(
-                function(k){
+            .find(function(k){
 
-                    return String(k)
-                        .replace("#","")
-                        .trim()
-                        .toLowerCase()
-                        === clean;
+                return String(k)
+                    .replace("#","")
+                    .trim()
+                    .toLowerCase()
+                    === clean;
 
-                }
-            ) ||
+            }) ||
         designNo;
 
     const bitmap =
@@ -2069,31 +1838,23 @@ function loadDesignBitmap(designNo){
     tempDesignBitmapData =
         bitmap;
 
-    if(
-        img &&
-        bitmap
-    ){
+    if(img && bitmap){
 
-        img.onload =
-            function(){
+        img.onload = function(){
 
-                if(box){
-                    box.style.display = "flex";
-                }
+            if(box){
+                box.style.display = "flex";
+            }
+        };
 
-            };
-
-        img.src =
-            bitmap;
+        img.src = bitmap;
 
     }else{
 
         if(box){
             box.style.display = "none";
         }
-
     }
-
 }
 
 
@@ -2124,7 +1885,6 @@ function previewLogo(input){
         input.value = "";
 
         return;
-
     }
 
     compressImageSafe(
@@ -2144,15 +1904,12 @@ function previewLogo(input){
 
                     $("logoStatus").style.color =
                         "#DC2626";
-
                 }
 
                 return;
-
             }
 
-            tempLogoData =
-                b64;
+            tempLogoData = b64;
 
             showCompanyLogo(
                 tempLogoData
@@ -2172,12 +1929,9 @@ function previewLogo(input){
 
                 $("logoStatus").style.color =
                     "#4A7C59";
-
             }
-
         }
     );
-
 }
 
 
@@ -2208,7 +1962,6 @@ function previewDesignBitmap(input){
         input.value = "";
 
         return;
-
     }
 
     compressImageSafe(
@@ -2221,7 +1974,6 @@ function previewDesignBitmap(input){
 
                 input.value = "";
                 return;
-
             }
 
             tempDesignBitmapData =
@@ -2233,10 +1985,7 @@ function previewDesignBitmap(input){
             const box =
                 $("designBitmapPreviewBox");
 
-            if(
-                img &&
-                tempDesignBitmapData
-            ){
+            if(img){
 
                 img.src =
                     tempDesignBitmapData;
@@ -2244,12 +1993,9 @@ function previewDesignBitmap(input){
                 if(box){
                     box.style.display = "flex";
                 }
-
             }
-
         }
     );
-
 }
 
 
@@ -2272,7 +2018,6 @@ function getPartyDatabase(){
     )
         ? db
         : {};
-
 }
 
 
@@ -2297,27 +2042,16 @@ function loadPartyDropdown(){
 
     Object.keys(db)
         .sort()
-        .forEach(
-            function(p){
+        .forEach(function(p){
 
-                const o =
-                    document.createElement(
-                        "option"
-                    );
+            const o =
+                document.createElement("option");
 
-                o.value =
-                    p;
+            o.value = p;
+            o.textContent = p;
 
-                o.textContent =
-                    p;
-
-                select.appendChild(
-                    o
-                );
-
-            }
-        );
-
+            select.appendChild(o);
+        });
 }
 
 
@@ -2331,9 +2065,7 @@ function selectPartyToEdit(name){
         !$("partyNameInput") ||
         !$("partyAddressInput")
     ){
-
         return;
-
     }
 
     $("partyNameInput").value =
@@ -2345,7 +2077,6 @@ function selectPartyToEdit(name){
                 getPartyDatabase()[name] || ""
               )
             : "";
-
 }
 
 
@@ -2373,14 +2104,22 @@ async function savePartyMaster(){
         );
 
         return;
-
     }
 
     const db =
         getPartyDatabase();
 
-    db[name] =
-        addr;
+    db[name] = addr;
+
+    safeSave(
+        "party_master_db",
+        db
+    );
+
+    safeSave(
+        "party_master_list",
+        Object.keys(db)
+    );
 
     await cloudSave(
         "party_master_db",
@@ -2400,7 +2139,6 @@ async function savePartyMaster(){
     toast(
         "Party Details Saved Successfully!"
     );
-
 }
 
 
@@ -2421,7 +2159,6 @@ async function deletePartyMaster(){
         );
 
         return;
-
     }
 
     if(
@@ -2431,15 +2168,23 @@ async function deletePartyMaster(){
             "?"
         )
     ){
-
         return;
-
     }
 
     const db =
         getPartyDatabase();
 
     delete db[name];
+
+    safeSave(
+        "party_master_db",
+        db
+    );
+
+    safeSave(
+        "party_master_list",
+        Object.keys(db)
+    );
 
     await cloudSave(
         "party_master_db",
@@ -2451,18 +2196,14 @@ async function deletePartyMaster(){
         Object.keys(db)
     );
 
-    $("partyNameInput").value =
-        "";
-
-    $("partyAddressInput").value =
-        "";
+    $("partyNameInput").value = "";
+    $("partyAddressInput").value = "";
 
     loadPartyDropdown();
 
     toast(
         "Party deleted successfully!"
     );
-
 }
 
 
@@ -2473,7 +2214,6 @@ async function deletePartyMaster(){
 async function updateUserPermissions(){
 
     const keys = [
-
         "dashboard",
         "design_list",
         "design_master",
@@ -2493,25 +2233,30 @@ async function updateUserPermissions(){
         "weaving",
         "weft_entry",
         "yarn_calc"
-
     ];
 
     const permissions = {};
 
-    keys.forEach(
-        function(k){
+    keys.forEach(function(k){
 
-            const el =
-                $("perm_" + k);
+        const el =
+            $("perm_" + k);
 
-            permissions[k] =
-                !!(
-                    el &&
-                    el.checked
-                );
+        permissions[k] =
+            !!(
+                el &&
+                el.checked
+            );
+    });
 
-        }
+    /* LOCAL FIRST */
+
+    safeSave(
+        "user_permissions",
+        permissions
     );
+
+    /* CLOUD */
 
     await cloudSave(
         "user_permissions",
@@ -2521,7 +2266,6 @@ async function updateUserPermissions(){
     toast(
         "All Pages User Permissions Updated!"
     );
-
 }
 
 
@@ -2538,22 +2282,17 @@ function loadUserPermissions(){
         ) || {};
 
     Object.keys(p)
-        .forEach(
-            function(k){
+        .forEach(function(k){
 
-                const el =
-                    $("perm_" + k);
+            const el =
+                $("perm_" + k);
 
-                if(el){
+            if(el){
 
-                    el.checked =
-                        p[k] !== false;
-
-                }
-
+                el.checked =
+                    p[k] !== false;
             }
-        );
-
+        });
 }
 
 
@@ -2572,7 +2311,6 @@ function getUsers(){
     return Array.isArray(users)
         ? users
         : [];
-
 }
 
 
@@ -2592,85 +2330,57 @@ function renderUsersTable(){
     const users =
         getUsers();
 
-    tbody.innerHTML =
-        "";
+    tbody.innerHTML = "";
 
-    users.forEach(
-        function(u,i){
+    users.forEach(function(u,i){
 
-            const tr =
-                document.createElement(
-                    "tr"
-                );
+        const tr =
+            document.createElement("tr");
 
-            [
-                u.username,
-                u.password,
-                u.role
-            ].forEach(
-                function(v){
-
-                    const td =
-                        document.createElement(
-                            "td"
-                        );
-
-                    td.textContent =
-                        v == null
-                            ? ""
-                            : String(v);
-
-                    tr.appendChild(
-                        td
-                    );
-
-                }
-            );
+        [
+            u.username,
+            u.password,
+            u.role
+        ].forEach(function(v){
 
             const td =
-                document.createElement(
-                    "td"
-                );
+                document.createElement("td");
 
-            const b =
-                document.createElement(
-                    "button"
-                );
+            td.textContent =
+                v == null
+                    ? ""
+                    : String(v);
 
-            b.type =
-                "button";
+            tr.appendChild(td);
+        });
 
-            b.className =
-                "btn-action btn-danger";
+        const td =
+            document.createElement("td");
 
-            b.style.cssText =
-                "padding:4px 8px;font-size:9px";
+        const b =
+            document.createElement("button");
 
-            b.textContent =
-                "Del";
+        b.type = "button";
 
-            b.onclick =
-                function(){
+        b.className =
+            "btn-action btn-danger";
 
-                    deleteUserAccount(i);
+        b.style.cssText =
+            "padding:4px 8px;font-size:9px";
 
-                };
+        b.textContent = "Del";
 
-            td.appendChild(
-                b
-            );
+        b.onclick = function(){
 
-            tr.appendChild(
-                td
-            );
+            deleteUserAccount(i);
+        };
 
-            tbody.appendChild(
-                tr
-            );
+        td.appendChild(b);
 
-        }
-    );
+        tr.appendChild(td);
 
+        tbody.appendChild(tr);
+    });
 }
 
 
@@ -2694,10 +2404,7 @@ async function addNewUserAccount(){
         $("newUserRole")
             .value;
 
-    if(
-        !name ||
-        !pass
-    ){
+    if(!name || !pass){
 
         toast(
             "Please enter Username and Password!",
@@ -2705,25 +2412,19 @@ async function addNewUserAccount(){
         );
 
         return;
-
     }
 
     const users =
         getUsers();
 
     if(
-        users.some(
-            function(u){
+        users.some(function(u){
 
-                return String(
-                    u.username
-                )
+            return String(u.username)
                 .toLowerCase()
-                ===
-                name.toLowerCase();
+                === name.toLowerCase();
 
-            }
-        )
+        })
     ){
 
         toast(
@@ -2732,7 +2433,6 @@ async function addNewUserAccount(){
         );
 
         return;
-
     }
 
     users.push({
@@ -2741,23 +2441,28 @@ async function addNewUserAccount(){
         role:role
     });
 
+    /* LOCAL FIRST */
+
+    safeSave(
+        "erp_system_users",
+        users
+    );
+
+    /* CLOUD */
+
     await cloudSave(
         "erp_system_users",
         users
     );
 
-    $("newUsername").value =
-        "";
-
-    $("newPassword").value =
-        "";
+    $("newUsername").value = "";
+    $("newPassword").value = "";
 
     renderUsersTable();
 
     toast(
         "New User Account Created!"
     );
-
 }
 
 
@@ -2772,9 +2477,7 @@ async function deleteUserAccount(index){
             "Are you sure you want to delete this user?"
         )
     ){
-
         return;
-
     }
 
     const users =
@@ -2784,14 +2487,17 @@ async function deleteUserAccount(index){
         index < 0 ||
         index >= users.length
     ){
-
         return;
-
     }
 
     users.splice(
         index,
         1
+    );
+
+    safeSave(
+        "erp_system_users",
+        users
     );
 
     await cloudSave(
@@ -2804,7 +2510,6 @@ async function deleteUserAccount(index){
     toast(
         "User deleted successfully!"
     );
-
 }
 
 
@@ -2824,9 +2529,7 @@ async function saveCompanyLogoSafely(){
     }
 
     const size =
-        getDataUrlBytes(
-            logo
-        );
+        getDataUrlBytes(logo);
 
     if(
         size > MAX_IMAGE_BYTES
@@ -2838,44 +2541,36 @@ async function saveCompanyLogoSafely(){
         );
 
         return false;
-
     }
 
     saveProgress(
         "Saving company logo..."
     );
 
+    /* LOCAL FIRST */
+
+    safeSave(
+        "company_logo",
+        logo
+    );
+
+    safeSave(
+        "company_logo_base64",
+        logo
+    );
+
+    safeSave(
+        "logo",
+        logo
+    );
+
+    /* CLOUD */
+
     const cloudResult =
         await cloudSave(
             "company_logo",
             logo
         );
-
-    try{
-
-        localStorage.setItem(
-            "company_logo",
-            JSON.stringify(logo)
-        );
-
-        localStorage.setItem(
-            "company_logo_base64",
-            JSON.stringify(logo)
-        );
-
-        localStorage.setItem(
-            "logo",
-            JSON.stringify(logo)
-        );
-
-    }catch(e){
-
-        console.warn(
-            "Logo local alias save warning:",
-            e
-        );
-
-    }
 
     if($("logoStatus")){
 
@@ -2886,16 +2581,15 @@ async function saveCompanyLogoSafely(){
 
         $("logoStatus").style.color =
             "#4A7C59";
-
     }
 
     return cloudResult !== false;
-
 }
 
 
 /* ============================================================
    SAVE ALL SETTINGS
+   LOCAL FIRST + BACKGROUND CLOUD
 ============================================================ */
 
 async function executeSaveAll(){
@@ -2904,23 +2598,16 @@ async function executeSaveAll(){
         return;
     }
 
-    saveAllRunning =
-        true;
+    saveAllRunning = true;
 
     const button =
         $("saveAllButton");
 
     if(button){
 
-        button.disabled =
-            true;
-
-        button.style.opacity =
-            "0.65";
-
-        button.style.cursor =
-            "wait";
-
+        button.disabled = true;
+        button.style.opacity = "0.65";
+        button.style.cursor = "wait";
     }
 
     try{
@@ -2934,7 +2621,9 @@ async function executeSaveAll(){
         );
 
 
-        /* GENERAL */
+        /* ====================================================
+           GENERAL SETTINGS
+        ==================================================== */
 
         const heading =
             cleanInputText(
@@ -2948,52 +2637,72 @@ async function executeSaveAll(){
                 ? $("set_comp_addr").value.trim()
                 : "";
 
+
         if(heading){
 
-            saveProgress(
-                "Saving heading..."
-            );
-
-            await cloudSave(
+            safeSave(
                 "app_heading_name",
                 heading
             );
-
         }
 
         if(addr){
 
-            saveProgress(
-                "Saving company address..."
-            );
-
-            await cloudSave(
+            safeSave(
                 "company_full_address",
                 addr
             );
-
         }
 
 
-        /* LOGO */
+        /* ====================================================
+           LOGO
+        ==================================================== */
 
         if(tempLogoData){
 
-            const logoSaved =
-                await saveCompanyLogoSafely();
-
-            if(!logoSaved){
-
-                throw new Error(
-                    "Company logo could not be saved."
+            const logo =
+                normalizeImageData(
+                    tempLogoData
                 );
 
+            if(!logo){
+
+                throw new Error(
+                    "Invalid company logo."
+                );
             }
 
+            if(
+                getDataUrlBytes(logo) >
+                MAX_IMAGE_BYTES
+            ){
+
+                throw new Error(
+                    "Company logo is too large."
+                );
+            }
+
+            safeSave(
+                "company_logo",
+                logo
+            );
+
+            safeSave(
+                "company_logo_base64",
+                logo
+            );
+
+            safeSave(
+                "logo",
+                logo
+            );
         }
 
 
-        /* DESIGN BITMAP */
+        /* ====================================================
+           DESIGN BITMAP
+        ==================================================== */
 
         const select =
             $("settingDesignSelect");
@@ -3004,10 +2713,6 @@ async function executeSaveAll(){
             tempDesignBitmapData
         ){
 
-            saveProgress(
-                "Saving design bitmap..."
-            );
-
             const specs =
                 safeLoad(
                     "design_specs",
@@ -3015,26 +2720,22 @@ async function executeSaveAll(){
                 ) || {};
 
             const clean =
-                String(
-                    select.value
-                )
-                .replace("#","")
-                .trim()
-                .toLowerCase();
+                String(select.value)
+                    .replace("#","")
+                    .trim()
+                    .toLowerCase();
 
             const key =
                 Object.keys(specs)
-                    .find(
-                        function(k){
+                    .find(function(k){
 
-                            return String(k)
-                                .replace("#","")
-                                .trim()
-                                .toLowerCase()
-                                === clean;
+                        return String(k)
+                            .replace("#","")
+                            .trim()
+                            .toLowerCase()
+                            === clean;
 
-                        }
-                    ) ||
+                    }) ||
                 select.value;
 
             if(
@@ -3043,7 +2744,6 @@ async function executeSaveAll(){
             ){
 
                 specs[key] = {};
-
             }
 
             specs[key].bitmap =
@@ -3051,35 +2751,114 @@ async function executeSaveAll(){
                     tempDesignBitmapData
                 );
 
-            await cloudSave(
+            safeSave(
                 "design_specs",
                 specs
             );
-
         }
 
 
-        /* SUCCESS */
-
-        saveProgress(
-            "Settings saved successfully..."
-        );
+        /* ====================================================
+           LOCAL SAVE COMPLETE
+        ==================================================== */
 
         status(
-            "✅ All settings saved successfully",
-            true
+            "✅ Settings saved locally"
         );
 
-        toast(
-            "All Settings Saved Successfully!",
-            true,
-            function(){
+        saveProgress(
+            "✅ Saved. Opening Dashboard..."
+        );
 
-                window.location.replace(
-                    "dashboard.html"
+
+        /* ====================================================
+           BACKGROUND CLOUD SYNC
+           DO NOT WAIT
+        ==================================================== */
+
+        const cloudJobs = [];
+
+
+        if(heading){
+
+            cloudJobs.push(
+                cloudSave(
+                    "app_heading_name",
+                    heading
+                )
+            );
+        }
+
+
+        if(addr){
+
+            cloudJobs.push(
+                cloudSave(
+                    "company_full_address",
+                    addr
+                )
+            );
+        }
+
+
+        if(tempLogoData){
+
+            cloudJobs.push(
+                cloudSave(
+                    "company_logo",
+                    normalizeImageData(
+                        tempLogoData
+                    )
+                )
+            );
+        }
+
+
+        if(
+            select &&
+            select.value &&
+            tempDesignBitmapData
+        ){
+
+            const specs =
+                safeLoad(
+                    "design_specs",
+                    {}
+                ) || {};
+
+            cloudJobs.push(
+                cloudSave(
+                    "design_specs",
+                    specs
+                )
+            );
+        }
+
+
+        Promise.allSettled(cloudJobs)
+            .then(function(results){
+
+                console.log(
+                    "TEXFRIEND cloud sync completed:",
+                    results
                 );
 
-            }
+            })
+            .catch(function(error){
+
+                console.warn(
+                    "Background cloud sync:",
+                    error
+                );
+            });
+
+
+        /* ====================================================
+           IMMEDIATE DASHBOARD
+        ==================================================== */
+
+        window.location.replace(
+            "dashboard.html"
         );
 
     }catch(e){
@@ -3103,26 +2882,17 @@ async function executeSaveAll(){
             "\n\nYour local data has been protected."
         );
 
-    }finally{
-
-        saveAllRunning =
-            false;
+        saveAllRunning = false;
 
         if(button){
 
-            button.disabled =
-                false;
-
-            button.style.opacity =
-                "1";
-
-            button.style.cursor =
-                "pointer";
-
+            button.disabled = false;
+            button.style.opacity = "1";
+            button.style.cursor = "pointer";
         }
 
+        return;
     }
-
 }
 
 
@@ -3138,23 +2908,11 @@ async function clearLocalCache(){
     ){
 
         return await window.handleLocalReset();
-
-    }
-
-    if(
-        typeof window.clearLocalCache ===
-        "function" &&
-        window.clearLocalCache !== clearLocalCache
-    ){
-
-        return await window.clearLocalCache();
-
     }
 
     alert(
         "❌ Clear Cache function is not available. Please check config.js."
     );
-
 }
 
 
@@ -3170,23 +2928,11 @@ async function factoryResetCloud(){
     ){
 
         return await window.handleCloudReset();
-
-    }
-
-    if(
-        typeof window.factoryResetCloud ===
-        "function" &&
-        window.factoryResetCloud !== factoryResetCloud
-    ){
-
-        return await window.factoryResetCloud();
-
     }
 
     alert(
         "❌ Factory Reset function is not available. Please check config.js."
     );
-
 }
 
 
@@ -3201,8 +2947,8 @@ function backupAllData(){
         const allData = {};
 
         for(
-            let i = 0;
-            i < localStorage.length;
+            let i=0;
+            i<localStorage.length;
             i++
         ){
 
@@ -3210,10 +2956,7 @@ function backupAllData(){
                 localStorage.key(i);
 
             allData[key] =
-                localStorage.getItem(
-                    key
-                );
-
+                localStorage.getItem(key);
         }
 
         const payload = {
@@ -3229,7 +2972,6 @@ function backupAllData(){
 
             data:
                 allData
-
         };
 
         const blob =
@@ -3247,17 +2989,12 @@ function backupAllData(){
             );
 
         const url =
-            URL.createObjectURL(
-                blob
-            );
+            URL.createObjectURL(blob);
 
         const a =
-            document.createElement(
-                "a"
-            );
+            document.createElement("a");
 
-        a.href =
-            url;
+        a.href = url;
 
         a.download =
             "texfriend_erp_backup_" +
@@ -3266,24 +3003,17 @@ function backupAllData(){
                 .slice(0,10) +
             ".json";
 
-        document.body.appendChild(
-            a
-        );
+        document.body.appendChild(a);
 
         a.click();
 
         a.remove();
 
-        setTimeout(
-            function(){
+        setTimeout(function(){
 
-                URL.revokeObjectURL(
-                    url
-                );
+            URL.revokeObjectURL(url);
 
-            },
-            1000
-        );
+        },1000);
 
         toast(
             "ERP Backup Download Started!"
@@ -3300,9 +3030,7 @@ function backupAllData(){
             "Backup Error: " +
             e.message
         );
-
     }
-
 }
 
 
@@ -3315,8 +3043,8 @@ function loadStorageDataToEditor(){
     const allData = {};
 
     for(
-        let i = 0;
-        i < localStorage.length;
+        let i=0;
+        i<localStorage.length;
         i++
     ){
 
@@ -3324,10 +3052,7 @@ function loadStorageDataToEditor(){
             localStorage.key(i);
 
         allData[key] =
-            localStorage.getItem(
-                key
-            );
-
+            localStorage.getItem(key);
     }
 
     const editor =
@@ -3341,13 +3066,11 @@ function loadStorageDataToEditor(){
                 null,
                 2
             );
-
     }
 
     toast(
         "Database Loaded into JSON Editor!"
     );
-
 }
 
 
@@ -3381,7 +3104,6 @@ async function saveStorageDataFromEditor(){
         );
 
         return;
-
     }
 
     if(
@@ -3395,7 +3117,6 @@ async function saveStorageDataFromEditor(){
         );
 
         return;
-
     }
 
     if(
@@ -3403,9 +3124,7 @@ async function saveStorageDataFromEditor(){
             "⚠️ Overwrite local database with these JSON changes?"
         )
     ){
-
         return;
-
     }
 
     try{
@@ -3422,7 +3141,6 @@ async function saveStorageDataFromEditor(){
                         parsed[key]
                     )
             );
-
         }
 
         if(window.firebaseSave){
@@ -3432,12 +3150,8 @@ async function saveStorageDataFromEditor(){
                 (window.erpCloudKeys || [])
             ){
 
-                if(
-                    !(key in parsed)
-                ){
-
+                if(!(key in parsed)){
                     continue;
-
                 }
 
                 let value =
@@ -3450,21 +3164,16 @@ async function saveStorageDataFromEditor(){
                     try{
 
                         value =
-                            JSON.parse(
-                                value
-                            );
+                            JSON.parse(value);
 
                     }catch(e){}
-
                 }
 
                 await window.firebaseSave(
                     key,
                     value
                 );
-
             }
-
         }
 
         toast(
@@ -3473,7 +3182,6 @@ async function saveStorageDataFromEditor(){
             function(){
 
                 location.reload();
-
             }
         );
 
@@ -3488,9 +3196,7 @@ async function saveStorageDataFromEditor(){
             "Database Save Error: " +
             e.message
         );
-
     }
-
 }
 
 
@@ -3504,8 +3210,7 @@ function initialiseSettings(){
         return;
     }
 
-    settingsInitialized =
-        true;
+    settingsInitialized = true;
 
     if(!checkUserPermission()){
 
@@ -3517,8 +3222,10 @@ function initialiseSettings(){
             "dashboard.html";
 
         return;
-
     }
+
+
+    /* HEADING */
 
     const heading =
         safeLoad(
@@ -3529,11 +3236,11 @@ function initialiseSettings(){
     if($("set_heading")){
 
         $("set_heading").value =
-            cleanInputText(
-                heading
-            );
-
+            cleanInputText(heading);
     }
+
+
+    /* ADDRESS */
 
     const address =
         safeLoad(
@@ -3544,15 +3251,15 @@ function initialiseSettings(){
     if($("set_comp_addr")){
 
         $("set_comp_addr").value =
-            String(
-                address || ""
-            )
-            .replace(
-                /\\n/g,
-                "\n"
-            );
-
+            String(address || "")
+                .replace(
+                    /\\n/g,
+                    "\n"
+                );
     }
+
+
+    /* LOGO */
 
     tempLogoData =
         getStoredCompanyLogo();
@@ -3560,6 +3267,9 @@ function initialiseSettings(){
     showCompanyLogo(
         tempLogoData
     );
+
+
+    /* OTHER DATA */
 
     loadDesignDropdownInSettings();
 
@@ -3569,10 +3279,10 @@ function initialiseSettings(){
 
     renderUsersTable();
 
+
     status(
         "☁️ Settings ready"
     );
-
 }
 
 
@@ -3585,44 +3295,6 @@ window.addEventListener(
     function(){
 
         initialiseSettings();
-
-        /*
-         * Firebase cloud synchronization
-         * updates only the required settings UI.
-         */
-
-        window.addEventListener(
-            "texfriend-cloud-sync-complete",
-            function(){
-
-                loadDesignDropdownInSettings();
-
-                loadPartyDropdown();
-
-                loadUserPermissions();
-
-                renderUsersTable();
-
-                const logo =
-                    getStoredCompanyLogo();
-
-                if(logo){
-
-                    tempLogoData =
-                        logo;
-
-                    showCompanyLogo(
-                        logo
-                    );
-
-                }
-
-                status(
-                    "☁️ Cloud data synchronized"
-                );
-
-            }
-        );
 
     }
 );
