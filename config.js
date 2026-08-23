@@ -718,46 +718,40 @@ function updateNetworkStatus() {
         bar.style.color =
             "#111827";
     }
+// ============================================================
+// BAR STYLE (TOP-IL VARUM MADIHIRI SET SEIYAPPATTULLATHU)
+// ============================================================
 
+bar.style.position =
+    "fixed";
 
-    // ========================================================
-    // BAR STYLE
-    // ========================================================
+bar.style.left =
+    "0";
 
-    bar.style.position =
-        "fixed";
+bar.style.right =
+    "0";
 
-    bar.style.left =
-        "0";
+bar.style.top =        // Bottom-ku bathilaga Top aakkappattullathu
+    "0";
 
-    bar.style.right =
-        "0";
+bar.style.padding =
+    "6px";
 
-    bar.style.bottom =
-        "0";
+bar.style.textAlign =
+    "center";
 
-    bar.style.padding =
-        "7px";
+bar.style.fontFamily =
+    "sans-serif";
 
-    bar.style.textAlign =
-        "center";
+bar.style.fontSize =
+    "11px";
 
-    bar.style.fontFamily =
-        "sans-serif";
+bar.style.fontWeight =
+    "700";
 
-    bar.style.fontSize =
-        "12px";
+bar.style.zIndex =
+    "999998";
 
-    bar.style.fontWeight =
-        "700";
-
-    bar.style.zIndex =
-        "999998";
-
-
-    document.body.appendChild(
-        bar
-    );
 
 
     // ========================================================
