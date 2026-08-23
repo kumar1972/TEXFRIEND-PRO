@@ -37,7 +37,6 @@ window.TEXFRIEND_CLOUD = {
 
 };
 
-
 // ============================================================
 // FIREBASE CONFIG
 // ============================================================
@@ -45,28 +44,29 @@ window.TEXFRIEND_CLOUD = {
 window.TEXFRIEND_FIREBASE_CONFIG = {
 
     apiKey:
-        "AIzaSyAZf02FHVU7zskrDjZJKOOLl8Ngrnql9J0",
+        "AIzaSyBhZy8Rsq1tBSSTlJVDt4yUhOgqHETylZA",
 
     authDomain:
-        "texfriend-2-in-1.firebaseapp.com",
+        "texfriend-pro.firebaseapp.com",
 
     projectId:
-        "texfriend-2-in-1",
+        "texfriend-pro",
 
     storageBucket:
-        "texfriend-2-in-1.firebasestorage.app",
+        "texfriend-pro.firebasestorage.app",
 
     messagingSenderId:
-        "202469954740",
+        "534662791669",
 
     appId:
-        "1:202469954740:web:67855889710ce3379fb3e1",
+        "1:534662791669:web:e20d91563e045ce8a0a0bc",
 
     measurementId:
-        "G-RYX6CFKLV9",
+        "G-XE17DME46Y",
 
+    // கீழே உள்ள URL-ஐ உங்கள் Firebase-ல் Realtime Database பகுதியில் செக் செய்து கொள்ளுங்கள்
     databaseURL:
-        "https://texfriend-2-in-1-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        "https://texfriend-pro-default-rtdb.asia-southeast1.firebasedatabase.app/" 
 
 };
 
@@ -718,40 +718,46 @@ function updateNetworkStatus() {
         bar.style.color =
             "#111827";
     }
-// ============================================================
-// BAR STYLE (TOP-IL VARUM MADIHIRI SET SEIYAPPATTULLATHU)
-// ============================================================
 
-bar.style.position =
-    "fixed";
 
-bar.style.left =
-    "0";
+    // ========================================================
+    // BAR STYLE (TOP-il mattum varum padi fix seiyappattathu)
+    // ========================================================
 
-bar.style.right =
-    "0";
+    bar.style.position =
+        "fixed";
 
-bar.style.top =        // Bottom-ku bathilaga Top aakkappattullathu
-    "0";
+    bar.style.left =
+        "0";
 
-bar.style.padding =
-    "6px";
+    bar.style.right =
+        "0";
 
-bar.style.textAlign =
-    "center";
+    bar.style.top =        // எப்போதுமே மேலே மட்டுமே காட்டப்படும்
+        "0";
 
-bar.style.fontFamily =
-    "sans-serif";
+    bar.style.padding =
+        "6px";
 
-bar.style.fontSize =
-    "11px";
+    bar.style.textAlign =
+        "center";
 
-bar.style.fontWeight =
-    "700";
+    bar.style.fontFamily =
+        "sans-serif";
 
-bar.style.zIndex =
-    "999998";
+    bar.style.fontSize =
+        "11px";
 
+    bar.style.fontWeight =
+        "700";
+
+    bar.style.zIndex =
+        "999998";
+
+
+    document.body.appendChild(
+        bar
+    );
 
 
     // ========================================================
