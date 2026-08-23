@@ -2,8 +2,7 @@
 <html lang="ta">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>ERP Master Settings</title>
 
@@ -11,136 +10,114 @@
 <script src="translator.js"></script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
+    font-family:'Poppins',sans-serif;
 }
 
-html,body{
+html,
+body{
     width:100%;
-    min-height:100%;
+    min-height:100vh;
     background:#030712;
     color:#1E2B23;
-    font-family:Arial,sans-serif;
 }
 
 body{
-    padding:10px;
-    overflow-x:hidden;
-}
-
-button,
-input,
-select,
-textarea{
-    font-family:Arial,sans-serif;
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 .container{
     width:100%;
     max-width:900px;
-    margin:0 auto;
     background:#fff;
-    padding:16px;
-    border-radius:16px;
-    border:1px solid #dfe7df;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 35px rgba(30,43,35,.06);
+    border:1px solid rgba(82,110,81,.15);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
 }
 
 .top-nav{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:10px;
-    margin-bottom:12px;
+    margin-bottom:5px;
 }
 
 .back-btn{
     display:inline-flex;
     align-items:center;
+    gap:5px;
     color:#fff;
     text-decoration:none;
+    font-weight:600;
+    font-size:11px;
     background:#1A2421;
-    padding:9px 13px;
+    padding:8px 16px;
     border-radius:8px;
-    font-size:11px;
-    font-weight:700;
-    white-space:nowrap;
-}
-
-.system-label{
-    color:#4A7C59;
-    font-size:11px;
-    font-weight:700;
-    white-space:nowrap;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
 .page-title{
-    text-align:center;
-    color:#2F4F38;
     font-size:18px;
-    font-weight:800;
-    padding-bottom:12px;
-    border-bottom:2px solid #EAF0EA;
-    margin-bottom:15px;
-}
-
-#settingsStatus{
-    min-height:20px;
-    text-align:center;
-    color:#2563EB;
-    font-size:11px;
-    font-weight:700;
     margin-bottom:5px;
-}
-
-.save-progress{
-    display:none;
+    font-weight:800;
+    color:#2F4F38;
     text-align:center;
-    color:#2563EB;
-    font-size:11px;
-    font-weight:700;
-    padding:5px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    border-bottom:2px solid #EAF0EA;
+    padding-bottom:12px;
 }
 
 .form-section{
-    position:relative;
     background:#F8FAF8;
     border:1px solid #E2E8E2;
-    border-radius:13px;
-    padding:22px 14px 14px;
-    margin-bottom:16px;
+    border-radius:14px;
+    padding:22px 15px 15px;
+    position:relative;
 }
 
 .section-badge{
     position:absolute;
-    top:-11px;
-    left:14px;
+    top:-12px;
+    left:15px;
     background:#4A7C59;
     color:#fff;
-    padding:4px 11px;
-    border-radius:12px;
     font-size:10px;
     font-weight:700;
+    padding:4px 12px;
+    border-radius:12px;
+    letter-spacing:.5px;
+    text-transform:uppercase;
 }
 
-.badge-blue{
-    background:#2563EB;
+.section-badge.blue{
+    background:linear-gradient(135deg,#3B82F6,#1D4ED8);
 }
 
-.badge-amber{
-    background:#D97706;
+.section-badge.amber{
+    background:linear-gradient(135deg,#F59E0B,#D97706);
 }
 
-.badge-red{
-    background:#DC2626;
+.section-badge.danger{
+    background:linear-gradient(135deg,#EF4444,#DC2626);
 }
 
 .form-grid{
     display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
 }
 
 .form-group{
@@ -150,252 +127,268 @@ textarea{
     margin-bottom:10px;
 }
 
-label{
-    color:#4A554A;
+.form-group label{
     font-size:11px;
     font-weight:700;
+    color:#4A554A;
 }
 
 input,
 select,
 textarea{
     width:100%;
-    min-width:0;
-    border:1px solid #D1DED1;
+    padding:12px 14px;
     border-radius:8px;
+    border:1px solid #D1DED1;
     background:#fff;
     color:#1E2B23;
-    padding:11px 12px;
     font-size:12px;
     font-weight:600;
     outline:none;
 }
 
 textarea{
-    min-height:80px;
     resize:vertical;
+    height:80px;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
     border-color:#4A7C59;
-    box-shadow:0 0 0 2px rgba(74,124,89,.12);
+    box-shadow:0 0 0 3px rgba(74,124,89,.15);
 }
 
-.checkbox-box{
-    max-height:240px;
-    overflow-y:auto;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
+.checkbox-group-container{
     background:#fff;
     border:1px solid #D1DED1;
-    border-radius:9px;
-    padding:10px;
+    border-radius:10px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:5px;
 }
 
 .checkbox-item{
     display:flex;
     align-items:center;
-    gap:9px;
-    min-height:34px;
-    color:#1E2B23;
-    font-size:11px;
+    gap:10px;
+    font-size:12px;
     font-weight:600;
+    color:#1E2B23;
+    cursor:pointer;
 }
 
-.checkbox-item input{
-    width:17px;
-    height:17px;
-    flex:0 0 auto;
+.checkbox-item input[type=checkbox]{
+    width:16px;
+    height:16px;
     accent-color:#EF4444;
 }
 
 .users-table-container{
-    width:100%;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    margin-top:12px;
-    border:1px solid #D1DED1;
-    border-radius:9px;
+    margin-top:15px;
     background:#fff;
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid #D1DED1;
 }
 
 .users-table{
     width:100%;
-    min-width:470px;
     border-collapse:collapse;
-    font-size:10px;
+    font-size:11px;
+    text-align:center;
 }
 
 .users-table th,
 .users-table td{
-    padding:8px;
+    padding:10px;
     border-bottom:1px solid #E2E8E2;
-    text-align:center;
+    color:#1E2B23;
 }
 
 .users-table th{
     background:#EAF0EA;
     color:#2F4F38;
+    font-weight:700;
+    text-transform:uppercase;
 }
 
-.file-input{
-    padding:7px;
+input[type=file]{
+    padding:8px;
     background:#F4F7F4;
     border:1px dashed #4A7C59;
+    cursor:pointer;
+}
+
+input[type=file]::file-selector-button{
+    background:#4A7C59;
+    color:#fff;
+    border:0;
+    padding:6px 14px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:10px;
+    cursor:pointer;
+    margin-right:10px;
 }
 
 .preview-box{
+    margin-top:10px;
+    background:#fff;
+    padding:14px;
+    min-height:100px;
+    border-radius:10px;
+    border:1px solid #D1DED1;
     display:none;
     align-items:center;
     justify-content:center;
-    min-height:80px;
-    margin-top:8px;
-    padding:8px;
-    border:1px solid #D1DED1;
-    border-radius:9px;
-    background:#fff;
     overflow:hidden;
 }
 
 .preview-box img{
     display:block;
     max-width:100%;
-    max-height:110px;
     width:auto;
     height:auto;
+    max-height:120px;
     object-fit:contain;
+    border-radius:6px;
 }
 
 .logo-status{
-    text-align:center;
+    margin-top:7px;
     font-size:10px;
-    font-weight:700;
-    margin-top:5px;
+    font-weight:600;
+    text-align:center;
+    color:#4A7C59;
 }
 
 #advancedJsonEditor{
-    width:100%;
-    height:170px;
-    resize:vertical;
-    background:#17211d;
+    background:#1A2421;
     color:#A7F3D0;
+    font-family:'Courier New',monospace;
+    font-size:11px;
+    padding:15px;
+    border-radius:10px;
     border:1px solid #064E3B;
-    border-radius:9px;
-    padding:12px;
-    font-family:monospace;
-    font-size:10px;
+    height:180px;
 }
 
-.btn{
-    width:100%;
-    min-height:42px;
-    border:0;
-    border-radius:8px;
+.btn-action{
     color:#fff;
-    font-size:11px;
+    border:0;
+    padding:12px 16px;
+    border-radius:8px;
     font-weight:700;
     cursor:pointer;
-    padding:10px 12px;
+    font-size:11px;
+    transition:.2s;
+    box-shadow:0 4px 10px rgba(30,43,35,.1);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    text-decoration:none;
     text-align:center;
 }
 
-.btn:disabled{
-    opacity:.55;
+.btn-action:disabled{
+    opacity:.65;
     cursor:wait;
+    transform:none !important;
 }
 
-.green{
-    background:#059669;
+.btn-action:hover{
+    transform:translateY(-1px);
 }
 
-.blue{
-    background:#2563EB;
+.btn-primary{
+    background:linear-gradient(135deg,#4A7C59,#2F4F38);
+    font-size:13px;
+    padding:14px;
+    width:100%;
 }
 
-.amber{
-    background:#D97706;
+.btn-success{
+    background:linear-gradient(135deg,#10B981,#059669);
 }
 
-.red{
-    background:#DC2626;
+.btn-info{
+    background:linear-gradient(135deg,#3B82F6,#1D4ED8);
 }
 
-.primary{
-    background:#2F4F38;
-    min-height:48px;
-    font-size:12px;
+.btn-warning{
+    background:linear-gradient(135deg,#F59E0B,#D97706);
+}
+
+.btn-danger{
+    background:linear-gradient(135deg,#EF4444,#DC2626);
 }
 
 .action-row{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:10px;
+    margin-top:5px;
 }
 
-.system-actions{
+#settingsStatus{
+    font-size:11px;
+    text-align:center;
+    font-weight:700;
+    color:#2563EB;
+    min-height:16px;
+}
+
+.save-progress{
+    display:none;
+    text-align:center;
+    font-size:11px;
+    font-weight:700;
+    color:#2563EB;
+    padding:5px;
+}
+
+.exit-section{
     display:flex;
     flex-direction:column;
     gap:10px;
-}
-
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:20px;
-    transform:translateX(-50%);
-    z-index:99999;
-    max-width:calc(100% - 24px);
-    padding:12px 18px;
-    border-radius:9px;
-    color:#fff;
-    font-size:12px;
-    font-weight:700;
-    text-align:center;
-    box-shadow:0 8px 25px rgba(0,0,0,.3);
+    margin-top:10px;
 }
 
 @media(max-width:600px){
 
     body{
-        padding:6px;
+        padding:8px;
     }
 
     .container{
-        padding:12px;
-        border-radius:12px;
-    }
-
-    .top-nav{
-        align-items:flex-start;
-    }
-
-    .system-label{
-        font-size:9px;
-    }
-
-    .page-title{
-        font-size:15px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-        gap:3px;
+        padding:15px;
+        border-radius:15px;
     }
 
     .action-row{
         grid-template-columns:1fr;
     }
 
-    .form-section{
-        padding:21px 11px 11px;
+    .top-nav{
+        gap:10px;
     }
 
-    input,
-    select,
-    textarea{
-        font-size:12px;
+    .page-title{
+        font-size:16px;
+    }
+
+    .form-section{
+        padding:22px 12px 14px;
+    }
+
+    .btn-action{
+        min-height:48px;
     }
 }
 </style>
@@ -411,148 +404,158 @@ textarea:focus{
 ← Back to Menu
 </a>
 
-<div class="system-label">
-⚙️ SYSTEM CONFIG
-</div>
+<span style="font-size:12px;font-weight:700;color:#4A7C59;text-transform:uppercase">
+⚙️ System Config
+</span>
 
 </div>
 
 <h2 class="page-title">
-ERP MASTER SETTINGS
+ERP Master Settings
 </h2>
 
 <div id="settingsStatus"></div>
+
 <div id="saveProgress" class="save-progress"></div>
 
 
-<!-- USER ACCESS -->
+<!-- =========================================================
+     USER ACCESS
+========================================================= -->
 
-<div class="form-section">
+<div class="form-section" style="border-left:4px solid #EF4444">
 
-<div class="section-badge badge-red">
-🔒 User Access Control
+<div class="section-badge danger">
+🔒 User Access Control (All Pages)
 </div>
 
 <div class="form-group">
 
-<label>
-Select pages allowed for Standard User:
+<label style="color:#2F4F38;font-size:12px">
+Select which pages the 'User' is allowed to access:
 </label>
 
-<div class="checkbox-box">
+<div class="checkbox-group-container"
+     style="max-height:280px;overflow-y:auto">
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_dashboard" checked>
-dashboard.html
+dashboard.html (Dashboard)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_design_list" checked>
-design_list.html
+design_list.html (Design List)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_design_master" checked>
-design_master.html
+design_master.html (Design Master)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_despatch" checked>
-Despatch.html
+Despatch.html (Despatch)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_dyeing_issue" checked>
-dyeing_issue.html
+dyeing_issue.html (Dyeing Issue)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_dyeing_receive" checked>
-dyeing_receive.html
+dyeing_receive.html (Dyeing Receive)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_index" checked>
-index.html
+index.html (Index / Login)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_invoice" checked>
-invoice.html
+invoice.html (Invoice / Bill)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_kora_yarn" checked>
-kora_yarn.html
+kora_yarn.html (Kora Yarn)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_party_orders" checked>
-Party_Orders.html
+Party_Orders.html (Party Orders)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_process_matrix" checked>
-process_matrix.html
+process_matrix.html (Process Matrix)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_report" checked>
-report.html
+report.html (Report)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_settings" checked>
-settings.html
+settings.html (Settings)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_warp_entry" checked>
-warp_entry.html
+warp_entry.html (Warp Entry)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_warping" checked>
-warping.html
+warping.html (Warping)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_washing" checked>
-washing.html
+washing.html (Washing)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_weaving" checked>
-weaving.html
+weaving.html (Weaving)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_weft_entry" checked>
-weft_entry.html
+weft_entry.html (Weft Entry)
 </label>
 
 <label class="checkbox-item">
 <input type="checkbox" id="perm_yarn_calc" checked>
-yarn_calc.html
+yarn_calc.html (Yarn Calculation)
 </label>
 
 </div>
 </div>
 
-<button class="btn red"
-        type="button"
+<button type="button"
+        class="btn-action btn-danger"
+        style="width:100%"
         onclick="updateUserPermissions()">
+
 Update User Permissions
+
 </button>
 
 </div>
 
 
-<!-- USER MANAGEMENT -->
+<!-- =========================================================
+     USER MANAGEMENT
+========================================================= -->
 
-<div class="form-section">
+<div class="form-section"
+     style="border-left:4px solid #3B82F6">
 
-<div class="section-badge badge-blue">
+<div class="section-badge blue">
 👤 User Management
 </div>
 
@@ -562,10 +565,9 @@ Update User Permissions
 
 <label>Username</label>
 
-<input id="newUsername"
-       type="text"
-       autocomplete="off"
-       placeholder="Enter Username">
+<input type="text"
+       id="newUsername"
+       placeholder="Enter Username...">
 
 </div>
 
@@ -573,18 +575,18 @@ Update User Permissions
 
 <label>Password</label>
 
-<input id="newPassword"
-       type="password"
-       autocomplete="new-password"
-       placeholder="Enter Password">
+<input type="password"
+       id="newPassword"
+       placeholder="Enter Password...">
 
 </div>
 
 </div>
 
-<div class="form-group">
+<div class="form-group"
+     style="margin-top:10px">
 
-<label>Role</label>
+<label>Role / Permissions Level</label>
 
 <select id="newUserRole">
 
@@ -600,10 +602,13 @@ Administrator
 
 </div>
 
-<button class="btn blue"
-        type="button"
+<button type="button"
+        class="btn-action btn-info"
+        style="width:100%"
         onclick="addNewUserAccount()">
+
 Create New User Account
+
 </button>
 
 <div class="users-table-container">
@@ -611,12 +616,14 @@ Create New User Account
 <table class="users-table">
 
 <thead>
+
 <tr>
 <th>Username</th>
 <th>Password</th>
 <th>Role</th>
 <th>Action</th>
 </tr>
+
 </thead>
 
 <tbody id="usersTableBody"></tbody>
@@ -628,7 +635,9 @@ Create New User Account
 </div>
 
 
-<!-- GENERAL PROFILE -->
+<!-- =========================================================
+     GENERAL PROFILE
+========================================================= -->
 
 <div class="form-section">
 
@@ -640,28 +649,30 @@ General Profile
 
 <div class="form-group">
 
-<label>Main Heading</label>
+<label>Change Main Heading Name</label>
 
-<input id="set_heading"
-       type="text"
-       placeholder="TEXFRIEND ERP">
+<input type="text"
+       id="set_heading"
+       placeholder="Enter App Heading...">
 
 </div>
 
 <div class="form-group">
 
-<label>Company Logo</label>
+<label>Company Logo Upload</label>
 
-<input id="set_logo_file"
-       class="file-input"
-       type="file"
-       accept="image/*">
+<input type="file"
+       id="set_logo_file"
+       accept="image/png,image/jpeg,image/webp,image/jpg"
+       onchange="previewLogo(this)">
 
 <div id="logoPreviewBox"
      class="preview-box">
 
 <img id="logoImgTag"
-     alt="Company Logo">
+     src=""
+     alt="Company Logo"
+     onerror="handleLogoImageError(this)">
 
 </div>
 
@@ -673,52 +684,62 @@ General Profile
 
 </div>
 
-<div class="form-group">
+<div class="form-group"
+     style="margin-top:5px">
 
-<label>Company Address</label>
+<label>Default Company Address (For Invoices)</label>
 
 <textarea id="set_comp_addr"
-          placeholder="Enter Full Company Address"></textarea>
+          placeholder="Enter Full Company Address..."></textarea>
 
 </div>
 
 </div>
 
 
-<!-- DESIGN ASSETS -->
+<!-- =========================================================
+     DESIGN ASSETS
+========================================================= -->
 
 <div class="form-section">
 
-<div class="section-badge badge-blue">
+<div class="section-badge blue">
 Design Assets
 </div>
+
+<div class="form-grid">
 
 <div class="form-group">
 
 <label>Select Design No</label>
 
-<select id="settingDesignSelect">
+<select id="settingDesignSelect"
+        onchange="loadDesignBitmap(this.value)">
+
 <option value="">
 Select Design Number
 </option>
+
 </select>
 
 </div>
 
 <div class="form-group">
 
-<label>Upload Design Bitmap</label>
+<label>Upload Bitmap Image for Design</label>
 
-<input id="designBitmapFile"
-       class="file-input"
-       type="file"
-       accept="image/*">
+<input type="file"
+       id="designBitmapFile"
+       accept="image/png,image/jpeg,image/webp,image/jpg"
+       onchange="previewDesignBitmap(this)">
 
 <div id="designBitmapPreviewBox"
      class="preview-box">
 
 <img id="designBitmapImgTag"
-     alt="Design Bitmap">
+     src=""
+     alt="Design Bitmap"
+     onerror="handleDesignImageError(this)">
 
 </div>
 
@@ -726,23 +747,30 @@ Select Design Number
 
 </div>
 
+</div>
 
-<!-- PARTY -->
+
+<!-- =========================================================
+     PARTY DIRECTORY
+========================================================= -->
 
 <div class="form-section">
 
-<div class="section-badge badge-amber">
+<div class="section-badge amber">
 Party Directory
 </div>
 
 <div class="form-group">
 
-<label>Select Party</label>
+<label>Manage Existing Parties</label>
 
-<select id="partyListSelect">
+<select id="partyListSelect"
+        onchange="selectPartyToEdit(this.value)">
+
 <option value="">
-Select Party
+Select Party to Edit/View
 </option>
+
 </select>
 
 </div>
@@ -753,18 +781,18 @@ Select Party
 
 <label>Party Name</label>
 
-<input id="partyNameInput"
-       type="text"
-       placeholder="Party Name">
+<input type="text"
+       id="partyNameInput"
+       placeholder="Enter Party Name...">
 
 </div>
 
 <div class="form-group">
 
-<label>Address / GST</label>
+<label>Party Address & GST Details</label>
 
 <textarea id="partyAddressInput"
-          placeholder="Address and GST"></textarea>
+          placeholder="Enter Full Address & GST No..."></textarea>
 
 </div>
 
@@ -772,16 +800,20 @@ Select Party
 
 <div class="action-row">
 
-<button class="btn green"
-        type="button"
+<button type="button"
+        class="btn-action btn-success"
         onclick="savePartyMaster()">
+
 💾 Save / Add Party
+
 </button>
 
-<button class="btn red"
-        type="button"
+<button type="button"
+        class="btn-action btn-danger"
         onclick="deletePartyMaster()">
+
 🗑️ Delete Party
+
 </button>
 
 </div>
@@ -789,11 +821,13 @@ Select Party
 </div>
 
 
-<!-- ADVANCED -->
+<!-- =========================================================
+     ADVANCED CONFIG
+========================================================= -->
 
 <div class="form-section">
 
-<div class="section-badge badge-red">
+<div class="section-badge danger">
 Advanced Config
 </div>
 
@@ -810,16 +844,20 @@ Advanced Config
 
 <div class="action-row">
 
-<button class="btn blue"
-        type="button"
+<button type="button"
+        class="btn-action btn-info"
         onclick="loadStorageDataToEditor()">
+
 📥 Load JSON
+
 </button>
 
-<button class="btn green"
-        type="button"
+<button type="button"
+        class="btn-action btn-success"
         onclick="saveStorageDataFromEditor()">
+
 💾 Save JSON
+
 </button>
 
 </div>
@@ -827,35 +865,67 @@ Advanced Config
 </div>
 
 
-<!-- SYSTEM -->
+<!-- =========================================================
+     SYSTEM ACTIONS
+========================================================= -->
 
-<div class="system-actions">
+<div class="exit-section">
 
-<button id="saveAllButton"
-        class="btn primary"
-        type="button"
+
+<!-- NEW EXIT BUTTON -->
+
+<button type="button"
+        class="btn-action btn-info"
+        style="width:100%"
+        onclick="exitToDashboard()">
+
+🏠 EXIT TO DASHBOARD
+
+</button>
+
+
+<!-- SAVE AND EXIT -->
+
+<button type="button"
+        id="saveAllButton"
+        class="btn-action btn-primary"
         onclick="executeSaveAll()">
-✅ SAVE ALL SETTINGS
+
+✅ SAVE ALL SETTINGS & EXIT
+
 </button>
 
-<button class="btn blue"
-        type="button"
+
+<!-- BACKUP -->
+
+<button type="button"
+        class="btn-action btn-info"
+        style="width:100%"
         onclick="backupAllData()">
+
 📥 BACKUP ERP DATA
+
 </button>
+
+
+<!-- CLEAR / RESET -->
 
 <div class="action-row">
 
-<button class="btn amber"
-        type="button"
-        onclick="clearLocalCacheSafe()">
+<button type="button"
+        class="btn-action btn-warning"
+        onclick="clearLocalCache()">
+
 🧹 CLEAR LOCAL CACHE
+
 </button>
 
-<button class="btn red"
-        type="button"
-        onclick="factoryResetCloudSafe()">
+<button type="button"
+        class="btn-action btn-danger"
+        onclick="factoryResetCloud()">
+
 ⚠️ FACTORY RESET CLOUD
+
 </button>
 
 </div>
@@ -866,58 +936,86 @@ Advanced Config
 
 
 <script>
+
 "use strict";
 
-/* =========================================================
-   MOBILE SAFE SETTINGS V2
-========================================================= */
+
+/* ============================================================
+   TEXFRIEND ERP SETTINGS
+   MOBILE SAFE VERSION
+============================================================ */
 
 let tempLogoData = "";
 let tempDesignBitmapData = "";
-let settingsReady = false;
-let saving = false;
-
-const MAX_IMAGE_BYTES = 300 * 1024;
+let settingsInitialized = false;
+let saveAllRunning = false;
 
 
-/* =========================================================
-   HELPER
-========================================================= */
+/* ============================================================
+   CONSTANTS
+============================================================ */
+
+const LOGO_MAX_WIDTH = 512;
+const LOGO_MAX_HEIGHT = 512;
+
+const DESIGN_MAX_WIDTH = 800;
+const DESIGN_MAX_HEIGHT = 800;
+
+const MAX_IMAGE_BYTES = 350 * 1024;
+
+
+/* ============================================================
+   SHORT GET ELEMENT
+============================================================ */
 
 function $(id){
+
     return document.getElementById(id);
+
 }
 
 
-/* =========================================================
+/* ============================================================
    STATUS
-========================================================= */
+============================================================ */
 
-function setStatus(text,ok=true){
+function status(message,ok=true){
 
     const el = $("settingsStatus");
 
-    if(!el) return;
+    if(!el){
+        return;
+    }
 
-    el.textContent = text;
+    el.textContent = message;
 
     el.style.color =
-        ok ? "#2563EB" : "#DC2626";
+        ok
+            ? "#2563EB"
+            : "#DC2626";
+
 }
 
 
-function progress(text){
+/* ============================================================
+   SAVE PROGRESS
+============================================================ */
+
+function saveProgress(message){
 
     const el = $("saveProgress");
 
-    if(!el) return;
+    if(!el){
+        return;
+    }
 
     el.style.display = "block";
-    el.textContent = text;
+    el.textContent = message;
+
 }
 
 
-function hideProgress(){
+function hideSaveProgress(){
 
     const el = $("saveProgress");
 
@@ -928,9 +1026,9 @@ function hideProgress(){
 }
 
 
-/* =========================================================
-   SAFE LOAD
-========================================================= */
+/* ============================================================
+   SAFE LOCAL LOAD
+============================================================ */
 
 function safeLoad(key,fallback){
 
@@ -938,38 +1036,48 @@ function safeLoad(key,fallback){
 
         if(typeof window.localLoad === "function"){
 
-            const value =
-                window.localLoad(key,fallback);
+            return window.localLoad(
+                key,
+                fallback
+            );
 
-            return value == null
-                ? fallback
-                : value;
         }
 
         const raw =
             localStorage.getItem(key);
 
-        if(raw === null)
+        if(raw === null){
             return fallback;
+        }
 
         try{
+
             return JSON.parse(raw);
+
         }catch(e){
+
             return raw;
+
         }
 
     }catch(e){
 
-        console.warn("safeLoad:",key,e);
+        console.error(
+            "safeLoad:",
+            key,
+            e
+        );
 
         return fallback;
+
     }
+
 }
 
 
-/* =========================================================
-   SAFE SAVE
-========================================================= */
+/* ============================================================
+   SAFE LOCAL SAVE
+============================================================ */
 
 function safeSave(key,value){
 
@@ -977,7 +1085,11 @@ function safeSave(key,value){
 
         if(typeof window.localSave === "function"){
 
-            return window.localSave(key,value);
+            return window.localSave(
+                key,
+                value
+            );
+
         }
 
         localStorage.setItem(
@@ -989,254 +1101,576 @@ function safeSave(key,value){
 
     }catch(e){
 
-        console.warn("safeSave:",key,e);
+        console.error(
+            "safeSave:",
+            key,
+            e
+        );
 
         return false;
+
     }
+
 }
 
 
-/* =========================================================
+/* ============================================================
    CLOUD SAVE
-   NEVER BLOCK PAGE
-========================================================= */
+============================================================ */
 
-async function cloudSaveSafe(key,value){
+async function cloudSave(key,value){
 
     try{
 
         if(typeof window.firebaseSave === "function"){
 
-            const result =
-                await Promise.race([
-                    Promise.resolve(
-                        window.firebaseSave(key,value)
-                    ),
-                    new Promise(resolve =>
-                        setTimeout(
-                            () => resolve(true),
-                            5000
-                        )
-                    )
-                ]);
+            return await window.firebaseSave(
+                key,
+                value
+            );
 
-            safeSave(key,value);
-
-            return result !== false;
         }
+
+        return safeSave(
+            key,
+            value
+        );
 
     }catch(e){
 
-        console.warn(
-            "Cloud save fallback:",
+        console.error(
+            "Cloud save:",
             key,
             e
         );
+
+        safeSave(
+            key,
+            value
+        );
+
+        return true;
+
     }
 
-    return safeSave(key,value);
 }
 
 
-/* =========================================================
-   TEXT
-========================================================= */
+/* ============================================================
+   TEXT CLEAN
+============================================================ */
 
-function cleanText(value){
+function cleanInputText(v){
 
-    return value == null
+    return v == null
         ? ""
-        : String(value).trim();
+        : String(v)
+            .replace(/\\/g,"")
+            .replace(/"/g,"")
+            .trim();
+
 }
 
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* ============================================================
+   NORMALIZE IMAGE
+============================================================ */
 
-function toast(message,ok=true){
+function normalizeImageData(value){
 
-    const old =
-        document.querySelector(".toast");
+    if(!value){
+        return "";
+    }
 
-    if(old)
-        old.remove();
+    let data =
+        String(value).trim();
 
-    const el =
-        document.createElement("div");
+    if(
+        (
+            data.startsWith('"') &&
+            data.endsWith('"')
+        ) ||
+        (
+            data.startsWith("'") &&
+            data.endsWith("'")
+        )
+    ){
 
-    el.className = "toast";
+        data =
+            data.slice(1,-1);
 
-    el.style.background =
-        ok ? "#059669" : "#DC2626";
+    }
 
-    el.textContent =
-        (ok ? "✅ " : "⚠️ ") + message;
+    data =
+        data
+            .replace(/\\"/g,'"')
+            .trim();
 
-    document.body.appendChild(el);
+    if(
+        /^(data:image\/|blob:|https?:\/\/)/i.test(data)
+    ){
 
-    setTimeout(() => {
+        return data;
 
-        if(el.parentNode)
-            el.remove();
+    }
 
-    },2200);
+    return "";
+
 }
 
 
-/* =========================================================
+/* ============================================================
    IMAGE SIZE
-========================================================= */
+============================================================ */
 
-function imageBytes(data){
+function getDataUrlBytes(dataUrl){
 
-    if(!data || !data.startsWith("data:"))
+    try{
+
+        if(
+            !dataUrl ||
+            !dataUrl.startsWith("data:")
+        ){
+
+            return 0;
+
+        }
+
+        const base64 =
+            dataUrl.split(",")[1] || "";
+
+        return Math.floor(
+            (base64.length * 3) / 4
+        );
+
+    }catch(e){
+
         return 0;
 
-    const base64 =
-        data.split(",")[1] || "";
+    }
 
-    return Math.floor(
-        base64.length * 0.75
-    );
 }
 
 
-/* =========================================================
-   IMAGE COMPRESS
-========================================================= */
+/* ============================================================
+   IMAGE COMPRESSION
+============================================================ */
 
-function compressImage(file,maxSize,callback){
+function compressImageSafe(
+    file,
+    maxW,
+    maxH,
+    callback
+){
 
-    if(!file || !file.type.startsWith("image/")){
+    if(!file){
 
         callback("");
-
         return;
+
+    }
+
+    if(
+        !file.type ||
+        !file.type.startsWith("image/")
+    ){
+
+        callback("");
+        return;
+
     }
 
     const reader =
         new FileReader();
 
-    reader.onload = function(e){
+    reader.onload =
+        function(e){
 
-        const img =
-            new Image();
+            const img =
+                new Image();
 
-        img.onload = function(){
+            img.onload =
+                function(){
 
-            try{
+                    try{
 
-                let w =
-                    img.naturalWidth;
+                        let w =
+                            img.naturalWidth ||
+                            img.width;
 
-                let h =
-                    img.naturalHeight;
+                        let h =
+                            img.naturalHeight ||
+                            img.height;
 
-                const scale =
-                    Math.min(
-                        1,
-                        maxSize / w,
-                        maxSize / h
-                    );
+                        if(!w || !h){
 
-                w =
-                    Math.max(
-                        1,
-                        Math.round(w * scale)
-                    );
+                            callback("");
+                            return;
 
-                h =
-                    Math.max(
-                        1,
-                        Math.round(h * scale)
-                    );
+                        }
 
-                const canvas =
-                    document.createElement("canvas");
+                        const scale =
+                            Math.min(
+                                1,
+                                maxW / w,
+                                maxH / h
+                            );
 
-                canvas.width = w;
-                canvas.height = h;
+                        w =
+                            Math.max(
+                                1,
+                                Math.round(w * scale)
+                            );
 
-                const ctx =
-                    canvas.getContext("2d");
+                        h =
+                            Math.max(
+                                1,
+                                Math.round(h * scale)
+                            );
 
-                ctx.drawImage(
-                    img,
-                    0,
-                    0,
-                    w,
-                    h
-                );
+                        const canvas =
+                            document.createElement(
+                                "canvas"
+                            );
 
-                let result =
-                    canvas.toDataURL(
-                        "image/webp",
-                        .72
-                    );
+                        canvas.width = w;
+                        canvas.height = h;
 
-                if(
-                    !result ||
-                    imageBytes(result) >
-                    MAX_IMAGE_BYTES
-                ){
+                        const ctx =
+                            canvas.getContext(
+                                "2d",
+                                {
+                                    alpha:true
+                                }
+                            );
 
-                    result =
-                        canvas.toDataURL(
-                            "image/jpeg",
-                            .65
+                        if(!ctx){
+
+                            callback("");
+                            return;
+
+                        }
+
+                        ctx.clearRect(
+                            0,
+                            0,
+                            w,
+                            h
                         );
-                }
 
-                if(
-                    imageBytes(result) >
-                    MAX_IMAGE_BYTES
-                ){
-
-                    result =
-                        canvas.toDataURL(
-                            "image/jpeg",
-                            .45
+                        ctx.drawImage(
+                            img,
+                            0,
+                            0,
+                            w,
+                            h
                         );
-                }
 
-                if(
-                    imageBytes(result) >
-                    MAX_IMAGE_BYTES
-                ){
+                        let result = "";
+
+                        try{
+
+                            result =
+                                canvas.toDataURL(
+                                    "image/webp",
+                                    0.78
+                                );
+
+                        }catch(e){
+
+                            result = "";
+
+                        }
+
+                        if(
+                            !result ||
+                            !result.startsWith("data:image/")
+                        ){
+
+                            try{
+
+                                const jpegCanvas =
+                                    document.createElement(
+                                        "canvas"
+                                    );
+
+                                jpegCanvas.width = w;
+                                jpegCanvas.height = h;
+
+                                const jpegCtx =
+                                    jpegCanvas.getContext(
+                                        "2d"
+                                    );
+
+                                jpegCtx.fillStyle =
+                                    "#FFFFFF";
+
+                                jpegCtx.fillRect(
+                                    0,
+                                    0,
+                                    w,
+                                    h
+                                );
+
+                                jpegCtx.drawImage(
+                                    img,
+                                    0,
+                                    0,
+                                    w,
+                                    h
+                                );
+
+                                result =
+                                    jpegCanvas.toDataURL(
+                                        "image/jpeg",
+                                        0.78
+                                    );
+
+                            }catch(err){
+
+                                result = "";
+
+                            }
+
+                        }
+
+                        if(
+                            getDataUrlBytes(result) >
+                            MAX_IMAGE_BYTES
+                        ){
+
+                            const qualities =
+                                [
+                                    0.65,
+                                    0.55,
+                                    0.45,
+                                    0.35
+                                ];
+
+                            for(
+                                const q of qualities
+                            ){
+
+                                try{
+
+                                    const smaller =
+                                        canvas.toDataURL(
+                                            "image/webp",
+                                            q
+                                        );
+
+                                    if(
+                                        getDataUrlBytes(
+                                            smaller
+                                        ) <
+                                        getDataUrlBytes(
+                                            result
+                                        )
+                                    ){
+
+                                        result =
+                                            smaller;
+
+                                    }
+
+                                    if(
+                                        getDataUrlBytes(
+                                            result
+                                        ) <=
+                                        MAX_IMAGE_BYTES
+                                    ){
+
+                                        break;
+
+                                    }
+
+                                }catch(err){}
+
+                            }
+
+                        }
+
+                        if(
+                            getDataUrlBytes(result) >
+                            MAX_IMAGE_BYTES
+                        ){
+
+                            alert(
+                                "Image is still too large after compression.\n\nPlease select a smaller image."
+                            );
+
+                            callback("");
+                            return;
+
+                        }
+
+                        callback(
+                            normalizeImageData(
+                                result
+                            )
+                        );
+
+                    }catch(error){
+
+                        console.error(
+                            "Image compression error:",
+                            error
+                        );
+
+                        callback("");
+
+                    }
+
+                };
+
+            img.onerror =
+                function(){
 
                     callback("");
 
-                    return;
-                }
+                };
 
-                callback(result);
-
-            }catch(err){
-
-                console.error(err);
-
-                callback("");
-            }
+            img.src =
+                e.target.result;
 
         };
 
-        img.onerror = () => callback("");
+    reader.onerror =
+        function(){
 
-        img.src = e.target.result;
-    };
+            callback("");
 
-    reader.onerror = () => callback("");
+        };
 
     reader.readAsDataURL(file);
+
 }
 
 
-/* =========================================================
-   LOGO
-========================================================= */
+/* ============================================================
+   TOAST
+============================================================ */
 
-function getLogo(){
+function toast(
+    message,
+    ok=true,
+    callback
+){
+
+    try{
+
+        const old =
+            $("customToast");
+
+        if(old){
+            old.remove();
+        }
+
+        const t =
+            document.createElement(
+                "div"
+            );
+
+        t.id =
+            "customToast";
+
+        t.textContent =
+            (ok ? "✅ " : "⚠️ ") +
+            message;
+
+        Object.assign(
+            t.style,
+            {
+                position:"fixed",
+                top:"20px",
+                left:"50%",
+                transform:"translateX(-50%)",
+                background:ok ? "#10B981" : "#DC2626",
+                color:"#fff",
+                padding:"14px 24px",
+                borderRadius:"10px",
+                boxShadow:"0 10px 25px rgba(0,0,0,.3)",
+                zIndex:"999999",
+                fontWeight:"700",
+                fontSize:"14px",
+                textAlign:"center",
+                minWidth:"280px",
+                maxWidth:"calc(100% - 30px)"
+            }
+        );
+
+        document.body.appendChild(t);
+
+        setTimeout(
+            function(){
+
+                if(t && t.parentNode){
+                    t.remove();
+                }
+
+                if(callback){
+                    callback();
+                }
+
+            },
+            1200
+        );
+
+    }catch(e){
+
+        console.log(
+            "Toast:",
+            message
+        );
+
+        if(callback){
+            callback();
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   EXIT TO DASHBOARD
+   ============================================================ */
+
+function exitToDashboard(){
+
+    /*
+     * Direct navigation.
+     * No Firebase call.
+     * No save operation.
+     * No waiting.
+     */
+
+    try{
+
+        window.location.replace(
+            "dashboard.html"
+        );
+
+    }catch(e){
+
+        console.error(
+            "Exit error:",
+            e
+        );
+
+        location.href =
+            "dashboard.html";
+
+    }
+
+}
+
+
+/* ============================================================
+   GET STORED COMPANY LOGO
+============================================================ */
+
+function getStoredCompanyLogo(){
 
     const keys = [
         "company_logo",
@@ -1244,484 +1678,212 @@ function getLogo(){
         "logo"
     ];
 
-    for(const key of keys){
+    for(
+        const key of keys
+    ){
 
         try{
 
-            let value =
-                localStorage.getItem(key);
+            const raw =
+                localStorage.getItem(
+                    key
+                );
 
-            if(!value)
-                continue;
+            const value =
+                normalizeImageData(
+                    raw
+                );
 
-            try{
-                value = JSON.parse(value);
-            }catch(e){}
-
-            if(
-                typeof value === "string" &&
-                value.startsWith("data:image/")
-            ){
+            if(value){
                 return value;
             }
 
         }catch(e){}
+
     }
 
     return "";
+
 }
 
 
-function showLogo(data){
+/* ============================================================
+   SHOW COMPANY LOGO
+============================================================ */
 
-    const img = $("logoImgTag");
-    const box = $("logoPreviewBox");
+function showCompanyLogo(src){
 
-    if(!img || !box)
-        return;
+    const img =
+        $("logoImgTag");
 
-    if(!data){
+    const box =
+        $("logoPreviewBox");
 
-        box.style.display = "none";
+    const st =
+        $("logoStatus");
 
-        img.removeAttribute("src");
-
+    if(!img || !box){
         return;
     }
 
-    img.onload = () => {
+    const clean =
+        normalizeImageData(src);
 
-        box.style.display = "flex";
-
-    };
-
-    img.onerror = () => {
-
-        box.style.display = "none";
+    if(!clean){
 
         img.removeAttribute("src");
-    };
 
-    img.src = data;
+        box.style.display =
+            "none";
+
+        if(st){
+            st.textContent = "";
+        }
+
+        return;
+
+    }
+
+    img.onload =
+        function(){
+
+            box.style.display =
+                "flex";
+
+            if(st){
+
+                st.textContent =
+                    "✅ Company Logo Ready";
+
+                st.style.color =
+                    "#4A7C59";
+
+            }
+
+        };
+
+    img.onerror =
+        function(){
+
+            box.style.display =
+                "none";
+
+            if(st){
+
+                st.textContent =
+                    "⚠️ Saved logo could not be displayed";
+
+                st.style.color =
+                    "#DC2626";
+
+            }
+
+        };
+
+    img.src =
+        clean;
+
 }
 
 
-/* =========================================================
-   LOGO FILE EVENT
-========================================================= */
+/* ============================================================
+   LOGO ERROR
+============================================================ */
 
-$("set_logo_file").addEventListener(
-    "change",
-    function(){
+function handleLogoImageError(img){
 
-        const file =
-            this.files &&
-            this.files[0];
-
-        if(!file)
-            return;
-
-        progress("Optimizing logo...");
-
-        compressImage(
-            file,
-            512,
-            function(result){
-
-                hideProgress();
-
-                if(!result){
-
-                    toast(
-                        "Logo compression failed",
-                        false
-                    );
-
-                    return;
-                }
-
-                tempLogoData = result;
-
-                showLogo(result);
-
-                $("logoStatus").textContent =
-                    "Optimized: " +
-                    Math.round(
-                        imageBytes(result)/1024
-                    ) +
-                    " KB";
-
-                $("logoStatus").style.color =
-                    "#059669";
-            }
-        );
+    if(img){
+        img.removeAttribute("src");
     }
-);
 
+    if($("logoPreviewBox")){
 
-/* =========================================================
-   DESIGN FILE
-========================================================= */
+        $("logoPreviewBox").style.display =
+            "none";
 
-$("designBitmapFile").addEventListener(
-    "change",
-    function(){
-
-        const file =
-            this.files &&
-            this.files[0];
-
-        if(!file)
-            return;
-
-        progress("Optimizing design image...");
-
-        compressImage(
-            file,
-            700,
-            function(result){
-
-                hideProgress();
-
-                if(!result){
-
-                    toast(
-                        "Design image compression failed",
-                        false
-                    );
-
-                    return;
-                }
-
-                tempDesignBitmapData =
-                    result;
-
-                const img =
-                    $("designBitmapImgTag");
-
-                const box =
-                    $("designBitmapPreviewBox");
-
-                img.src = result;
-
-                box.style.display =
-                    "flex";
-            }
-        );
     }
-);
+
+}
 
 
-/* =========================================================
-   PERMISSIONS
-========================================================= */
+/* ============================================================
+   DESIGN IMAGE ERROR
+============================================================ */
 
-const permissionKeys = [
-    "dashboard",
-    "design_list",
-    "design_master",
-    "despatch",
-    "dyeing_issue",
-    "dyeing_receive",
-    "index",
-    "invoice",
-    "kora_yarn",
-    "party_orders",
-    "process_matrix",
-    "report",
-    "settings",
-    "warp_entry",
-    "warping",
-    "washing",
-    "weaving",
-    "weft_entry",
-    "yarn_calc"
-];
+function handleDesignImageError(img){
+
+    if(img){
+        img.removeAttribute("src");
+    }
+
+    if($("designBitmapPreviewBox")){
+
+        $("designBitmapPreviewBox")
+            .style.display =
+            "none";
+
+    }
+
+}
 
 
-function loadPermissions(){
+/* ============================================================
+   USER PERMISSION CHECK
+============================================================ */
 
-    const data =
+function checkUserPermission(){
+
+    const role =
+        localStorage.getItem(
+            "erp_logged_role"
+        ) ||
+        localStorage.getItem(
+            "user_role"
+        );
+
+    if(
+        role === "Administrator" ||
+        role === "Admin"
+    ){
+
+        return true;
+
+    }
+
+    const p =
         safeLoad(
             "user_permissions",
             {}
-        ) || {};
-
-    permissionKeys.forEach(key => {
-
-        const el =
-            $("perm_"+key);
-
-        if(el){
-
-            el.checked =
-                data[key] !== false;
-        }
-
-    });
-}
-
-
-async function updateUserPermissions(){
-
-    const data = {};
-
-    permissionKeys.forEach(key => {
-
-        const el =
-            $("perm_"+key);
-
-        data[key] =
-            !!(el && el.checked);
-
-    });
-
-    safeSave(
-        "user_permissions",
-        data
-    );
-
-    cloudSaveSafe(
-        "user_permissions",
-        data
-    );
-
-    toast(
-        "User permissions updated"
-    );
-}
-
-
-/* =========================================================
-   USERS
-========================================================= */
-
-function getUsers(){
-
-    const data =
-        safeLoad(
-            "erp_system_users",
-            []
         );
 
-    return Array.isArray(data)
-        ? data
-        : [];
-}
-
-
-function renderUsers(){
-
-    const body =
-        $("usersTableBody");
-
-    if(!body)
-        return;
-
-    body.innerHTML = "";
-
-    const users =
-        getUsers();
-
-    users.forEach((user,index) => {
-
-        const tr =
-            document.createElement("tr");
-
-        const values = [
-            user.username,
-            user.password,
-            user.role
-        ];
-
-        values.forEach(value => {
-
-            const td =
-                document.createElement("td");
-
-            td.textContent =
-                value || "";
-
-            tr.appendChild(td);
-        });
-
-        const td =
-            document.createElement("td");
-
-        const btn =
-            document.createElement("button");
-
-        btn.className =
-            "btn red";
-
-        btn.style.minHeight =
-            "30px";
-
-        btn.style.fontSize =
-            "9px";
-
-        btn.textContent =
-            "Delete";
-
-        btn.onclick =
-            () => deleteUser(index);
-
-        td.appendChild(btn);
-
-        tr.appendChild(td);
-
-        body.appendChild(tr);
-    });
-}
-
-
-async function addNewUserAccount(){
-
-    const username =
-        cleanText(
-            $("newUsername").value
-        );
-
-    const password =
-        cleanText(
-            $("newPassword").value
-        );
-
-    const role =
-        $("newUserRole").value;
-
-    if(!username || !password){
-
-        toast(
-            "Enter username and password",
-            false
-        );
-
-        return;
-    }
-
-    const users =
-        getUsers();
-
-    if(
-        users.some(
-            u =>
-                String(u.username)
-                .toLowerCase() ===
-                username.toLowerCase()
+    return !(
+        p &&
+        (
+            p.settings === false ||
+            p["settings.html"] === false
         )
-    ){
-
-        toast(
-            "Username already exists",
-            false
-        );
-
-        return;
-    }
-
-    users.push({
-        username,
-        password,
-        role
-    });
-
-    safeSave(
-        "erp_system_users",
-        users
     );
 
-    cloudSaveSafe(
-        "erp_system_users",
-        users
-    );
-
-    $("newUsername").value = "";
-    $("newPassword").value = "";
-
-    renderUsers();
-
-    toast(
-        "New user created"
-    );
 }
 
 
-async function deleteUser(index){
-
-    if(!confirm("Delete this user?"))
-        return;
-
-    const users =
-        getUsers();
-
-    users.splice(index,1);
-
-    safeSave(
-        "erp_system_users",
-        users
-    );
-
-    cloudSaveSafe(
-        "erp_system_users",
-        users
-    );
-
-    renderUsers();
-
-    toast(
-        "User deleted"
-    );
-}
-
-
-/* =========================================================
+/* ============================================================
    DESIGN DROPDOWN
-========================================================= */
+============================================================ */
 
-function loadDesignDropdown(){
+function loadDesignDropdownInSettings(){
 
-    const select =
-        $("settingDesignSelect");
+    const pre =
+        safeLoad(
+            "pre_design_numbers",
+            []
+        ) || [];
 
-    if(!select)
-        return;
-
-    const set =
-        new Set();
-
-    const sources = [
-        safeLoad("pre_design_numbers",[]),
-        safeLoad("design_masters_data",[]),
-        safeLoad("party_orders_data",[])
-    ];
-
-    sources.forEach(list => {
-
-        if(!Array.isArray(list))
-            return;
-
-        list.forEach(item => {
-
-            let value = "";
-
-            if(typeof item === "string"){
-
-                value = item;
-
-            }else if(item){
-
-                value =
-                    item.designNo ||
-                    item.designNumber ||
-                    item.name ||
-                    "";
-            }
-
-            if(value)
-                set.add(String(value));
-        });
-    });
+    const masters =
+        safeLoad(
+            "design_masters_data",
+            []
+        ) || [];
 
     const specs =
         safeLoad(
@@ -1729,113 +1891,373 @@ function loadDesignDropdown(){
             {}
         ) || {};
 
+    const orders =
+        safeLoad(
+            "party_orders_data",
+            []
+        ) || {};
+
+    const all =
+        new Set();
+
+    (
+        Array.isArray(pre)
+            ? pre
+            : []
+    ).forEach(
+        function(d){
+
+            all.add(
+                typeof d === "object"
+                    ? (
+                        d.designNo ||
+                        d.designNumber
+                    )
+                    : d
+            );
+
+        }
+    );
+
+    (
+        Array.isArray(masters)
+            ? masters
+            : []
+    ).forEach(
+        function(d){
+
+            all.add(
+                d &&
+                (
+                    d.name ||
+                    d.designNo ||
+                    d.designNumber
+                )
+            );
+
+        }
+    );
+
     if(
         specs &&
         typeof specs === "object"
     ){
 
-        Object.keys(specs).forEach(key => {
+        Object.keys(specs)
+            .forEach(
+                function(k){
 
-            if(key)
-                set.add(key);
-        });
+                    all.add(k);
+
+                }
+            );
+
+    }
+
+    (
+        Array.isArray(orders)
+            ? orders
+            : []
+    ).forEach(
+        function(o){
+
+            all.add(
+                o &&
+                (
+                    o.designNumber ||
+                    o.designNo
+                )
+            );
+
+        }
+    );
+
+    const select =
+        $("settingDesignSelect");
+
+    if(!select){
+        return;
     }
 
     select.innerHTML =
         '<option value="">Select Design Number</option>';
 
-    Array.from(set)
-        .sort()
-        .forEach(value => {
+    Array.from(all)
+        .filter(Boolean)
+        .forEach(
+            function(d){
 
-            const option =
-                document.createElement("option");
+                const opt =
+                    document.createElement(
+                        "option"
+                    );
 
-            option.value = value;
-            option.textContent = value;
+                opt.value =
+                    String(d);
 
-            select.appendChild(option);
-        });
+                opt.textContent =
+                    String(d);
+
+                select.appendChild(
+                    opt
+                );
+
+            }
+        );
+
 }
 
 
-/* =========================================================
-   DESIGN LOAD
-========================================================= */
+/* ============================================================
+   LOAD DESIGN BITMAP
+============================================================ */
 
-$("settingDesignSelect").addEventListener(
-    "change",
-    function(){
+function loadDesignBitmap(designNo){
 
-        const designNo =
-            this.value;
+    const box =
+        $("designBitmapPreviewBox");
 
-        const box =
-            $("designBitmapPreviewBox");
+    const img =
+        $("designBitmapImgTag");
 
-        const img =
-            $("designBitmapImgTag");
+    if(!designNo){
 
-        tempDesignBitmapData = "";
+        tempDesignBitmapData =
+            "";
 
-        if(!designNo){
-
+        if(box){
             box.style.display = "none";
-
-            return;
         }
 
-        const specs =
-            safeLoad(
-                "design_specs",
-                {}
-            ) || {};
+        return;
 
-        const key =
-            Object.keys(specs)
+    }
+
+    const specs =
+        safeLoad(
+            "design_specs",
+            {}
+        ) || {};
+
+    const clean =
+        String(designNo)
+            .replace("#","")
+            .trim()
+            .toLowerCase();
+
+    const key =
+        Object.keys(specs)
             .find(
-                k =>
-                    String(k)
-                    .trim()
-                    .toLowerCase() ===
-                    String(designNo)
-                    .trim()
-                    .toLowerCase()
+                function(k){
+
+                    return String(k)
+                        .replace("#","")
+                        .trim()
+                        .toLowerCase()
+                        === clean;
+
+                }
+            ) ||
+        designNo;
+
+    const bitmap =
+        normalizeImageData(
+            specs[key] &&
+            specs[key].bitmap
+        );
+
+    tempDesignBitmapData =
+        bitmap;
+
+    if(
+        img &&
+        bitmap
+    ){
+
+        img.onload =
+            function(){
+
+                if(box){
+                    box.style.display = "flex";
+                }
+
+            };
+
+        img.src =
+            bitmap;
+
+    }else{
+
+        if(box){
+            box.style.display = "none";
+        }
+
+    }
+
+}
+
+
+/* ============================================================
+   LOGO PREVIEW
+============================================================ */
+
+function previewLogo(input){
+
+    const file =
+        input &&
+        input.files &&
+        input.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(
+        !file.type ||
+        !file.type.startsWith("image/")
+    ){
+
+        alert(
+            "Please select a valid image file."
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+    compressImageSafe(
+        file,
+        LOGO_MAX_WIDTH,
+        LOGO_MAX_HEIGHT,
+        function(b64){
+
+            if(!b64){
+
+                input.value = "";
+
+                if($("logoStatus")){
+
+                    $("logoStatus").textContent =
+                        "⚠️ Logo compression failed";
+
+                    $("logoStatus").style.color =
+                        "#DC2626";
+
+                }
+
+                return;
+
+            }
+
+            tempLogoData =
+                b64;
+
+            showCompanyLogo(
+                tempLogoData
             );
 
-        const data =
-            key &&
-            specs[key]
-                ? specs[key].bitmap
-                : "";
+            const size =
+                getDataUrlBytes(
+                    tempLogoData
+                );
 
-        if(
-            data &&
-            String(data).startsWith("data:image/")
-        ){
+            if($("logoStatus")){
+
+                $("logoStatus").textContent =
+                    "✅ Logo optimized: " +
+                    Math.round(size / 1024) +
+                    " KB";
+
+                $("logoStatus").style.color =
+                    "#4A7C59";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   DESIGN BITMAP PREVIEW
+============================================================ */
+
+function previewDesignBitmap(input){
+
+    const file =
+        input &&
+        input.files &&
+        input.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(
+        !file.type ||
+        !file.type.startsWith("image/")
+    ){
+
+        alert(
+            "Please select a valid image file."
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+    compressImageSafe(
+        file,
+        DESIGN_MAX_WIDTH,
+        DESIGN_MAX_HEIGHT,
+        function(b64){
+
+            if(!b64){
+
+                input.value = "";
+                return;
+
+            }
 
             tempDesignBitmapData =
-                data;
+                b64;
 
-            img.src = data;
+            const img =
+                $("designBitmapImgTag");
 
-            box.style.display =
-                "flex";
+            const box =
+                $("designBitmapPreviewBox");
 
-        }else{
+            if(
+                img &&
+                tempDesignBitmapData
+            ){
 
-            box.style.display =
-                "none";
+                img.src =
+                    tempDesignBitmapData;
+
+                if(box){
+                    box.style.display = "flex";
+                }
+
+            }
+
         }
-    }
-);
+    );
+
+}
 
 
-/* =========================================================
-   PARTY
-========================================================= */
+/* ============================================================
+   PARTY DATABASE
+============================================================ */
 
-function getPartyDB(){
+function getPartyDatabase(){
 
     const db =
         safeLoad(
@@ -1843,119 +2265,148 @@ function getPartyDB(){
             {}
         );
 
-    return(
+    return (
         db &&
         typeof db === "object" &&
         !Array.isArray(db)
     )
         ? db
         : {};
+
 }
 
 
-function loadParties(){
+/* ============================================================
+   PARTY DROPDOWN
+============================================================ */
+
+function loadPartyDropdown(){
 
     const select =
         $("partyListSelect");
 
-    const db =
-        getPartyDB();
-
-    select.innerHTML =
-        '<option value="">Select Party</option>';
-
-    Object.keys(db)
-        .sort()
-        .forEach(name => {
-
-            const option =
-                document.createElement("option");
-
-            option.value = name;
-            option.textContent = name;
-
-            select.appendChild(option);
-        });
-}
-
-
-$("partyListSelect").addEventListener(
-    "change",
-    function(){
-
-        const name =
-            this.value;
-
-        const db =
-            getPartyDB();
-
-        $("partyNameInput").value =
-            name || "";
-
-        $("partyAddressInput").value =
-            name
-                ? String(db[name] || "")
-                : "";
-    }
-);
-
-
-async function savePartyMaster(){
-
-    const name =
-        cleanText(
-            $("partyNameInput").value
-        );
-
-    const address =
-        $("partyAddressInput").value.trim();
-
-    if(!name){
-
-        toast(
-            "Enter Party Name",
-            false
-        );
-
+    if(!select){
         return;
     }
 
     const db =
-        getPartyDB();
+        getPartyDatabase();
+
+    select.innerHTML =
+        '<option value="">Select Party to Edit/View</option>';
+
+    Object.keys(db)
+        .sort()
+        .forEach(
+            function(p){
+
+                const o =
+                    document.createElement(
+                        "option"
+                    );
+
+                o.value =
+                    p;
+
+                o.textContent =
+                    p;
+
+                select.appendChild(
+                    o
+                );
+
+            }
+        );
+
+}
+
+
+/* ============================================================
+   SELECT PARTY
+============================================================ */
+
+function selectPartyToEdit(name){
+
+    if(
+        !$("partyNameInput") ||
+        !$("partyAddressInput")
+    ){
+
+        return;
+
+    }
+
+    $("partyNameInput").value =
+        name || "";
+
+    $("partyAddressInput").value =
+        name
+            ? String(
+                getPartyDatabase()[name] || ""
+              )
+            : "";
+
+}
+
+
+/* ============================================================
+   SAVE PARTY
+============================================================ */
+
+async function savePartyMaster(){
+
+    const name =
+        $("partyNameInput")
+            .value
+            .trim();
+
+    const addr =
+        $("partyAddressInput")
+            .value
+            .trim();
+
+    if(!name){
+
+        toast(
+            "Please enter a Party Name!",
+            false
+        );
+
+        return;
+
+    }
+
+    const db =
+        getPartyDatabase();
 
     db[name] =
-        address;
+        addr;
 
-    safeSave(
+    await cloudSave(
         "party_master_db",
         db
     );
 
-    safeSave(
+    await cloudSave(
         "party_master_list",
         Object.keys(db)
     );
 
-    cloudSaveSafe(
-        "party_master_db",
-        db
-    );
-
-    cloudSaveSafe(
-        "party_master_list",
-        Object.keys(db)
-    );
-
-    loadParties();
+    loadPartyDropdown();
 
     $("partyListSelect").value =
         name;
 
     toast(
-        "Party saved"
+        "Party Details Saved Successfully!"
     );
+
 }
 
+
+/* ============================================================
+   DELETE PARTY
+============================================================ */
 
 async function deletePartyMaster(){
 
@@ -1965,143 +2416,597 @@ async function deletePartyMaster(){
     if(!name){
 
         toast(
-            "Select a party first",
+            "Please select a Party to delete!",
             false
         );
 
         return;
+
     }
 
-    if(!confirm("Delete "+name+"?"))
+    if(
+        !confirm(
+            "Are you sure you want to delete party: " +
+            name +
+            "?"
+        )
+    ){
+
         return;
 
+    }
+
     const db =
-        getPartyDB();
+        getPartyDatabase();
 
     delete db[name];
 
-    safeSave(
+    await cloudSave(
         "party_master_db",
         db
     );
 
-    safeSave(
+    await cloudSave(
         "party_master_list",
         Object.keys(db)
     );
 
-    cloudSaveSafe(
-        "party_master_db",
-        db
-    );
+    $("partyNameInput").value =
+        "";
 
-    cloudSaveSafe(
-        "party_master_list",
-        Object.keys(db)
-    );
+    $("partyAddressInput").value =
+        "";
 
-    $("partyNameInput").value = "";
-    $("partyAddressInput").value = "";
-
-    loadParties();
+    loadPartyDropdown();
 
     toast(
-        "Party deleted"
+        "Party deleted successfully!"
     );
+
 }
 
 
-/* =========================================================
-   SAVE ALL
-========================================================= */
+/* ============================================================
+   UPDATE USER PERMISSIONS
+============================================================ */
+
+async function updateUserPermissions(){
+
+    const keys = [
+
+        "dashboard",
+        "design_list",
+        "design_master",
+        "despatch",
+        "dyeing_issue",
+        "dyeing_receive",
+        "index",
+        "invoice",
+        "kora_yarn",
+        "party_orders",
+        "process_matrix",
+        "report",
+        "settings",
+        "warp_entry",
+        "warping",
+        "washing",
+        "weaving",
+        "weft_entry",
+        "yarn_calc"
+
+    ];
+
+    const permissions = {};
+
+    keys.forEach(
+        function(k){
+
+            const el =
+                $("perm_" + k);
+
+            permissions[k] =
+                !!(
+                    el &&
+                    el.checked
+                );
+
+        }
+    );
+
+    await cloudSave(
+        "user_permissions",
+        permissions
+    );
+
+    toast(
+        "All Pages User Permissions Updated!"
+    );
+
+}
+
+
+/* ============================================================
+   LOAD USER PERMISSIONS
+============================================================ */
+
+function loadUserPermissions(){
+
+    const p =
+        safeLoad(
+            "user_permissions",
+            {}
+        ) || {};
+
+    Object.keys(p)
+        .forEach(
+            function(k){
+
+                const el =
+                    $("perm_" + k);
+
+                if(el){
+
+                    el.checked =
+                        p[k] !== false;
+
+                }
+
+            }
+        );
+
+}
+
+
+/* ============================================================
+   USERS
+============================================================ */
+
+function getUsers(){
+
+    const users =
+        safeLoad(
+            "erp_system_users",
+            []
+        );
+
+    return Array.isArray(users)
+        ? users
+        : [];
+
+}
+
+
+/* ============================================================
+   USERS TABLE
+============================================================ */
+
+function renderUsersTable(){
+
+    const tbody =
+        $("usersTableBody");
+
+    if(!tbody){
+        return;
+    }
+
+    const users =
+        getUsers();
+
+    tbody.innerHTML =
+        "";
+
+    users.forEach(
+        function(u,i){
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+            [
+                u.username,
+                u.password,
+                u.role
+            ].forEach(
+                function(v){
+
+                    const td =
+                        document.createElement(
+                            "td"
+                        );
+
+                    td.textContent =
+                        v == null
+                            ? ""
+                            : String(v);
+
+                    tr.appendChild(
+                        td
+                    );
+
+                }
+            );
+
+            const td =
+                document.createElement(
+                    "td"
+                );
+
+            const b =
+                document.createElement(
+                    "button"
+                );
+
+            b.type =
+                "button";
+
+            b.className =
+                "btn-action btn-danger";
+
+            b.style.cssText =
+                "padding:4px 8px;font-size:9px";
+
+            b.textContent =
+                "Del";
+
+            b.onclick =
+                function(){
+
+                    deleteUserAccount(i);
+
+                };
+
+            td.appendChild(
+                b
+            );
+
+            tr.appendChild(
+                td
+            );
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ADD USER
+============================================================ */
+
+async function addNewUserAccount(){
+
+    const name =
+        $("newUsername")
+            .value
+            .trim();
+
+    const pass =
+        $("newPassword")
+            .value
+            .trim();
+
+    const role =
+        $("newUserRole")
+            .value;
+
+    if(
+        !name ||
+        !pass
+    ){
+
+        toast(
+            "Please enter Username and Password!",
+            false
+        );
+
+        return;
+
+    }
+
+    const users =
+        getUsers();
+
+    if(
+        users.some(
+            function(u){
+
+                return String(
+                    u.username
+                )
+                .toLowerCase()
+                ===
+                name.toLowerCase();
+
+            }
+        )
+    ){
+
+        toast(
+            "Username already exists!",
+            false
+        );
+
+        return;
+
+    }
+
+    users.push({
+        username:name,
+        password:pass,
+        role:role
+    });
+
+    await cloudSave(
+        "erp_system_users",
+        users
+    );
+
+    $("newUsername").value =
+        "";
+
+    $("newPassword").value =
+        "";
+
+    renderUsersTable();
+
+    toast(
+        "New User Account Created!"
+    );
+
+}
+
+
+/* ============================================================
+   DELETE USER
+============================================================ */
+
+async function deleteUserAccount(index){
+
+    if(
+        !confirm(
+            "Are you sure you want to delete this user?"
+        )
+    ){
+
+        return;
+
+    }
+
+    const users =
+        getUsers();
+
+    if(
+        index < 0 ||
+        index >= users.length
+    ){
+
+        return;
+
+    }
+
+    users.splice(
+        index,
+        1
+    );
+
+    await cloudSave(
+        "erp_system_users",
+        users
+    );
+
+    renderUsersTable();
+
+    toast(
+        "User deleted successfully!"
+    );
+
+}
+
+
+/* ============================================================
+   SAVE COMPANY LOGO
+============================================================ */
+
+async function saveCompanyLogoSafely(){
+
+    const logo =
+        normalizeImageData(
+            tempLogoData
+        );
+
+    if(!logo){
+        return true;
+    }
+
+    const size =
+        getDataUrlBytes(
+            logo
+        );
+
+    if(
+        size > MAX_IMAGE_BYTES
+    ){
+
+        toast(
+            "Logo is too large. Please upload again.",
+            false
+        );
+
+        return false;
+
+    }
+
+    saveProgress(
+        "Saving company logo..."
+    );
+
+    const cloudResult =
+        await cloudSave(
+            "company_logo",
+            logo
+        );
+
+    try{
+
+        localStorage.setItem(
+            "company_logo",
+            JSON.stringify(logo)
+        );
+
+        localStorage.setItem(
+            "company_logo_base64",
+            JSON.stringify(logo)
+        );
+
+        localStorage.setItem(
+            "logo",
+            JSON.stringify(logo)
+        );
+
+    }catch(e){
+
+        console.warn(
+            "Logo local alias save warning:",
+            e
+        );
+
+    }
+
+    if($("logoStatus")){
+
+        $("logoStatus").textContent =
+            "✅ Logo saved • " +
+            Math.round(size / 1024) +
+            " KB";
+
+        $("logoStatus").style.color =
+            "#4A7C59";
+
+    }
+
+    return cloudResult !== false;
+
+}
+
+
+/* ============================================================
+   SAVE ALL SETTINGS
+============================================================ */
 
 async function executeSaveAll(){
 
-    if(saving)
+    if(saveAllRunning){
         return;
+    }
 
-    saving = true;
+    saveAllRunning =
+        true;
 
     const button =
         $("saveAllButton");
 
-    button.disabled = true;
+    if(button){
+
+        button.disabled =
+            true;
+
+        button.style.opacity =
+            "0.65";
+
+        button.style.cursor =
+            "wait";
+
+    }
 
     try{
 
-        progress(
+        saveProgress(
+            "Saving ERP settings..."
+        );
+
+        status(
             "Saving settings..."
         );
 
+
+        /* GENERAL */
+
         const heading =
-            cleanText(
-                $("set_heading").value
+            cleanInputText(
+                $("set_heading")
+                    ? $("set_heading").value
+                    : ""
             );
 
-        const address =
+        const addr =
             $("set_comp_addr")
-            .value
-            .trim();
+                ? $("set_comp_addr").value.trim()
+                : "";
 
         if(heading){
 
-            safeSave(
+            saveProgress(
+                "Saving heading..."
+            );
+
+            await cloudSave(
                 "app_heading_name",
                 heading
             );
 
-            cloudSaveSafe(
-                "app_heading_name",
-                heading
-            );
         }
 
-        safeSave(
-            "company_full_address",
-            address
-        );
+        if(addr){
 
-        cloudSaveSafe(
-            "company_full_address",
-            address
-        );
+            saveProgress(
+                "Saving company address..."
+            );
+
+            await cloudSave(
+                "company_full_address",
+                addr
+            );
+
+        }
 
 
         /* LOGO */
 
         if(tempLogoData){
 
-            safeSave(
-                "company_logo",
-                tempLogoData
-            );
+            const logoSaved =
+                await saveCompanyLogoSafely();
 
-            safeSave(
-                "company_logo_base64",
-                tempLogoData
-            );
+            if(!logoSaved){
 
-            safeSave(
-                "logo",
-                tempLogoData
-            );
+                throw new Error(
+                    "Company logo could not be saved."
+                );
 
-            cloudSaveSafe(
-                "company_logo",
-                tempLogoData
-            );
+            }
+
         }
 
 
         /* DESIGN BITMAP */
 
-        const design =
-            $("settingDesignSelect").value;
+        const select =
+            $("settingDesignSelect");
 
         if(
-            design &&
+            select &&
+            select.value &&
             tempDesignBitmapData
         ){
+
+            saveProgress(
+                "Saving design bitmap..."
+            );
 
             const specs =
                 safeLoad(
@@ -2109,17 +3014,28 @@ async function executeSaveAll(){
                     {}
                 ) || {};
 
+            const clean =
+                String(
+                    select.value
+                )
+                .replace("#","")
+                .trim()
+                .toLowerCase();
+
             const key =
                 Object.keys(specs)
-                .find(
-                    k =>
-                        String(k)
-                        .trim()
-                        .toLowerCase() ===
-                        String(design)
-                        .trim()
-                        .toLowerCase()
-                ) || design;
+                    .find(
+                        function(k){
+
+                            return String(k)
+                                .replace("#","")
+                                .trim()
+                                .toLowerCase()
+                                === clean;
+
+                        }
+                    ) ||
+                select.value;
 
             if(
                 !specs[key] ||
@@ -2127,94 +3043,193 @@ async function executeSaveAll(){
             ){
 
                 specs[key] = {};
+
             }
 
             specs[key].bitmap =
-                tempDesignBitmapData;
+                normalizeImageData(
+                    tempDesignBitmapData
+                );
 
-            safeSave(
+            await cloudSave(
                 "design_specs",
                 specs
             );
 
-            cloudSaveSafe(
-                "design_specs",
-                specs
-            );
         }
 
 
-        hideProgress();
+        /* SUCCESS */
 
-        setStatus(
-            "✅ All settings saved successfully"
+        saveProgress(
+            "Settings saved successfully..."
+        );
+
+        status(
+            "✅ All settings saved successfully",
+            true
         );
 
         toast(
-            "Settings saved successfully"
+            "All Settings Saved Successfully!",
+            true,
+            function(){
+
+                window.location.replace(
+                    "dashboard.html"
+                );
+
+            }
         );
 
-        /*
-         * IMPORTANT:
-         * NO REDIRECT.
-         * User remains on Settings page.
-         */
-
-    }catch(error){
+    }catch(e){
 
         console.error(
-            "Save All Error:",
-            error
+            "executeSaveAll ERROR:",
+            e
         );
 
-        hideProgress();
-
-        setStatus(
-            "❌ Save failed",
+        status(
+            "❌ Save failed: " +
+            e.message,
             false
         );
 
-        toast(
-            "Save failed: "+error.message,
-            false
+        hideSaveProgress();
+
+        alert(
+            "Save Error:\n\n" +
+            e.message +
+            "\n\nYour local data has been protected."
         );
 
     }finally{
 
-        saving = false;
+        saveAllRunning =
+            false;
 
-        button.disabled = false;
+        if(button){
+
+            button.disabled =
+                false;
+
+            button.style.opacity =
+                "1";
+
+            button.style.cursor =
+                "pointer";
+
+        }
+
     }
+
 }
 
 
-/* =========================================================
-   BACKUP
-========================================================= */
+/* ============================================================
+   CLEAR LOCAL CACHE
+============================================================ */
+
+async function clearLocalCache(){
+
+    if(
+        typeof window.handleLocalReset ===
+        "function"
+    ){
+
+        return await window.handleLocalReset();
+
+    }
+
+    if(
+        typeof window.clearLocalCache ===
+        "function" &&
+        window.clearLocalCache !== clearLocalCache
+    ){
+
+        return await window.clearLocalCache();
+
+    }
+
+    alert(
+        "❌ Clear Cache function is not available. Please check config.js."
+    );
+
+}
+
+
+/* ============================================================
+   FACTORY RESET CLOUD
+============================================================ */
+
+async function factoryResetCloud(){
+
+    if(
+        typeof window.handleCloudReset ===
+        "function"
+    ){
+
+        return await window.handleCloudReset();
+
+    }
+
+    if(
+        typeof window.factoryResetCloud ===
+        "function" &&
+        window.factoryResetCloud !== factoryResetCloud
+    ){
+
+        return await window.factoryResetCloud();
+
+    }
+
+    alert(
+        "❌ Factory Reset function is not available. Please check config.js."
+    );
+
+}
+
+
+/* ============================================================
+   BACKUP ALL DATA
+============================================================ */
 
 function backupAllData(){
 
     try{
 
-        const data = {};
+        const allData = {};
 
         for(
-            let i=0;
-            i<localStorage.length;
+            let i = 0;
+            i < localStorage.length;
             i++
         ){
 
             const key =
                 localStorage.key(i);
 
-            data[key] =
-                localStorage.getItem(key);
+            allData[key] =
+                localStorage.getItem(
+                    key
+                );
+
         }
 
         const payload = {
-            app:"TEXFRIEND ERP",
-            createdAt:new Date().toISOString(),
-            data:data
+
+            app:
+                "TEXFRIEND ERP",
+
+            version:
+                "Settings Backup",
+
+            createdAt:
+                new Date().toISOString(),
+
+            data:
+                allData
+
         };
 
         const blob =
@@ -2232,256 +3247,278 @@ function backupAllData(){
             );
 
         const url =
-            URL.createObjectURL(blob);
+            URL.createObjectURL(
+                blob
+            );
 
         const a =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
-        a.href = url;
+        a.href =
+            url;
 
         a.download =
-            "texfriend_erp_backup.json";
+            "texfriend_erp_backup_" +
+            new Date()
+                .toISOString()
+                .slice(0,10) +
+            ".json";
 
-        document.body.appendChild(a);
+        document.body.appendChild(
+            a
+        );
 
         a.click();
 
         a.remove();
 
         setTimeout(
-            () =>
-                URL.revokeObjectURL(url),
+            function(){
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            },
             1000
         );
 
         toast(
-            "Backup download started"
+            "ERP Backup Download Started!"
         );
 
     }catch(e){
 
-        toast(
-            "Backup failed",
-            false
+        console.error(
+            "Backup Error:",
+            e
         );
+
+        alert(
+            "Backup Error: " +
+            e.message
+        );
+
     }
+
 }
 
 
-/* =========================================================
-   JSON EDITOR
-========================================================= */
+/* ============================================================
+   LOAD STORAGE JSON
+============================================================ */
 
 function loadStorageDataToEditor(){
 
-    const data = {};
+    const allData = {};
 
     for(
-        let i=0;
-        i<localStorage.length;
+        let i = 0;
+        i < localStorage.length;
         i++
     ){
 
         const key =
             localStorage.key(i);
 
-        data[key] =
-            localStorage.getItem(key);
+        allData[key] =
+            localStorage.getItem(
+                key
+            );
+
     }
 
-    $("advancedJsonEditor").value =
-        JSON.stringify(
-            data,
-            null,
-            2
-        );
+    const editor =
+        $("advancedJsonEditor");
+
+    if(editor){
+
+        editor.value =
+            JSON.stringify(
+                allData,
+                null,
+                2
+            );
+
+    }
 
     toast(
-        "Local data loaded"
+        "Database Loaded into JSON Editor!"
     );
+
 }
 
+
+/* ============================================================
+   SAVE STORAGE JSON
+============================================================ */
 
 async function saveStorageDataFromEditor(){
 
     const editor =
         $("advancedJsonEditor");
 
-    let data;
+    if(!editor){
+        return;
+    }
+
+    let parsed;
 
     try{
 
-        data =
+        parsed =
             JSON.parse(
                 editor.value
             );
 
     }catch(e){
 
-        toast(
-            "Invalid JSON",
-            false
+        alert(
+            "Invalid JSON format!\n\nError: " +
+            e.message
         );
 
         return;
+
     }
 
     if(
-        !data ||
-        typeof data !== "object" ||
-        Array.isArray(data)
+        !parsed ||
+        typeof parsed !== "object" ||
+        Array.isArray(parsed)
     ){
 
-        toast(
-            "JSON root must be an object",
-            false
+        alert(
+            "JSON root must be an object."
         );
 
         return;
+
     }
 
     if(
         !confirm(
-            "Overwrite local database with this JSON?"
+            "⚠️ Overwrite local database with these JSON changes?"
         )
-    )
+    ){
+
         return;
+
+    }
 
     try{
 
-        Object.keys(data)
-        .forEach(key => {
-
-            const value =
-                data[key];
+        for(
+            const key of Object.keys(parsed)
+        ){
 
             localStorage.setItem(
                 key,
-                typeof value === "string"
-                    ? value
-                    : JSON.stringify(value)
+                typeof parsed[key] === "string"
+                    ? parsed[key]
+                    : JSON.stringify(
+                        parsed[key]
+                    )
             );
-        });
+
+        }
+
+        if(window.firebaseSave){
+
+            for(
+                const key of
+                (window.erpCloudKeys || [])
+            ){
+
+                if(
+                    !(key in parsed)
+                ){
+
+                    continue;
+
+                }
+
+                let value =
+                    parsed[key];
+
+                if(
+                    typeof value === "string"
+                ){
+
+                    try{
+
+                        value =
+                            JSON.parse(
+                                value
+                            );
+
+                    }catch(e){}
+
+                }
+
+                await window.firebaseSave(
+                    key,
+                    value
+                );
+
+            }
+
+        }
 
         toast(
-            "Database updated"
+            "Database Updated Successfully!",
+            true,
+            function(){
+
+                location.reload();
+
+            }
         );
 
     }catch(e){
 
-        toast(
-            "Database update failed",
-            false
+        console.error(
+            "Database Save Error:",
+            e
         );
+
+        alert(
+            "Database Save Error: " +
+            e.message
+        );
+
     }
+
 }
 
 
-/* =========================================================
-   CLEAR CACHE
-========================================================= */
-
-async function clearLocalCacheSafe(){
-
-    if(
-        typeof window.handleLocalReset ===
-        "function"
-    ){
-
-        try{
-            await window.handleLocalReset();
-            return;
-        }catch(e){
-            console.warn(e);
-        }
-    }
-
-    if(
-        !confirm(
-            "Clear local cache?"
-        )
-    )
-        return;
-
-    try{
-
-        localStorage.clear();
-
-        toast(
-            "Local cache cleared"
-        );
-
-        setTimeout(
-            () => location.reload(),
-            800
-        );
-
-    }catch(e){
-
-        toast(
-            "Clear cache failed",
-            false
-        );
-    }
-}
-
-
-/* =========================================================
-   FACTORY RESET
-========================================================= */
-
-async function factoryResetCloudSafe(){
-
-    if(
-        !confirm(
-            "⚠️ Factory Reset Cloud?\n\nThis may delete cloud data."
-        )
-    )
-        return;
-
-    if(
-        typeof window.handleCloudReset ===
-        "function"
-    ){
-
-        try{
-
-            await window.handleCloudReset();
-
-            return;
-
-        }catch(e){
-
-            console.error(e);
-        }
-    }
-
-    toast(
-        "Cloud reset function is not available",
-        false
-    );
-}
-
-
-/* =========================================================
-   INITIAL LOAD
-========================================================= */
+/* ============================================================
+   INITIALISE SETTINGS
+============================================================ */
 
 function initialiseSettings(){
 
-    if(settingsReady)
+    if(settingsInitialized){
+        return;
+    }
+
+    settingsInitialized =
+        true;
+
+    if(!checkUserPermission()){
+
+        alert(
+            "Access Denied! You do not have permission to access settings. ❌"
+        );
+
+        location.href =
+            "dashboard.html";
+
         return;
 
-    settingsReady = true;
-
-
-    /*
-     * IMPORTANT:
-     *
-     * We DO NOT redirect here.
-     * This prevents the mobile Settings → Dashboard loop.
-     */
-
+    }
 
     const heading =
         safeLoad(
@@ -2489,131 +3526,104 @@ function initialiseSettings(){
             "TEXFRIEND ERP"
         );
 
-    $("set_heading").value =
-        cleanText(heading);
+    if($("set_heading")){
 
+        $("set_heading").value =
+            cleanInputText(
+                heading
+            );
+
+    }
 
     const address =
         safeLoad(
             "company_full_address",
-            ""
+            "TEXFRIEND ERP SOLUTIONS\nSalem, Tamil Nadu."
         );
 
-    $("set_comp_addr").value =
-        String(address || "")
-        .replace(/\\n/g,"\n");
+    if($("set_comp_addr")){
 
+        $("set_comp_addr").value =
+            String(
+                address || ""
+            )
+            .replace(
+                /\\n/g,
+                "\n"
+            );
 
-    tempLogoData =
-        getLogo();
-
-    if(tempLogoData){
-
-        showLogo(tempLogoData);
-
-        $("logoStatus").textContent =
-            "Saved company logo";
     }
 
+    tempLogoData =
+        getStoredCompanyLogo();
 
-    loadPermissions();
+    showCompanyLogo(
+        tempLogoData
+    );
 
-    renderUsers();
+    loadDesignDropdownInSettings();
 
-    loadDesignDropdown();
+    loadPartyDropdown();
 
-    loadParties();
+    loadUserPermissions();
 
+    renderUsersTable();
 
-    setStatus(
+    status(
         "☁️ Settings ready"
     );
+
 }
 
 
-/* =========================================================
+/* ============================================================
    DOM READY
-========================================================= */
+============================================================ */
 
 window.addEventListener(
     "DOMContentLoaded",
     function(){
 
-        /*
-         * Small delay prevents mobile browser from doing
-         * everything in the first rendering frame.
-         */
-
-        setTimeout(
-            initialiseSettings,
-            50
-        );
-
-    },
-    {once:true}
-);
-
-
-/* =========================================================
-   CLOUD SYNC
-   NON-BLOCKING / ONE-TIME REFRESH
-========================================================= */
-
-let cloudRefreshDone = false;
-
-window.addEventListener(
-    "texfriend-cloud-sync-complete",
-    function(){
-
-        if(cloudRefreshDone)
-            return;
-
-        cloudRefreshDone = true;
+        initialiseSettings();
 
         /*
-         * Do not rebuild the whole page.
-         * Only refresh small lists.
+         * Firebase cloud synchronization
+         * updates only the required settings UI.
          */
 
-        setTimeout(
+        window.addEventListener(
+            "texfriend-cloud-sync-complete",
             function(){
 
-                try{
+                loadDesignDropdownInSettings();
 
-                    loadDesignDropdown();
+                loadPartyDropdown();
 
-                    loadParties();
+                loadUserPermissions();
 
-                    loadPermissions();
+                renderUsersTable();
 
-                    renderUsers();
+                const logo =
+                    getStoredCompanyLogo();
 
-                    const logo =
-                        getLogo();
+                if(logo){
 
-                    if(logo){
+                    tempLogoData =
+                        logo;
 
-                        tempLogoData =
-                            logo;
-
-                        showLogo(logo);
-                    }
-
-                    setStatus(
-                        "☁️ Cloud data synchronized"
+                    showCompanyLogo(
+                        logo
                     );
 
-                }catch(e){
-
-                    console.warn(
-                        "Cloud UI refresh:",
-                        e
-                    );
                 }
 
-            },
-            300
+                status(
+                    "☁️ Cloud data synchronized"
+                );
+
+            }
         );
+
     }
 );
 
