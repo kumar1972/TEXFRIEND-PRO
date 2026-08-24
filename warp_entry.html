@@ -736,9 +736,10 @@
             <label>Design Number</label>
 
             <div class="input-group-btn">
-                <!-- 🟢 Editable Input with Datalist 🟢 -->
-                <input type="text" id="designNo" list="designList" placeholder="Select or type Design No" onchange="loadDesignData()" autocomplete="off">
-                <datalist id="designList"></datalist>
+                <!-- 🟢 Standard Select Dropdown 🟢 -->
+                <select id="designNo" onchange="loadDesignData()">
+                    <option value="">Select Design No</option>
+                </select>
 
                 <button class="btn-copy-design"
                         onclick="copyToNewDesign()"
@@ -1296,7 +1297,7 @@ function loadBitmapImage() {
 
 
 /* ============================================================
-   DESIGN DROPDOWN (UPGRADED TO DATALIST)
+   DESIGN DROPDOWN (UPGRADED TO SELECT DROPDOWN)
 ============================================================ */
 
 function loadDesignDropdown() {
@@ -1343,18 +1344,18 @@ function loadDesignDropdown() {
         }
     });
 
-    const datalist = document.getElementById('designList');
-    if (datalist) {
-        datalist.innerHTML = '';
+    const designElement = document.getElementById('designNo');
+    if (designElement) {
+        designElement.innerHTML = '<option value="">Select Design No</option>';
         Array.from(allDesigns).filter(Boolean).forEach(function (d) {
             const option = document.createElement('option');
             option.value = d;
-            datalist.appendChild(option);
+            option.textContent = d;
+            designElement.appendChild(option);
         });
     }
 
     const activeDesign = localStorage.getItem('selected_design_number');
-    const designElement = document.getElementById('designNo');
 
     if (activeDesign && Array.from(allDesigns).some(d => cleanDesignName(d) === cleanDesignName(activeDesign))) {
         if (designElement) designElement.value = activeDesign;
@@ -1728,7 +1729,7 @@ function calculateTopBeam() {
 
 
 /* ============================================================
-   COPY DESIGN (UPGRADED FOR DATALIST)
+   COPY DESIGN (UPGRADED FOR DATALIST -> SELECT)
 ============================================================ */
 
 async function copyToNewDesign() {
@@ -1819,13 +1820,11 @@ async function copyToNewDesign() {
 
 
     if (designElement) {
+        const option = document.createElement('option');
+        option.value = newDNo;
+        option.textContent = newDNo;
+        designElement.appendChild(option);
         designElement.value = newDNo;
-        const datalist = document.getElementById('designList');
-        if (datalist) {
-            const option = document.createElement('option');
-            option.value = newDNo;
-            datalist.appendChild(option);
-        }
     }
 
     localStorage.setItem(
