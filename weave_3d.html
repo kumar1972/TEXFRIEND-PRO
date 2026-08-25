@@ -37,7 +37,7 @@ html, body {
 }
 
 body {
-    padding: 8px;
+    padding: 6px;
 }
 
 .container {
@@ -46,33 +46,27 @@ body {
     margin: auto;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 8px;
 }
 
 .header {
     background: linear-gradient(145deg, #183328, #102019);
     border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 12px;
+    border-radius: 10px;
+    padding: 10px;
     text-align: center;
 }
 
 .header h1 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--accent);
-}
-
-.header p {
-    font-size: .72rem;
-    color: var(--muted);
-    margin-top: 3px;
 }
 
 .card {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 11px;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .step {
@@ -83,31 +77,31 @@ body {
 }
 
 .step-no {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #2d8b47;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    font-size: .75rem;
+    font-size: .7rem;
     flex-shrink: 0;
 }
 
 .step h3 {
-    font-size: .88rem;
+    font-size: .85rem;
     color: #e5f6e9;
 }
 
 .step p {
-    font-size: .63rem;
+    font-size: .55rem;
     color: var(--muted);
     margin-top: 2px;
 }
 
 label {
-    font-size: .72rem;
+    font-size: .7rem;
     font-weight: 800;
     color: var(--accent);
     display: block;
@@ -120,26 +114,24 @@ input, select {
     color: #17231d;
     border: 1px solid #c8d3cd;
     padding: 8px 9px;
-    border-radius: 9px;
-    font-size: .83rem;
-    min-height: 38px;
+    border-radius: 8px;
+    font-size: .8rem;
+    min-height: 34px;
     outline: none;
 }
 
-input[type=color] {
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 38px !important;
-    padding: 2px !important;
-    cursor: pointer;
+/* Hide Native Color Picker on Warp/Weft UI */
+#warpInputsContainer input[type=color],
+#weftInputsContainer input[type=color] {
+    display: none !important;
 }
 
 .btn {
     border: 0;
-    border-radius: 9px;
-    padding: 9px 11px;
-    min-height: 38px;
-    font-size: .74rem;
+    border-radius: 8px;
+    padding: 8px 10px;
+    min-height: 34px;
+    font-size: .7rem;
     font-weight: 800;
     cursor: pointer;
 }
@@ -147,56 +139,56 @@ input[type=color] {
 .btn-green { background: #2f9147; color: #fff; }
 .btn-blue { background: #1285d2; color: #fff; }
 .btn-dark { background: #244638; color: #aee9ba; border: 1px solid #39614f; }
-.btn-red { background: #633b3b; color: #ffd1ca; }
+.btn-red { background: #ef4444; color: #fff; }
 
 .cloud-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    margin-top: 7px;
+    gap: 6px;
+    margin-top: 6px;
 }
 
 .status {
-    font-size: .67rem;
+    font-size: .6rem;
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 5px;
     min-height: 15px;
 }
 
 .active-design {
-    margin-top: 7px;
+    margin-top: 6px;
     background: #0f1d17;
     border: 1px solid #315746;
-    border-radius: 9px;
-    padding: 7px 9px;
-    font-size: .7rem;
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: .65rem;
     color: #bde8c6;
 }
 
 .active-dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #45c765;
-    margin-right: 6px;
+    margin-right: 5px;
 }
 
 .yarn-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 }
 
 .yarn-tab {
     background: #203b30;
     border: 1px solid #345947;
     color: #9fc8aa;
-    border-radius: 9px;
-    padding: 8px;
+    border-radius: 8px;
+    padding: 6px;
     font-weight: 900;
-    font-size: .76rem;
+    font-size: .75rem;
     cursor: pointer;
 }
 
@@ -205,85 +197,68 @@ input[type=color] {
     color: #fff;
 }
 
+.set-box { display: none !important; }
 .yarn-summary {
     display: flex;
-    justify-content: space-between;
-    background: #0e1b16;
-    border: 1px solid #28483a;
-    border-radius: 8px;
-    padding: 7px 9px;
-    margin-bottom: 7px;
-    font-size: .66rem;
-    color: #b8d8bf;
+    justify-content: flex-end; 
+    background: transparent;
+    padding: 0px 4px;
+    margin-bottom: 4px;
+    font-size: .6rem;
 }
 
 .yarn-panel { display: none; }
 .yarn-panel.active { display: block; }
 
 .scroll-box {
-    max-height: 255px;
+    max-height: 280px;
     overflow: auto;
     background: #0d1813;
-    padding: 5px;
-    border-radius: 9px;
+    padding: 4px;
+    border-radius: 8px;
     border: 1px solid #28483a;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 .scroll-box > div {
     background: #172b23;
     border: 1px solid #2e5041;
-    border-radius: 8px;
-    padding: 6px;
+    border-radius: 6px;
+    padding: 4px 6px;
     display: grid;
-    grid-template-columns: 40px 42px 1fr auto;
+    grid-template-columns: 25px 1fr 45px; 
     align-items: center;
     gap: 6px;
 }
 
-.flex-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    width: 100%;
-}
-
-.flex-row input[type="number"] {
-    width: 100%;
-    min-width: 40px;
-}
-
-.set-box {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    background: #0f1d17;
-    border: 1px solid #3c6752;
-    border-radius: 6px;
-    padding: 3px 5px;
-}
-
-.set-box input {
-    width: 34px !important;
-    min-width: 34px !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    padding: 2px !important;
-    font-size: .65rem !important;
-    text-align: center;
-    background: #172b23;
-    color: #a9d6b2;
-    border: 1px solid #3c6752;
-    border-radius: 4px;
-}
-
-.set-box span {
-    font-size: .8rem;
+.scroll-box label {
+    font-size: 0.6rem !important;
+    margin: 0;
     color: #78d18a;
-    font-weight: 900;
-    margin: 0 1px;
+}
+
+.scroll-box input[type="number"] {
+    width: 100%;
+    height: 34px;
+    min-height: 34px;
+    text-align: center;
+    padding: 4px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 6px;
+}
+
+.design-colour-name {
+    width: 100%;
+    height: 34px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    border-radius: 6px;
 }
 
 #gridEditorSection {
@@ -294,528 +269,175 @@ input[type=color] {
     margin-top: 8px;
 }
 
-.grid-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-bottom: 7px;
-}
+.grid-controls { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+.grid-controls button { background: #244638; color: #aee9ba; border: 1px solid #39614f; padding: 6px 8px; border-radius: 6px; font-size: .6rem; font-weight: 800; }
 
-.grid-controls button {
-    background: #244638;
-    color: #aee9ba;
-    border: 1px solid #39614f;
-    padding: 7px 8px;
-    border-radius: 7px;
-    font-size: .64rem;
-    font-weight: 800;
-}
+.matrix-grid-container { max-height: 360px; overflow: auto; padding: 4px; border: 1px solid #28483a; border-radius: 8px; background: #09110d; }
+.matrix-row-wrapper { display: flex; align-items: center; gap: 4px; justify-content: center; margin-bottom: 4px; }
+.matrix-row { display: flex; gap: 3px; }
+.matrix-cell { width: 30px; height: 30px; background: #183026; border: 1px solid #315443; color: #8fe19d; font-weight: 800; font-size: .7rem; display: flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 4px; flex-shrink: 0; }
+.matrix-cell.active { background: #4caf50; color: #102015; border-color: #8ee49a; }
 
-.matrix-grid-container {
-    max-height: 360px;
-    overflow: auto;
-    padding: 4px;
-    border: 1px solid #28483a;
-    border-radius: 8px;
-    background: #09110d;
-}
+.btn-row-del, .btn-col-del { background: #633b3b; color: #ffd1ca; border: 0; font-weight: 800; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+.btn-row-del { width: 24px; height: 30px; }
+.btn-col-del { width: 30px; height: 20px; font-size: .55rem; }
+.col-del-row { display: flex; gap: 3px; justify-content: center; margin-left: 0; margin-bottom: 4px; }
 
-.matrix-row-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    justify-content: center;
-    margin-bottom: 4px;
-}
-
-.matrix-row {
-    display: flex;
-    gap: 3px;
-}
-
-.matrix-cell {
-    width: 32px;
-    height: 32px;
-    background: #183026;
-    border: 1px solid #315443;
-    color: #8fe19d;
-    font-weight: 800;
-    font-size: .72rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-
-.matrix-cell.active {
-    background: #4caf50;
-    color: #102015;
-    border-color: #8ee49a;
-}
-
-.btn-row-del, .btn-col-del {
-    background: #633b3b;
-    color: #ffd1ca;
-    border: 0;
-    font-weight: 800;
-    border-radius: 4px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.btn-row-del { width: 25px; height: 32px; }
-.btn-col-del { width: 32px; height: 21px; font-size: .6rem; }
-
-.col-del-row {
-    display: flex;
-    gap: 3px;
-    justify-content: center;
-    margin-left: 0;
-    margin-bottom: 4px;
-}
-
-.save-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-top: 7px;
-}
-
-.save-row button {
-    border: 0;
-    border-radius: 8px;
-    padding: 8px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-}
-
+.save-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+.save-row button { border: 0; border-radius: 8px; padding: 8px; font-weight: 800; color: #fff; cursor: pointer; }
 .save-row .save { background: #338e47; }
 .save-row .preview { background: #217eaf; }
 
-.main-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 7px;
-    margin-top: 8px;
-}
-
+.main-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
 .main-actions button { width: 100%; }
 .main-actions .wide { grid-column: 1 / -1; }
 
-.menu-panel {
-    display: none;
-    margin-top: 8px;
-    animation: panelIn .18s ease;
-}
-
+.menu-panel { display: none; margin-top: 8px; animation: panelIn .18s ease; }
 .menu-panel.active { display: block; }
 
-@keyframes panelIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.info-box {
-    background: #0e1b16;
-    border: 1px solid #28483a;
-    border-radius: 9px;
-    padding: 9px;
-    font-size: .72rem;
-    line-height: 1.55;
-}
-
+@keyframes panelIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.info-box { background: #0e1b16; border: 1px solid #28483a; border-radius: 8px; padding: 8px; font-size: .65rem; line-height: 1.5; }
 .info-box b { color: #9be4a8; }
 
 /* FULLSCREEN 3D */
-.fs-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000;
-    z-index: 999999;
-    flex-direction: column;
-}
-
-.fs-header {
-    height: 54px;
-    min-height: 54px;
-    padding: 7px 9px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #14251e;
-    border-bottom: 1px solid #345947;
-}
-
-.fs-title {
-    color: #9be4a8;
-    font-size: .85rem;
-    font-weight: 900;
-}
-
+.fs-modal { display: none; position: fixed; inset: 0; width: 100vw; height: 100vh; background: #000; z-index: 999999; flex-direction: column; }
+.fs-header { height: 46px; min-height: 46px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; background: #14251e; border-bottom: 1px solid #345947; }
+.fs-title { color: #9be4a8; font-size: .8rem; font-weight: 900; }
 .fs-header-actions { display: flex; gap: 6px; }
-
-.fs-header button {
-    border: 0;
-    border-radius: 7px;
-    padding: 8px 11px;
-    color: #fff;
-    font-weight: 800;
-    font-size: .7rem;
-    cursor: pointer;
-}
-
-.fs-content {
-    flex: 1;
-    width: 100%;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: #000;
-    touch-action: none;
-    position: relative;
-}
-
-.fs-content canvas {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    cursor: grab;
-    display: block;
-    transform-origin: center center;
-    will-change: transform;
-}
-
-.fs-hint {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(20,37,30,.85);
-    color: #b8d8bf;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: .62rem;
-    pointer-events: none;
-    white-space: nowrap;
-}
+.fs-header button { border: 0; border-radius: 6px; padding: 6px 10px; color: #fff; font-weight: 800; font-size: .65rem; cursor: pointer; }
+.fs-content { flex: 1; width: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; touch-action: none; position: relative; }
+.fs-content canvas { width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; cursor: grab; display: block; transform-origin: center center; will-change: transform; }
+.fs-hint { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(20,37,30,.85); color: #b8d8bf; padding: 6px 10px; border-radius: 20px; font-size: .55rem; pointer-events: none; white-space: nowrap; }
 
 /* PRINT */
-.print-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.85);
-    z-index: 1000000;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
-
-.print-sheet {
-    background: #fff;
-    color: #000;
-    padding: 15px;
-    border-radius: 7px;
-    width: 100%;
-    max-width: 600px;
-    max-height: 95vh;
-    overflow: auto;
-}
-
-.print-controls {
-    display: flex;
-    gap: 7px;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
-
-.print-controls button {
-    border: 0;
-    padding: 8px 12px;
-    border-radius: 6px;
-    color: #fff;
-    font-weight: bold;
-}
-
+.print-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 1000000; justify-content: center; align-items: center; padding: 10px; }
+.print-sheet { background: #fff; color: #000; padding: 15px; border-radius: 7px; width: 100%; max-width: 600px; max-height: 95vh; overflow: auto; }
+.print-controls { display: flex; gap: 7px; justify-content: flex-end; margin-top: 10px; }
+.print-controls button { border: 0; padding: 8px 12px; border-radius: 6px; color: #fff; font-weight: bold; }
 .print-card { display: none !important; }
 
 /* ================= 🔥 ADVANCED COLOUR MASTER STYLES 🔥 ================= */
 .colour-master-card {
     background: #102019;
     border: 1px solid #315746;
-    border-radius: 14px;
-    padding: 10px;
-    margin-top: 8px;
-}
-
-.colour-master-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    border-radius: 10px;
+    padding: 8px;
     margin-bottom: 8px;
 }
 
-.colour-master-title b { color: #9be4a8; font-size: .88rem; }
-.colour-master-title span { font-size: .62rem; color: #9fc5aa; }
+.colour-master-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.colour-master-title b { color: #9be4a8; font-size: .8rem; }
+.colour-master-title span { font-size: .55rem; color: #9fc5aa; }
 
 .colour-master-tabs {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     overflow-x: auto;
-    padding-bottom: 5px;
+    padding-bottom: 4px;
 }
-
 .colour-master-tab {
     flex: 0 0 auto;
     border: 1px solid #39614f;
     background: #203b30;
     color: #b8d8bf;
-    border-radius: 20px;
-    padding: 7px 12px;
-    font-size: .7rem;
-    font-weight: 900;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-size: .58rem;
+    font-weight: 800;
     cursor: pointer;
 }
+.colour-master-tab.active { background: #2d9148; color: #fff; border-color: #9be4a8; }
 
-.colour-master-tab.active { background: #2d9148; color: #fff; }
-
-.colour-shade-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 10px;
+.colour-shade-list, .colour-popup-grid { 
+    display: grid; 
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 4px; 
+    margin-top: 6px; 
 }
 
-/* Swatch Card UI */
 .swatch-card {
     background: #172b23;
     border: 1px solid #395648;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 6px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
-.swatch-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    border-color: #558a6f;
-}
-
-.swatch-card.selected {
-    border-color: #9be4a8;
-    box-shadow: 0 0 0 2px #2d9148;
-}
+.swatch-card.selected { border-color: #9be4a8; box-shadow: 0 0 0 1px #2d9148; background: #1e382d; }
 
 .swatch-color {
-    height: 45px;
-    width: 100%;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    flex-shrink: 0;
 }
 
-.swatch-details {
-    padding: 6px;
-    text-align: center;
-}
+.swatch-details { padding: 4px 2px 0 2px; text-align: center; width: 100%; }
+.swatch-name { font-size: .45rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.swatch-pantone { font-size: .4rem; color: #f59e0b; font-weight: 700; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.swatch-name {
-    font-size: .65rem;
-    font-weight: 800;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.colour-master-actions { display: grid; grid-template-columns: 1fr; gap: 4px; margin-top: 8px; }
+.colour-master-actions button { border: 0; border-radius: 6px; padding: 8px; font-size: 0.7rem; font-weight: 800; cursor: pointer; color: #fff; background: linear-gradient(135deg, #10B981, #059669); }
 
-.swatch-pantone {
-    font-size: .55rem;
-    color: #f59e0b;
-    font-weight: 700;
-    margin-top: 2px;
-}
-
-.swatch-hex {
-    font-size: .5rem;
-    color: #9fc5aa;
-    margin-top: 2px;
-}
-
-.colour-master-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 6px;
-    margin-top: 12px;
-}
-
-.colour-master-actions button {
-    border: 0;
-    border-radius: 8px;
-    padding: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    color: #fff;
-    background: linear-gradient(135deg, #10B981, #059669);
-    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
-}
-
-/* ================= COLOUR POPUP (Updated) ================= */
-.colour-popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999999;
-    background: rgba(0,0,0,.85);
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-}
-
+/* ================= COLOUR POPUP ================= */
+.colour-popup { display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 8px; }
 .colour-popup.active { display: flex; }
 
 .colour-popup-box {
     width: 100%;
     max-width: 480px;
-    max-height: 90vh;
+    max-height: 95vh;
     overflow: auto;
     background: #14251e;
     border: 1px solid #3c6752;
-    border-radius: 15px;
-    padding: 15px;
+    border-radius: 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
 }
 
-.colour-popup-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+.colour-popup-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.colour-popup-head b { color: #9be4a8; font-size: .85rem; }
+.colour-popup-close { background: #633b3b; border: 0; color: #fff; border-radius: 6px; padding: 4px 8px; font-weight: 900; font-size:0.75rem; }
 
-.colour-popup-head b { color: #9be4a8; font-size: 1rem; }
+.search-box { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #395648; background: #0d1813; color: #fff; font-size: .7rem; margin-bottom: 8px; }
+.colour-popup-grid { max-height: 40vh; overflow-y: auto; padding-right: 2px; }
 
-.colour-popup-close {
-    background: #633b3b;
-    border: 0;
-    color: #fff;
-    border-radius: 7px;
-    padding: 7px 12px;
-    font-weight: 900;
-}
-
-.search-box {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #395648;
-    background: #0d1813;
-    color: #fff;
-    font-size: .8rem;
-    margin-bottom: 10px;
-}
-
-.colour-popup-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    max-height: 50vh;
-    overflow-y: auto;
-    padding-right: 5px;
-}
-
-.colour-popup-footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid #2c4b3d;
-}
-
-.colour-popup-footer button {
-    border: 0;
-    border-radius: 8px;
-    padding: 12px;
-    color: #fff;
-    font-weight: 900;
-    font-size: .85rem;
-}
-
+.colour-popup-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; padding-top: 8px; border-top: 1px solid #2c4b3d; }
+.colour-popup-footer button { border: 0; border-radius: 6px; padding: 10px; color: #fff; font-weight: 900; font-size: .75rem; }
 .colour-use-btn { background: #2d9148; }
 .colour-cancel-btn { background: #633b3b; }
 
-/* Modal specific for Pantone Management */
-.pantone-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999999;
-    background: rgba(0,0,0,.85);
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-}
+.pantone-modal { display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 12px; }
 .pantone-modal.active { display: flex; }
 
-.design-colour-name {
-    width: 100%;
-    min-height: 38px;
-    background: #fff;
-    color: #17231d;
-    border: 1px solid #c8d3cd;
-    border-radius: 9px;
-    padding: 8px;
-    font-size: .75rem;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.design-colour-name .colour-dot {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    margin-right: 6px;
-    border: 1px solid #777;
-    flex-shrink: 0;
-}
-
-.design-colour-name .pantone-lbl {
-    font-size: 0.6rem;
-    color: #d97706;
-    margin-left: auto;
-    font-weight: bold;
-}
+.pm-form-box { background: #172b23; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px dashed #395648; }
+.pm-label { font-size:0.65rem; color:#f59e0b; margin-bottom:4px; display:block; font-weight:bold; }
+.pm-label-w { font-size:0.65rem; color:#9be4a8; margin-bottom:4px; display:block; font-weight:bold; }
 
 @media(max-width: 430px) {
-    body { padding: 5px; }
-    .header { padding: 10px; }
-    .card { padding: 9px; }
+    body { padding: 4px; }
+    .header { padding: 8px; }
+    .card { padding: 8px; border-radius: 8px; }
     .container { gap: 6px; }
-    .scroll-box { max-height: 230px; }
-    .scroll-box > div {
-        grid-template-columns: 32px 38px 1fr auto;
-        gap: 4px;
-        padding: 4px;
-    }
-    .set-box input { width: 30px !important; min-width: 30px !important; }
-    .matrix-grid-container { max-height: 430px; }
+    .scroll-box { max-height: 250px; }
+    .matrix-grid-container { max-height: 400px; }
     .matrix-cell { width: 30px; height: 30px; }
     .main-actions { grid-template-columns: 1fr 1fr; }
     .main-actions .wide { grid-column: 1 / -1; }
-    .colour-shade-list, .colour-popup-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    .colour-shade-list, .colour-popup-grid { grid-template-columns: repeat(6, 1fr); gap: 4px; }
+    .swatch-color { height: 20px; width: 20px; }
+    .swatch-details { padding: 2px 1px 0 1px; }
+    .swatch-name { font-size: 0.45rem; }
+    .swatch-pantone { font-size: 0.4rem; }
 }
 
 @media print {
@@ -823,15 +445,9 @@ input[type=color] {
     body { background: #fff !important; color: #000 !important; padding: 0 !important; }
     .container { max-width: none; }
     .header, .card:not(.print-card), .print-hide, #fsModal { display: none !important; }
-    body.printing-graph #printModalBox {
-        display: flex !important; position: static !important;
-        background: #fff !important; padding: 0 !important;
-    }
+    body.printing-graph #printModalBox { display: flex !important; position: static !important; background: #fff !important; padding: 0 !important; }
     .print-sheet { box-shadow: none !important; max-width: 100% !important; }
-    body.printing-design .print-card {
-        display: block !important; background: #fff !important;
-        border: none !important; color: #000 !important; box-shadow: none !important;
-    }
+    body.printing-design .print-card { display: block !important; background: #fff !important; border: none !important; color: #000 !important; box-shadow: none !important; }
     body.printing-design #designPrintImage { display: block !important; width: 100% !important; }
 }
 </style>
@@ -839,15 +455,14 @@ input[type=color] {
 <body>
 
 <div class="container">
-    <div class="card print-hide" style="padding:10px;margin-bottom:2px;">
-        <button class="btn btn-dark" onclick="window.location.href='dashboard.html'" style="display:inline-flex;align-items:center;padding:8px 14px;min-height:auto;width:auto;">
+    <div class="card print-hide" style="padding:8px;margin-bottom:2px;">
+        <button class="btn btn-dark" onclick="window.location.href='dashboard.html'" style="display:inline-flex;align-items:center;padding:6px 12px;min-height:auto;width:auto;">
             ← Back to Menu
         </button>
     </div>
 
     <div class="header">
         <h1>🧵 3D Weave Simulation Pro</h1>
-        <p>வார்ப் & வெஃப்ட் டிசைனை எளிதாக பார்க்கும் நெசவு சிமுலேட்டர்</p>
     </div>
 
     <!-- DESIGN -->
@@ -884,16 +499,30 @@ input[type=color] {
                 🪢 WEFT <span id="weftTabCount">6</span>
             </button>
         </div>
+        
         <div class="yarn-summary">
-            <span>நிறங்கள்: <b id="activeYarnCount">0 / 10</b></span>
-            <span id="activeYarnHint">Ends உள்ளிடவும்</span>
+            <span style="display:none;">நிறங்கள்: <b id="activeYarnCount">0 / 10</b></span>
+            <span id="activeYarnHint" style="font-weight: 800; color: #a9d6b2;">Total Ends: 0</span>
         </div>
+
+        <div class="colour-master-card" id="colourMasterCard">
+            <div class="colour-master-title">
+                <b>🎨 Advanced Colours & Pantone</b>
+                <span>Manage Shades</span>
+            </div>
+            <div class="colour-master-tabs" id="colourMasterTabs"></div>
+            <div id="colourShadeList" class="colour-shade-list"></div>
+            <div class="colour-master-actions">
+                <button onclick="openColorManager()">➕ Add New Colour / Pantone</button>
+            </div>
+        </div>
+
         <div id="warpPanel" class="yarn-panel active">
-            <label>WARP — <span id="warpCountDisplay">10</span> வரிகள்</label>
+            <label style="display:none;">WARP — <span id="warpCountDisplay">10</span> வரிகள்</label>
             <div id="warpInputsContainer" class="scroll-box"></div>
         </div>
         <div id="weftPanel" class="yarn-panel">
-            <label>WEFT — <span id="weftCountDisplay">6</span> வரிகள்</label>
+            <label style="display:none;">WEFT — <span id="weftCountDisplay">6</span> வரிகள்</label>
             <div id="weftInputsContainer" class="scroll-box"></div>
         </div>
     </div>
@@ -907,15 +536,15 @@ input[type=color] {
                 <p>Graph edit செய்ய Custom தேர்வு செய்யவும்</p>
             </div>
         </div>
-        <label style="margin-bottom: 8px;">Weave Type</label>
-        <select id="weaveType" onchange="onWeaveChange()" style="margin-bottom: 12px;">
+        <label style="margin-bottom: 6px;">Weave Type</label>
+        <select id="weaveType" onchange="onWeaveChange()" style="margin-bottom: 10px;">
             <option value="plain">Plain Weave (1 / 1)</option>
             <option value="twill">Twill 2/2</option>
             <option value="custom">🛠️ Custom Graph Grid</option>
         </select>
         
         <div id="gridEditorSection" style="display:none">
-            <div style="font-size:.72rem; color:#a9d6b2; font-weight:800; margin-bottom:7px">
+            <div style="font-size:.65rem; color:#a9d6b2; font-weight:800; margin-bottom:7px">
                 ⚙️ Graph Editor — click cells to toggle 0 / 1
             </div>
             <div class="grid-controls">
@@ -927,7 +556,7 @@ input[type=color] {
                 <button onclick="triggerGraphScan()">📸 Scan</button>
             </div>
             <div id="matrixGridContainer" class="matrix-grid-container"></div>
-            <div style="font-size:.64rem; color:#8fb99a; text-align:center; margin-top:5px">
+            <div style="font-size:.6rem; color:#8fb99a; text-align:center; margin-top:5px">
                 1 = Warp Up • 0 = Weft Up • Graph direction → 3D-லும் அதே direction
             </div>
             <div class="save-row">
@@ -943,27 +572,16 @@ input[type=color] {
         </div>
 
         <div id="dentingPanel" class="menu-panel">
-            <div class="preview-title">📐 Denting / Drawing</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <div class="preview-title" style="font-weight: 900; color: #9be4a8; font-size: 0.8rem;">📐 Denting / Drawing</div>
+                <div style="display: flex; align-items: center; gap: 5px; font-size: 0.65rem; color: #a9d6b2; font-weight: 800;">
+                    Ends/Dent: <input type="number" id="endsPerDent" value="2" min="1" style="width: 40px; height: 24px; min-height: 24px; padding: 2px; text-align: center;" oninput="calculateDenting()">
+                </div>
+            </div>
             <div class="info-box" id="dentingInfo">Denting data loading...</div>
         </div>
     </div>
 
-    <!-- 🔥 ADVANCED COLOUR MASTER UI 🔥 -->
-    <div class="card colour-master-card" id="colourMasterCard">
-        <div class="colour-master-title">
-            <b>🎨 Advanced Colours & Pantone</b>
-            <span>Manage Shades</span>
-        </div>
-        
-        <div class="colour-master-tabs" id="colourMasterTabs"></div>
-        <div id="colourShadeList" class="colour-shade-list"></div>
-        
-        <div class="colour-master-actions">
-            <button onclick="openColorManager()">➕ Add New Colour / Pantone</button>
-        </div>
-    </div>
-
-    <!-- PRINT CARD -->
     <div class="card print-card" id="designPrintCard">
         <h3 style="color:#000;margin-bottom:8px;text-align:center;">Weave Design</h3>
         <img id="designPrintImage" alt="Print Preview" style="width:100%;max-width:800px;height:auto;display:block;margin:auto;">
@@ -997,7 +615,7 @@ input[type=color] {
     </div>
 </div>
 
-<!-- 🔥 SELECT SHADE POPUP (ADVANCED) 🔥 -->
+<!-- 🔥 SELECT SHADE POPUP 🔥 -->
 <div id="colourPopup" class="colour-popup">
     <div class="colour-popup-box">
         <div class="colour-popup-head">
@@ -1005,14 +623,15 @@ input[type=color] {
             <button class="colour-popup-close" onclick="closeColourPopup()">✕</button>
         </div>
         
+        <div class="colour-master-tabs" id="popupMasterTabs" style="margin-bottom: 8px;"></div>
+
         <input type="text" id="colourSearchInput" class="search-box" placeholder="🔍 Search Colour Name or Pantone (e.g., 19-4052)..." onkeyup="filterColourPopup()">
         
         <div id="colourPopupGrid" class="colour-popup-grid"></div>
 
-        <!-- NEW AUTO-SYNC OPTION -->
-        <div style="margin-top: 15px; font-size: 0.75rem; color: #a9d6b2; display: flex; align-items: center; justify-content: center; background: #0d1813; padding: 10px; border-radius: 8px; border: 1px dashed #315746;">
-            <label style="margin:0; display:flex; align-items:center; gap:8px; cursor:pointer;">
-                <input type="checkbox" id="syncColorCheck" checked style="width: 18px !important; min-width: 18px !important; height: 18px !important; min-height: 18px !important; margin: 0; accent-color: #2d9148;">
+        <div style="margin-top: 10px; font-size: 0.65rem; color: #a9d6b2; display: flex; align-items: center; justify-content: center; background: #0d1813; padding: 6px; border-radius: 6px; border: 1px dashed #315746;">
+            <label style="margin:0; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                <input type="checkbox" id="syncColorCheck" checked style="width: 14px !important; min-width: 14px !important; height: 14px !important; min-height: 14px !important; margin: 0; accent-color: #2d9148;">
                 அதே நிறம் உள்ள எல்லா இடங்களிலும் மாற்றவும் (Sync All)
             </label>
         </div>
@@ -1024,34 +643,44 @@ input[type=color] {
     </div>
 </div>
 
-<!-- 🔥 ADD NEW COLOUR / PANTONE MODAL 🔥 -->
+<!-- 🔥 FIX: HACK FOR ANDROID NATIVE COLOR PICKER BLACK SLIDER BUG 🔥 -->
 <div id="colorManagerModal" class="pantone-modal">
-    <div class="colour-popup-box" style="max-width: 400px;">
+    <div class="colour-popup-box" style="max-width: 340px; padding: 12px;">
         <div class="colour-popup-head">
-            <b>🎨 Add Colour / Pantone</b>
-            <button class="colour-popup-close" onclick="closeColorManager()">✕</button>
+            <b id="cmPopupTitle" style="font-size:0.9rem;">🎨 Add New Shade</b>
+            <button class="colour-popup-close" style="padding:4px 8px; font-size:0.7rem;" onclick="closeColorManager()">✕</button>
         </div>
         
-        <label>Main Category</label>
-        <input type="text" id="cmCategory" list="cmCatList" placeholder="e.g., Green, Blue, Red..." style="margin-bottom:10px;">
-        <datalist id="cmCatList"></datalist>
-
-        <label>Pantone Code (Optional Auto-Fill)</label>
-        <div style="display:flex; gap:6px; margin-bottom:10px;">
-            <input type="text" id="cmPantone" placeholder="e.g., 19-4052">
-            <button class="btn btn-blue" onclick="searchPantoneDB()" style="min-width: 90px; padding: 0;">🔍 Find</button>
+        <div class="pm-form-box">
+            <label class="pm-label">Quick Auto-Fill (Pantone)</label>
+            <div style="display:flex; gap:6px;">
+                <input type="text" id="cmPantone" placeholder="e.g. 19-4052" style="height:32px; min-height:32px; font-size:0.75rem;">
+                <button class="btn btn-blue" onclick="searchPantoneDB()" style="min-width: 60px; height:32px; min-height:32px; padding: 0; font-size:0.7rem;">🔍 Find</button>
+            </div>
         </div>
 
-        <label>Shade Name</label>
-        <input type="text" id="cmName" placeholder="e.g., Navy Blue" style="margin-bottom:10px;">
+        <label class="pm-label-w">Category</label>
+        <select id="cmCategory" onchange="handleCatChange()" style="height:32px; min-height:32px; font-size:0.75rem; margin-bottom:8px; background:#fff; color:#000;"></select>
 
-        <label>HEX Code</label>
-        <div style="display:flex; gap:6px; margin-bottom:15px;">
-            <input type="color" id="cmHexPicker" value="#22c55e" oninput="document.getElementById('cmHex').value = this.value">
-            <input type="text" id="cmHex" value="#22c55e" oninput="document.getElementById('cmHexPicker').value = this.value" placeholder="#HexCode">
+        <label class="pm-label-w">Shade Name</label>
+        <input type="text" id="cmName" placeholder="e.g. Navy Blue" style="height:32px; min-height:32px; font-size:0.75rem; margin-bottom:8px;">
+
+        <label class="pm-label-w">Pick Colour</label>
+        <!-- 🔥 ANDROID BUG FIX IMPLEMENTATION HERE 🔥 -->
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; background: #0d1813; padding: 6px; border-radius: 6px; border: 1px solid #3c6752;">
+            
+            <div id="cmHexWrapper" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #3c6752; overflow: hidden; background: #22c55e; position: relative; flex-shrink: 0; cursor: pointer;">
+                <input type="color" id="cmHexPicker" value="#22c55e" style="position: absolute; top: -10px; left: -10px; width: 60px; height: 60px; opacity: 0; cursor: pointer; padding: 0; border: none;" oninput="document.getElementById('cmHex').value = this.value.toLowerCase(); document.getElementById('cmHexWrapper').style.background = this.value;">
+            </div>
+            
+            <input type="text" id="cmHex" value="#22c55e" style="height:32px; min-height:32px; font-size:0.8rem; font-weight:bold; letter-spacing:1px; text-transform:lowercase; margin:0;" oninput="let v = this.value.toLowerCase(); if(/^#[0-9a-f]{6}$/i.test(v)){ document.getElementById('cmHexPicker').value = v; document.getElementById('cmHexWrapper').style.background = v; }" placeholder="#hexcode">
         </div>
 
-        <button class="btn btn-green" style="width: 100%;" onclick="saveNewColorAdvanced()">💾 Save Colour to Library</button>
+        <button class="btn btn-green" style="width: 100%; height: 38px; font-size:0.8rem;" onclick="saveNewColorAdvanced()">💾 Save Colour</button>
+        
+        <div id="cmDeleteBtnContainer" style="display:none; margin-top: 8px;">
+            <button class="btn btn-red" style="width: 100%; height: 38px; font-size:0.8rem; background:#dc2626;" onclick="deleteShadeAdvanced()">🗑️ Delete Colour</button>
+        </div>
     </div>
 </div>
 
@@ -1076,31 +705,18 @@ let weavePatterns = {
 const $ = id => document.getElementById(id);
 
 function safeJSON(key, fallback=null) {
-    try {
-        const raw = localStorage.getItem(key);
-        return raw ? JSON.parse(raw) : fallback;
-    } catch(e) {
-        return fallback;
-    }
+    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } 
+    catch(e) { return fallback; }
 }
-
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
-
-function designName(d) {
-    return String(d?.designNo ?? d?.design_no ?? d?.designNumber ?? d?.design_number ?? d?.name ?? d?.design ?? d?.id ?? "Unnamed");
-}
-
-function setStatus(x) {
-    const el = $("designStatus");
-    if(el) el.textContent = x;
-}
+function designName(d) { return String(d?.designNo ?? d?.design_no ?? d?.designNumber ?? d?.design_number ?? d?.name ?? d?.design ?? d?.id ?? "Unnamed"); }
+function setStatus(x) { const el = $("designStatus"); if(el) el.textContent = x; }
 
 function colorName(n) {
     if(!n) return "#ffffff";
     let s = String(n).toLowerCase().trim();
     if(/^#[0-9a-f]{6}$/i.test(s)) return s;
     if(/^#[0-9a-f]{3}$/i.test(s)) return "#" + s[1]+s[1] + s[2]+s[2] + s[3]+s[3];
-
     let m = [
         ["black","#111827"], ["கருப்பு","#111827"], ["white","#f8fafc"], ["வெள்ளை","#f8fafc"],
         ["red","#ef4444"], ["சிவப்பு","#ef4444"], ["green","#22c55e"], ["blue","#3b82f6"],
@@ -1112,9 +728,8 @@ function colorName(n) {
         ["cream","#fdfbf7"], ["கிரீம்","#fdfbf7"], ["1/2 salavai","#fdfbf7"],
         ["1/2 சலவை","#fdfbf7"], ["t. salavai","#fdfbf7"], ["t. சலவை","#fdfbf7"]
     ];
-
     for(let [a,b] of m) if(s.includes(a)) return b;
-    return "#94a3b8";
+    return "#94a3b8"; 
 }
 
 function normLine(x, warp) {
@@ -1123,28 +738,22 @@ function normLine(x, warp) {
     let amount = warp ? (x.ends ?? x.end ?? x.count ?? x.qty ?? x.orderEnds) : (x.picks ?? x.pick ?? x.count ?? x.qty ?? x.orderPicks);
     let rowSpan = x.span ?? x.setRows ?? x.set_rows ?? x.group ?? x.row_span ?? 1;
     let repCount = x.repeat ?? x.setRep ?? x.set_repeat ?? x.multiplier ?? x.rep_count ?? 1;
-
+    
     return { 
-        color: colorName(color), 
-        amount: parseInt(amount)||0,
-        span: parseInt(rowSpan)>1 ? parseInt(rowSpan) : "",
-        repeat: parseInt(repCount)>1 ? parseInt(repCount) : ""
+        origName: color || "", 
+        color: colorName(color).toLowerCase(),
+        amount: parseInt(amount)||0, 
+        span: parseInt(rowSpan)>1 ? parseInt(rowSpan) : "", 
+        repeat: parseInt(repCount)>1 ? parseInt(repCount) : "" 
     };
 }
 
 function mergeDesigns(items) {
     let map = new Map();
     (items||[]).filter(Boolean).forEach(d => {
-        let n = designName(d);
-        if(!n || n==="Unnamed") return;
-        let old = map.get(n);
-        if(!old) map.set(n, d);
-        else map.set(n, {
-            ...old, ...d,
-            warpLines: d.warpLines?.length ? d.warpLines : old.warpLines,
-            weftLines: d.weftLines?.length ? d.weftLines : old.weftLines,
-            customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix
-        });
+        let n = designName(d); if(!n || n==="Unnamed") return;
+        let old = map.get(n); if(!old) map.set(n, d);
+        else map.set(n, { ...old, ...d, warpLines: d.warpLines?.length ? d.warpLines : old.warpLines, weftLines: d.weftLines?.length ? d.weftLines : old.weftLines, customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix });
     });
     return [...map.values()];
 }
@@ -1156,100 +765,62 @@ function renderUIWithData(w=[], f=[]) {
     let wc = Math.max(10, w.length);
     let fc = Math.max(6, f.length);
 
-    currentWarpCount = wc;
-    currentWeftCount = fc;
-    $("warpCountDisplay").textContent = wc;
-    $("weftCountDisplay").textContent = fc;
-    $("warpTabCount").textContent = wc;
-    $("weftTabCount").textContent = fc;
+    currentWarpCount = wc; currentWeftCount = fc;
+    $("warpCountDisplay").textContent = wc; $("weftCountDisplay").textContent = fc;
+    $("warpTabCount").textContent = wc; $("weftTabCount").textContent = fc;
 
-    let wRanges = activeDesignObj?.warpRanges || [];
-    let fRanges = activeDesignObj?.weftRanges || [];
-
+    let wRanges = activeDesignObj?.warpRanges || []; let fRanges = activeDesignObj?.weftRanges || [];
     let wh = ""; let fh = "";
+
     for(let i=0; i<wc; i++) {
-        let x = w[i] ? normLine(w[i], true) : { color: i ? "#334155" : "#f8fafc", amount: 0, span: "", repeat: "" };
-        let lineNum = i + 1;
-        let match = wRanges.find(r => r.start == lineNum);
-        let spanVal = match ? (match.end - match.start + 1) : (x.span > 1 ? x.span : "");
-        let repVal = match ? match.set : (x.repeat > 1 ? x.repeat : "");
+        let x = w[i] ? normLine(w[i], true) : { origName: "", color: i ? "#334155" : "#f8fafc", amount: 0, span: "", repeat: "" };
+        let lineNum = i + 1; let match = wRanges.find(r => r.start == lineNum);
+        let spanVal = match ? (match.end - match.start + 1) : (x.span > 1 ? x.span : ""); let repVal = match ? match.set : (x.repeat > 1 ? x.repeat : "");
+        let safeOrig = escapeColourText(x.origName);
 
         wh += `<div>
-            <label style="font-size:0.65rem;">W${i+1}</label>
-            <input type="color" id="wC${i+1}" value="${x.color}">
-            <div class="flex-row">
-                <input type="number" id="wE${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('warp'); calculateDenting(); autoRefresh3D();">
-            </div>
+            <label>W${i+1}</label>
+            <input type="color" id="wC${i+1}" value="${x.color}" data-orig="${safeOrig}">
+            <input type="number" id="wE${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('warp'); calculateDenting(); autoRefresh3D();">
             <div class="set-box">
-                <input type="number" id="wSpan${i+1}" value="${spanVal}" placeholder="Row" title="Rows to Group" oninput="updateYarnSummary('warp'); calculateDenting(); autoRefresh3D();">
-                <span>}x</span>
-                <input type="number" id="wRep${i+1}" value="${repVal}" placeholder="Rep" title="Repeat Count" oninput="updateYarnSummary('warp'); calculateDenting(); autoRefresh3D();">
+                <input type="number" id="wSpan${i+1}" value="${spanVal}">
+                <input type="number" id="wRep${i+1}" value="${repVal}">
             </div>
         </div>`;
     }
     for(let i=0; i<fc; i++) {
-        let x = f[i] ? normLine(f[i], false) : { color: i ? "#334155" : "#f8fafc", amount: 0, span: "", repeat: "" };
-        let lineNum = i + 1;
-        let match = fRanges.find(r => r.start == lineNum);
-        let spanVal = match ? (match.end - match.start + 1) : (x.span > 1 ? x.span : "");
-        let repVal = match ? match.set : (x.repeat > 1 ? x.repeat : "");
+        let x = f[i] ? normLine(f[i], false) : { origName: "", color: i ? "#334155" : "#f8fafc", amount: 0, span: "", repeat: "" };
+        let lineNum = i + 1; let match = fRanges.find(r => r.start == lineNum);
+        let spanVal = match ? (match.end - match.start + 1) : (x.span > 1 ? x.span : ""); let repVal = match ? match.set : (x.repeat > 1 ? x.repeat : "");
+        let safeOrig = escapeColourText(x.origName);
 
         fh += `<div>
-            <label style="font-size:0.65rem;">Wft${i+1}</label>
-            <input type="color" id="weftC${i+1}" value="${x.color}">
-            <div class="flex-row">
-                <input type="number" id="weftP${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('weft'); autoRefresh3D();">
-            </div>
+            <label>Wft${i+1}</label>
+            <input type="color" id="weftC${i+1}" value="${x.color}" data-orig="${safeOrig}">
+            <input type="number" id="weftP${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('weft'); autoRefresh3D();">
             <div class="set-box">
-                <input type="number" id="weftSpan${i+1}" value="${spanVal}" placeholder="Row" title="Rows to Group" oninput="updateYarnSummary('weft'); autoRefresh3D();">
-                <span>}x</span>
-                <input type="number" id="weftRep${i+1}" value="${repVal}" placeholder="Rep" title="Repeat Count" oninput="updateYarnSummary('weft'); autoRefresh3D();">
+                <input type="number" id="weftSpan${i+1}" value="${spanVal}">
+                <input type="number" id="weftRep${i+1}" value="${repVal}">
             </div>
         </div>`;
     }
-    $("warpInputsContainer").innerHTML = wh;
-    $("weftInputsContainer").innerHTML = fh;
-
-    updateYarnSummary("warp");
-    calculateDenting();
+    $("warpInputsContainer").innerHTML = wh; $("weftInputsContainer").innerHTML = fh;
+    updateYarnSummary("warp"); calculateDenting();
 }
 
 function calculateYarnDetails(type) {
     let count = type === "warp" ? currentWarpCount : currentWeftCount;
-    let pId = type === "warp" ? "wE" : "weftP";
-    let spanId = type === "warp" ? "wSpan" : "weftSpan";
-    let repId = type === "warp" ? "wRep" : "weftRep";
-
-    let totalYarns = 0;
-    let activeRows = 0;
-
-    let i = 1;
+    let pId = type === "warp" ? "wE" : "weftP"; let spanId = type === "warp" ? "wSpan" : "weftSpan"; let repId = type === "warp" ? "wRep" : "weftRep";
+    let totalYarns = 0; let activeRows = 0; let i = 1;
     while(i <= count) {
-        let e = $(pId + i);
-        let sInp = $(spanId + i);
-        let rInp = $(repId + i);
-
+        let e = $(pId + i); let sInp = $(spanId + i); let rInp = $(repId + i);
         if(!e) { i++; continue; }
-
-        let n = Math.max(0, parseInt(e.value)||0);
-        if(n > 0) activeRows++; 
-
-        let span = Math.max(1, parseInt(sInp?.value)||1);
-        let repeat = Math.max(1, parseInt(rInp?.value)||1);
-
+        let n = Math.max(0, parseInt(e.value)||0); if(n > 0) activeRows++; 
+        let span = Math.max(1, parseInt(sInp?.value)||1); let repeat = Math.max(1, parseInt(rInp?.value)||1);
         if (span > 1 && repeat > 1) {
-            let setTotal = 0;
-            for(let s=0; s<span; s++) {
-                let rIdx = i + s;
-                let rE = $(pId + rIdx);
-                if(rE) setTotal += Math.max(0, parseInt(rE.value)||0);
-            }
-            totalYarns += (setTotal * repeat);
-            i += span; 
-        } else {
-            totalYarns += n;
-            i++;
-        }
+            let setTotal = 0; for(let s=0; s<span; s++) { let rIdx = i + s; let rE = $(pId + rIdx); if(rE) setTotal += Math.max(0, parseInt(rE.value)||0); }
+            totalYarns += (setTotal * repeat); i += span; 
+        } else { totalYarns += n; i++; }
     }
     return { totalYarns, activeRows, count };
 }
@@ -1257,37 +828,27 @@ function calculateYarnDetails(type) {
 function updateYarnSummary(type) {
     let details = calculateYarnDetails(type);
     $("activeYarnCount").textContent = details.activeRows + " / " + details.count;
-    let hint = type === "warp" ? "Ends" : "Picks";
-    $("activeYarnHint").textContent = `Total ${hint}: ${details.totalYarns}`;
+    let hint = type === "warp" ? "Total Ends" : "Total Picks";
+    $("activeYarnHint").textContent = `${hint}: ${details.totalYarns}`;
 }
 
 function showYarnTab(t) {
-    $("warpPanel").classList.toggle("active", t === "warp");
-    $("weftPanel").classList.toggle("active", t === "weft");
-    $("warpTab").classList.toggle("active", t === "warp");
-    $("weftTab").classList.toggle("active", t === "weft");
+    $("warpPanel").classList.toggle("active", t === "warp"); $("weftPanel").classList.toggle("active", t === "weft");
+    $("warpTab").classList.toggle("active", t === "warp"); $("weftTab").classList.toggle("active", t === "weft");
     updateYarnSummary(t);
 }
 
 function populateDesignSelect(auto = true) {
-    let s = $("designSelect");
-    let cur = activeDesignObj ? designName(activeDesignObj) : safeJSON("weave_last_design_name", "");
+    let s = $("designSelect"); let cur = activeDesignObj ? designName(activeDesignObj) : safeJSON("weave_last_design_name", "");
     s.innerHTML = '<option value="">-- டிசைனைத் தேர்ந்தெடுக்கவும் --</option>';
-    allCloudDesigns.forEach((d,i) => {
-        let o = document.createElement("option"); o.value = i; o.textContent = "🎨 " + designName(d); s.appendChild(o);
-    });
-    if(auto && allCloudDesigns.length) {
-        let i = allCloudDesigns.findIndex(d => designName(d) === cur); if(i < 0) i = 0; s.value = i; loadSelectedDesign();
-    }
+    allCloudDesigns.forEach((d,i) => { let o = document.createElement("option"); o.value = i; o.textContent = "🎨 " + designName(d); s.appendChild(o); });
+    if(auto && allCloudDesigns.length) { let i = allCloudDesigns.findIndex(d => designName(d) === cur); if(i < 0) i = 0; s.value = i; loadSelectedDesign(); }
 }
 
 async function importFromFirebase(manual = false) {
     try {
         setStatus(manual ? "🔄 Local + Cloud refresh..." : "⚡ Loading designs...");
-        let local = [];
-        ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "warping_data"].forEach(k => {
-            let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a);
-        });
+        let local = []; ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "warping_data"].forEach(k => { let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a); });
         allCloudDesigns = mergeDesigns(local); populateDesignSelect(true);
         setStatus(allCloudDesigns.length ? "💾 Local designs ready" : "ℹ️ Design இல்லை");
     } catch(e) {}
@@ -1312,7 +873,8 @@ function getCurrentData() {
         let c = $("wC"+i); let e = $("wE"+i); let s = $("wSpan"+i); let r = $("wRep"+i);
         if(c && e && (parseInt(e.value)||0)>0) {
             let span = parseInt(s?.value)||1; let rep = parseInt(r?.value)||1;
-            w.push({ color: c.value, ends: parseInt(e.value)||0, span: span, repeat: rep });
+            let origName = c.getAttribute('data-orig') || "";
+            w.push({ colourName: origName, color: c.value, ends: parseInt(e.value)||0, span: span, repeat: rep });
             if(span > 1 && rep > 1) { wRanges.push({ start: wCurrentLine, end: wCurrentLine + span - 1, set: rep }); }
             wCurrentLine++;
         }
@@ -1322,7 +884,8 @@ function getCurrentData() {
         let c = $("weftC"+i); let p = $("weftP"+i); let s = $("weftSpan"+i); let r = $("weftRep"+i);
         if(c && p && (parseInt(p.value)||0)>0) {
             let span = parseInt(s?.value)||1; let rep = parseInt(r?.value)||1;
-            f.push({ color: c.value, picks: parseInt(p.value)||0, span: span, repeat: rep });
+            let origName = c.getAttribute('data-orig') || "";
+            f.push({ colourName: origName, color: c.value, picks: parseInt(p.value)||0, span: span, repeat: rep });
             if(span > 1 && rep > 1) { fRanges.push({ start: fCurrentLine, end: fCurrentLine + span - 1, set: rep }); }
             fCurrentLine++;
         }
@@ -1370,7 +933,6 @@ function buildGridEditor() {
         wrap.appendChild(rd); let del = document.createElement("button"); del.className="btn-row-del"; del.textContent="✕"; del.onclick = () => removeRow(r); wrap.appendChild(del); box.appendChild(wrap);
     });
 }
-
 function addCol() { weavePatterns.custom.forEach(r => r.push(0)); buildGridEditor(); draw3DWeave(); }
 function removeCol(c) { if(!weavePatterns.custom.length || weavePatterns.custom[0].length<=2) return; weavePatterns.custom.forEach(r => r.splice(c,1)); buildGridEditor(); draw3DWeave(); }
 function addRowTop() { let cols = weavePatterns.custom[0]?.length || 4; weavePatterns.custom.unshift(new Array(cols).fill(0)); buildGridEditor(); draw3DWeave(); }
@@ -1382,7 +944,33 @@ function duplicateSet() {
     let a = p.split("-").map(Number); if(a.length!==2 || a[0]<1 || a[1]>m.length || a[0]>a[1]) { alert("❌ 1-4 போன்ற format கொடுக்கவும்"); return; }
     let selected = m.slice(a[0]-1, a[1]).map(r => [...r]); weavePatterns.custom = selected.concat(m.map(r => [...r])); buildGridEditor(); draw3DWeave();
 }
+function triggerGraphScan() {
+    let inp = document.createElement("input"); inp.type="file"; inp.accept="image/*";
+    inp.onchange = e => { let f = e.target.files[0]; if(!f) return; let rd = new FileReader(); rd.onload = x => { let im = new Image(); im.onload = () => processGraphImage(im); im.src = x.target.result; }; rd.readAsDataURL(f); }; inp.click();
+}
+function processGraphImage(img) {
+    let r_str = prompt("இந்த படத்தில் உள்ள Grid-ல் எத்தனை வரிசைகள் (Rows/Picks) உள்ளன?", "4"); if(!r_str) return; let c_str = prompt("எத்தனை நெடுக்கைகள் (Columns/Ends) உள்ளன?", "4"); if(!c_str) return;
+    let rows = parseInt(r_str); let cols = parseInt(c_str); if(!rows || !cols || isNaN(rows) || isNaN(cols)) { alert("தவறான உள்ளீடு!"); return; }
+    let c = document.createElement("canvas"); let x = c.getContext("2d"); c.width = img.width; c.height = img.height; x.drawImage(img,0,0);
+    let cellW = c.width/cols; let cellH = c.height/rows; let cellAverages = []; let rawMatrix = [];
+    for(let r=0; r<rows; r++) {
+        let rowData = [];
+        for(let k=0; k<cols; k++) {
+            let startX = Math.floor(k*cellW + cellW*0.25); let startY = Math.floor(r*cellH + cellH*0.25);
+            let w = Math.floor(cellW*0.5)||1; let h = Math.floor(cellH*0.5)||1; let imgData = x.getImageData(startX, startY, w, h).data;
+            let sum = 0; for(let i=0; i<imgData.length; i+=4) sum += 0.299*imgData[i] + 0.587*imgData[i+1] + 0.114*imgData[i+2];
+            let avg = sum/(w*h); rowData.push(avg); cellAverages.push(avg);
+        }
+        rawMatrix.push(rowData);
+    }
+    let threshold = (Math.min(...cellAverages) + Math.max(...cellAverages))/2; let nw = [];
+    for(let r=0; r<rows; r++) { let finalRow = []; for(let k=0; k<cols; k++) finalRow.push(rawMatrix[r][k]<threshold ? 1 : 0); nw.push(finalRow); }
+    weavePatterns.custom = nw; $("weaveType").value = "custom"; $("gridEditorSection").style.display = "block"; buildGridEditor(); draw3DWeave(); alert("✅ புகைப்படம் வெற்றிகரமாக Graph-ஆக மாற்றப்பட்டது!");
+}
 
+/* =========================================================
+   CANVAS 3D RENDER ENGINE
+========================================================= */
 function isWarpUp(r, c, type) {
     let m = type === "custom" ? weavePatterns.custom : (weavePatterns[type] || weavePatterns.custom);
     if(!m || !m.length || !m[0]?.length) return true;
@@ -1402,6 +990,7 @@ function draw3DWeave() {
     if(drawFramePending) return; drawFramePending = true;
     requestAnimationFrame(() => {
         drawFramePending = false; let c = $("weaveCanvas"); if(!c) return; let ctx = c.getContext("2d", {alpha:false}); if(!ctx) return;
+
         let warp = []; let w_idx = 1;
         while (w_idx <= currentWarpCount) {
             let co = $("wC"+w_idx); let e = $("wE"+w_idx); let sInp = $("wSpan"+w_idx); let rInp = $("wRep"+w_idx);
@@ -1416,6 +1005,7 @@ function draw3DWeave() {
                 for(let rep=0; rep<repeat; rep++) warp.push(...setSequence); w_idx += span;
             } else { if(n > 0) { let color = rgb(co.value); for(let j=0; j<n; j++) warp.push(color); } w_idx++; }
         }
+
         let weft = []; let f_idx = 1;
         while (f_idx <= currentWeftCount) {
             let co = $("weftC"+f_idx); let p = $("weftP"+f_idx); let sInp = $("weftSpan"+f_idx); let rInp = $("weftRep"+f_idx);
@@ -1505,12 +1095,18 @@ function draw3DWeave() {
 }
 let refreshTimer = null; function autoRefresh3D() { clearTimeout(refreshTimer); if($("fsModal")?.style.display==="flex") refreshTimer = setTimeout(draw3DWeave, 120); }
 
+/* =========================================================
+   DENTING & FULLSCREEN
+========================================================= */
 function calculateDenting() {
-    let details = calculateYarnDetails("warp"); let total = details.totalYarns;
+    let details = calculateYarnDetails("warp"); 
+    let total = details.totalYarns;
     if(total === 0) { if($("dentingInfo")) $("dentingInfo").innerHTML="டேட்டா இல்லை"; return; }
-    let dents = Math.ceil(total/2);
-    $("dentingInfo").innerHTML = `<b>பாவு மொத்தம்:</b> ${total} Ends <br><b>Denting:</b> ஒரு Dent-க்கு 2 Ends அடிப்படையில் சுமார் <b>${dents}</b> Dent தேவை.<br><b>Drawing:</b> Frame 1 → 2 → 3 → 4 என்ற வரிசையில் repeat செய்யலாம்.`;
+    let endsPerDent = parseInt($("endsPerDent")?.value) || 2;
+    let dents = Math.ceil(total / endsPerDent);
+    $("dentingInfo").innerHTML = `<b>பாவு மொத்தம்:</b> ${total} Ends <br><b>Denting:</b> ஒரு Dent-க்கு ${endsPerDent} Ends அடிப்படையில் சுமார் <b>${dents}</b> Dent தேவை.<br><b>Drawing:</b> Frame 1 → 2 → 3 → 4 என்ற வரிசையில் repeat செய்யலாம்.`;
 }
+
 function closeAllMenus() { const denting = $("dentingPanel"); if(denting) denting.classList.remove("active"); }
 function openMenu(type) { closeAllMenus(); if(type==="view3d") openFullscreen(); else if(type==="denting") { $("dentingPanel")?.classList.add("active"); calculateDenting(); } }
 
@@ -1548,58 +1144,58 @@ window.addEventListener("afterprint", () => { document.body.classList.remove("pr
 /* =========================================================
    🔥 ADVANCED COLOUR MASTER PANTONE SYSTEM 🔥
 ========================================================= */
-const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v2";
+const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v5"; // Version bump to clear cache if needed
 
-// Local Smart Pantone Dictionary (Standard Textile TCX / TPG approximations)
 const PANTONE_DB = {
-    "19-4052": { name: "Classic Blue", hex: "#0F4C81" },
-    "18-1662": { name: "Flame Scarlet", hex: "#CE2029" },
-    "11-0601": { name: "Bright White", hex: "#F4F5F0" },
-    "19-0303": { name: "Jet Black", hex: "#2D2C2F" },
-    "17-5104": { name: "Ultimate Gray", hex: "#939597" },
-    "13-0647": { name: "Illuminating", hex: "#F5DF4D" },
-    "16-1546": { name: "Living Coral", hex: "#FF6F61" },
-    "18-3838": { name: "Ultra Violet", hex: "#5F4B8B" },
-    "15-0343": { name: "Greenery", hex: "#8A9A5B" },
-    "15-3919": { name: "Serenity", hex: "#91A8D0" },
-    "13-1520": { name: "Rose Quartz", hex: "#F7CAC9" },
-    "18-1438": { name: "Marsala", hex: "#955251" },
-    "18-3224": { name: "Radiant Orchid", hex: "#6B5B95" },
-    "17-5641": { name: "Emerald", hex: "#009473" },
-    "17-1463": { name: "Tangerine Tango", hex: "#DD4124" },
-    "15-5519": { name: "Turquoise", hex: "#00B5A6" },
-    "14-0848": { name: "Mimosa", hex: "#F0C05A" },
-    "18-3943": { name: "Blue Iris", hex: "#5A5B9F" },
-    "19-1557": { name: "Chili Pepper", hex: "#9B1B30" },
-    "13-1106": { name: "Sand Dollar", hex: "#DECDBE" },
-    "19-1664": { name: "True Red", hex: "#BF1932" },
-    "19-4007": { name: "Anthracite", hex: "#28282B" },
-    "11-4001": { name: "Brilliant White", hex: "#F9FAFC" },
-    "14-4102": { name: "Glacier Gray", hex: "#B8C2CC" },
-    "19-3911": { name: "Black Beauty", hex: "#26262A" }
+    "19-4052": { name: "Classic Blue", hex: "#0F4C81" }, "18-1662": { name: "Flame Scarlet", hex: "#CE2029" }, "11-0601": { name: "Bright White", hex: "#F4F5F0" },
+    "19-0303": { name: "Jet Black", hex: "#2D2C2F" }, "17-5104": { name: "Ultimate Gray", hex: "#939597" }, "13-0647": { name: "Illuminating", hex: "#F5DF4D" },
+    "16-1546": { name: "Living Coral", hex: "#FF6F61" }, "18-3838": { name: "Ultra Violet", hex: "#5F4B8B" }, "15-0343": { name: "Greenery", hex: "#8A9A5B" },
+    "15-3919": { name: "Serenity", hex: "#91A8D0" }, "13-1520": { name: "Rose Quartz", hex: "#F7CAC9" }, "18-1438": { name: "Marsala", hex: "#955251" },
+    "18-3224": { name: "Radiant Orchid", hex: "#6B5B95" }, "17-5641": { name: "Emerald", hex: "#009473" }, "17-1463": { name: "Tangerine Tango", hex: "#DD4124" },
+    "15-5519": { name: "Turquoise", hex: "#00B5A6" }, "14-0848": { name: "Mimosa", hex: "#F0C05A" }, "18-3943": { name: "Blue Iris", hex: "#5A5B9F" },
+    "19-1557": { name: "Chili Pepper", hex: "#9B1B30" }, "13-1106": { name: "Sand Dollar", hex: "#DECDBE" }, "19-1664": { name: "True Red", hex: "#BF1932" },
+    "19-4007": { name: "Anthracite", hex: "#28282B" }, "11-4001": { name: "Brilliant White", hex: "#F9FAFC" }, "14-4102": { name: "Glacier Gray", hex: "#B8C2CC" },
+    "19-3911": { name: "Black Beauty", hex: "#26262A" }, "14-1064": { name: "Saffron", hex: "#FFA100" }, "19-1536": { name: "Red Pear", hex: "#7A3334" },
+    "16-1532": { name: "Crabapple", hex: "#D77E70" }, "14-4620": { name: "Island Paradise", hex: "#94C4E1" }, "15-0545": { name: "Jalapeño Red", hex: "#9D2B3D" },
+    "11-0103": { name: "Cream/Egret", hex: "#F2ECE4" }, "19-4039": { name: "Navy Peony", hex: "#223A5E" }, "16-1108": { name: "Twine", hex: "#B39F8D" }, 
+    "17-1501": { name: "Wood Ash", hex: "#978C87" }, "18-4005": { name: "Steel Gray", hex: "#75787B" }, "19-1619": { name: "Maroon", hex: "#6E363C" }, 
+    "19-0312": { name: "Night Sky", hex: "#323133" }, "16-0906": { name: "Simply Taupe", hex: "#AD9F93" }, "18-1031": { name: "Toffee", hex: "#755139" }, 
+    "19-5513": { name: "Dark Green", hex: "#2A4B46" }, "13-0858": { name: "Vibrant Yellow", hex: "#FFDA29" }, "15-1340": { name: "Cadmium Orange", hex: "#F99471" },
+    "18-1663": { name: "Chinese Red", hex: "#C7243A" }, "19-3810": { name: "Eclipse", hex: "#343148" }, "18-1248": { name: "Rust", hex: "#B55A30" },
+    "19-4024": { name: "Dress Blues", hex: "#2B3A48" }, "16-1325": { name: "Copper", hex: "#B27A62" }, "14-4214": { name: "Powder Blue", hex: "#9FBCE2" },
+    "13-0947": { name: "Banana", hex: "#FCB953" }, "15-1040": { name: "Warm Sand", hex: "#CB8E66" }, "19-1725": { name: "Burgundy", hex: "#5C2C35" },
+    "17-1562": { name: "Mandarin Red", hex: "#E2492F" }, "19-0527": { name: "Rifle Green", hex: "#414833" }, "12-0752": { name: "Buttercup", hex: "#E3AB10" },
+    "17-2036": { name: "Magenta", hex: "#D946EF" }, "18-2436": { name: "Fuchsia", hex: "#C026D3" }, "16-5938": { name: "Mint Green", hex: "#34D399" },
+    "11-0907": { name: "Ivory", hex: "#FFEDD5" }, "12-0712": { name: "Vanilla", hex: "#FEF3C7" }, "19-3955": { name: "Royal Blue", hex: "#2563EB" },
+    "19-3748": { name: "Dark Violet", hex: "#6D28D9" }, "15-3920": { name: "Lavender", hex: "#C084FC" }, "16-2130": { name: "Pink", hex: "#EC4899" }
 };
 
 let texfriendColourMaster = [
-    { name:"Green", shades:[{name:"Light Green", pantone:"", hex:"#86efac"}, {name:"Green", pantone:"", hex:"#22c55e"}, {name:"Dark Green", pantone:"", hex:"#15803d"}, {name:"Emerald", pantone:"17-5641", hex:"#009473"}] },
-    { name:"Red", shades:[{name:"Flame Scarlet", pantone:"18-1662", hex:"#CE2029"}, {name:"Red", pantone:"", hex:"#ef4444"}, {name:"Dark Red", pantone:"", hex:"#b91c1c"}] },
-    { name:"Blue", shades:[{name:"Classic Blue", pantone:"19-4052", hex:"#0F4C81"}, {name:"Sky Blue", pantone:"", hex:"#38bdf8"}, {name:"Navy Blue", pantone:"", hex:"#1e3a8a"}] },
-    { name:"Yellow", shades:[{name:"Illuminating", pantone:"13-0647", hex:"#F5DF4D"}, {name:"Yellow", pantone:"", hex:"#eab308"}] },
-    { name:"Black", shades:[{name:"Jet Black", pantone:"19-0303", hex:"#2D2C2F"}, {name:"Black Beauty", pantone:"19-3911", hex:"#26262A"}] },
-    { name:"White", shades:[{name:"Bright White", pantone:"11-0601", hex:"#F4F5F0"}, {name:"Brilliant White", pantone:"11-4001", hex:"#F9FAFC"}] }
+    { name:"Red", shades:[{name:"Red", pantone:"19-1664", hex:"#ef4444"}, {name:"Dark Red", pantone:"19-1557", hex:"#b91c1c"}, {name:"Light Red", pantone:"", hex:"#fca5a5"}] },
+    { name:"Pink", shades:[{name:"Pink", pantone:"16-2130", hex:"#ec4899"}, {name:"Hot Pink", pantone:"", hex:"#db2777"}, {name:"Light Pink", pantone:"", hex:"#fbcfe8"}, {name:"Rose", pantone:"", hex:"#e11d48"}] },
+    { name:"Magenta", shades:[{name:"Magenta", pantone:"17-2036", hex:"#d946ef"}, {name:"Fuchsia", pantone:"18-2436", hex:"#c026d3"}] },
+    { name:"Maroon", shades:[{name:"Maroon", pantone:"19-1619", hex:"#800000"}, {name:"Wine", pantone:"19-1536", hex:"#722f37"}, {name:"Burgundy", pantone:"19-1725", hex:"#5c2c35"}] },
+    { name:"Orange", shades:[{name:"Orange", pantone:"15-1340", hex:"#f97316"}, {name:"Dark Orange", pantone:"", hex:"#ea580c"}, {name:"Light Orange", pantone:"", hex:"#fdba74"}] },
+    { name:"Yellow", shades:[{name:"Yellow", pantone:"13-0858", hex:"#eab308"}, {name:"Light Yellow", pantone:"", hex:"#fef08a"}, {name:"Golden Yellow", pantone:"14-1064", hex:"#ca8a04"}] },
+    { name:"Cream", shades:[{name:"Cream", pantone:"11-0103", hex:"#fefce8"}, {name:"Ivory", pantone:"11-0907", hex:"#ffedd5"}, {name:"Vanilla", pantone:"12-0712", hex:"#fef3c7"}] },
+    { name:"Mint", shades:[{name:"Mint Green", pantone:"16-5938", hex:"#34d399"}, {name:"Light Mint", pantone:"", hex:"#a7f3d0"}] },
+    { name:"Green", shades:[{name:"Green", pantone:"", hex:"#22c55e"}, {name:"Light Green", pantone:"", hex:"#86efac"}, {name:"Dark Green", pantone:"19-5513", hex:"#15803d"}, {name:"Emerald", pantone:"17-5641", hex:"#009473"}, {name:"Olive", pantone:"", hex:"#65a30d"}] },
+    { name:"Teal/Cyan", shades:[{name:"Teal", pantone:"", hex:"#14b8a6"}, {name:"Cyan", pantone:"", hex:"#06b6d4"}, {name:"Aqua", pantone:"", hex:"#67e8f9"}] },
+    { name:"Blue", shades:[{name:"Blue", pantone:"18-3949", hex:"#3b82f6"}, {name:"Light Blue", pantone:"14-4214", hex:"#7dd3fc"}, {name:"Dark Blue", pantone:"19-4024", hex:"#1d4ed8"}] },
+    { name:"Navy", shades:[{name:"Navy Blue", pantone:"19-4039", hex:"#1e3a8a"}, {name:"Dark Navy", pantone:"", hex:"#172554"}, {name:"Midnight Blue", pantone:"19-3911", hex:"#1e3a8a"}] },
+    { name:"Violet", shades:[{name:"Violet", pantone:"18-3838", hex:"#8b5cf6"}, {name:"Dark Violet", pantone:"19-3748", hex:"#6d28d9"}, {name:"Lavender", pantone:"15-3920", hex:"#c084fc"}] },
+    { name:"Brown", shades:[{name:"Brown", pantone:"18-1031", hex:"#a16207"}, {name:"Dark Brown", pantone:"", hex:"#713f12"}, {name:"Copper", pantone:"16-1325", hex:"#b45309"}] },
+    { name:"Khaki/Sand", shades:[{name:"Khaki", pantone:"", hex:"#d6d3d1"}, {name:"Sand", pantone:"15-1040", hex:"#e7e5e4"}, {name:"Beige", pantone:"", hex:"#f5f5f4"}] },
+    { name:"Grey", shades:[{name:"Grey", pantone:"17-5104", hex:"#6b7280"}, {name:"Light Grey", pantone:"14-4102", hex:"#d1d5db"}, {name:"Dark Grey", pantone:"18-4005", hex:"#374151"}, {name:"Charcoal", pantone:"", hex:"#1f2937"}] },
+    { name:"Black", shades:[{name:"Black", pantone:"19-0303", hex:"#000000"}, {name:"Jet Black", pantone:"19-3911", hex:"#111827"}, {name:"Soft Black", pantone:"19-4007", hex:"#1c1917"}] },
+    { name:"White", shades:[{name:"White", pantone:"11-0601", hex:"#ffffff"}, {name:"Off White", pantone:"11-4001", hex:"#f8fafc"}, {name:"Snow", pantone:"", hex:"#f9fafb"}] }
 ];
 
-let activeColourMasterIndex = 0; 
-let selectedColourForPopup = null;
-let colourPopupTarget = { type:null, index:null };
+let activeColourMasterIndex = 0; let selectedColourForPopup = null; let colourPopupTarget = { type:null, index:null };
+let editingShadeIndex = -1; // To track if we are editing or adding a new shade
 
 function loadTexfriendColourMaster() {
-    try {
-        const saved = localStorage.getItem(TEXFRIEND_COLOUR_KEY);
-        if(saved) {
-            const parsed = JSON.parse(saved);
-            if(Array.isArray(parsed) && parsed.length) texfriendColourMaster = parsed;
-        }
-    } catch(e) {}
+    try { const saved = localStorage.getItem(TEXFRIEND_COLOUR_KEY); if(saved) { const parsed = JSON.parse(saved); if(Array.isArray(parsed) && parsed.length) texfriendColourMaster = parsed; } } catch(e) {}
     renderColourMasterTabs(); renderColourShades();
 }
 function saveTexfriendColourMaster() { localStorage.setItem(TEXFRIEND_COLOUR_KEY, JSON.stringify(texfriendColourMaster)); }
@@ -1607,11 +1203,8 @@ function saveTexfriendColourMaster() { localStorage.setItem(TEXFRIEND_COLOUR_KEY
 function renderColourMasterTabs() {
     const box = $("colourMasterTabs"); if(!box) return; box.innerHTML = "";
     texfriendColourMaster.forEach((colour,i) => {
-        const btn = document.createElement("button");
-        btn.className = "colour-master-tab" + (i===activeColourMasterIndex ? " active" : "");
-        btn.textContent = colour.name;
-        btn.onclick = () => { activeColourMasterIndex = i; renderColourMasterTabs(); renderColourShades(); };
-        box.appendChild(btn);
+        const btn = document.createElement("button"); btn.className = "colour-master-tab" + (i===activeColourMasterIndex ? " active" : "");
+        btn.textContent = colour.name; btn.onclick = () => { activeColourMasterIndex = i; renderColourMasterTabs(); renderColourShades(); }; box.appendChild(btn);
     });
 }
 
@@ -1619,234 +1212,249 @@ function renderColourShades() {
     const box = $("colourShadeList"); if(!box) return; box.innerHTML="";
     const master = texfriendColourMaster[activeColourMasterIndex]; if(!master) return;
     master.shades.forEach((shade,i) => {
-        const card = document.createElement("div"); 
-        card.className = "swatch-card";
+        const card = document.createElement("div"); card.className = "swatch-card";
         let pantoneHTML = shade.pantone ? `<div class="swatch-pantone">PT: ${escapeColourText(shade.pantone)}</div>` : '';
-        card.innerHTML = `
-            <div class="swatch-color" style="background:${shade.hex}"></div>
-            <div class="swatch-details">
-                <div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>
-                ${pantoneHTML}
-                <div class="swatch-hex">${shade.hex}</div>
-            </div>`;
-        card.onclick = () => openColourPopup(master.name, i); 
+        card.innerHTML = `<div class="swatch-color" style="background:${shade.hex}"></div><div class="swatch-details"><div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>${pantoneHTML}</div>`;
+        card.onclick = () => openColorManager(i); // 🔥 Click to Edit from Main Menu 🔥
         box.appendChild(card);
     });
 }
 
-// Open Master Popup
+function renderPopupTabs() {
+    const box = $("popupMasterTabs"); if(!box) return; box.innerHTML = "";
+    texfriendColourMaster.forEach((colour,i) => {
+        const btn = document.createElement("button"); btn.className = "colour-master-tab" + (i===activeColourMasterIndex ? " active" : "");
+        btn.textContent = colour.name; 
+        btn.onclick = () => { 
+            activeColourMasterIndex = i; 
+            renderPopupTabs(); 
+            $("colourSearchInput").value = ""; 
+            renderColourPopupGrid(texfriendColourMaster[i]); 
+        }; 
+        box.appendChild(btn);
+    });
+}
+
 function openColourPopup(masterName, shadeIndex, targetType=null, targetIndex=null) {
     const masterIndex = texfriendColourMaster.findIndex(x=>x.name===masterName); if(masterIndex<0) return;
-    const master = texfriendColourMaster[masterIndex];
-    selectedColourForPopup = master.shades[shadeIndex];
+    const master = texfriendColourMaster[masterIndex]; selectedColourForPopup = master.shades[shadeIndex];
     colourPopupTarget = { type:targetType, index:targetIndex };
-    $("colourPopupTitle").textContent = "Select Shade";
-    $("colourPopup").classList.add("active");
-    $("colourSearchInput").value = ""; // clear search
-    renderColourPopupGrid(master); updateColourPopupSelected();
+    $("colourPopupTitle").textContent = "Select Shade"; $("colourPopup").classList.add("active"); $("colourSearchInput").value = ""; 
+    renderPopupTabs(); 
+    renderColourPopupGrid(master); 
 }
 
 function renderColourPopupGrid(master, filterText = "") {
     const box = $("colourPopupGrid"); box.innerHTML="";
-    
-    // Flatten all shades from all categories if searching, else show current category
     let shadesToRender = [];
     if(filterText) {
-        texfriendColourMaster.forEach(m => {
-            m.shades.forEach(s => {
-                if(s.name.toLowerCase().includes(filterText) || (s.pantone && s.pantone.toLowerCase().includes(filterText))) {
-                    shadesToRender.push(s);
-                }
-            });
-        });
-    } else {
-        shadesToRender = master.shades;
-    }
-
-    if(shadesToRender.length === 0) {
-        box.innerHTML = `<div style="color:#9fc5aa; font-size:0.7rem; padding:10px; grid-column:1/-1; text-align:center;">No match found.</div>`;
-        return;
-    }
-
+        texfriendColourMaster.forEach(m => { m.shades.forEach(s => { if(s.name.toLowerCase().includes(filterText) || (s.pantone && s.pantone.toLowerCase().includes(filterText))) { shadesToRender.push(s); } }); });
+    } else { shadesToRender = master.shades; }
+    if(shadesToRender.length === 0) { box.innerHTML = `<div style="color:#9fc5aa; font-size:0.7rem; padding:10px; grid-column:1/-1; text-align:center;">No match found.</div>`; return; }
     shadesToRender.forEach(shade => {
-        const card = document.createElement("div");
-        card.className = "swatch-card" + (selectedColourForPopup?.hex===shade.hex && selectedColourForPopup?.name===shade.name ? " selected" : "");
+        const card = document.createElement("div"); card.className = "swatch-card" + (selectedColourForPopup?.hex===shade.hex && selectedColourForPopup?.name===shade.name ? " selected" : "");
         let pantoneHTML = shade.pantone ? `<div class="swatch-pantone">PT: ${escapeColourText(shade.pantone)}</div>` : '';
-        card.innerHTML = `
-            <div class="swatch-color" style="background:${shade.hex}"></div>
-            <div class="swatch-details">
-                <div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>
-                ${pantoneHTML}
-            </div>`;
-        card.onclick = () => { selectedColourForPopup = shade; renderColourPopupGrid(master, filterText); updateColourPopupSelected(); };
-        box.appendChild(card);
+        card.innerHTML = `<div class="swatch-color" style="background:${shade.hex}"></div><div class="swatch-details"><div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>${pantoneHTML}</div>`;
+        card.onclick = () => { selectedColourForPopup = shade; renderColourPopupGrid(master, filterText); }; box.appendChild(card);
     });
 }
 
-function filterColourPopup() {
-    let text = $("colourSearchInput").value.trim().toLowerCase();
-    const master = texfriendColourMaster[activeColourMasterIndex];
-    renderColourPopupGrid(master, text);
-}
-
-function updateColourPopupSelected() {
-    if(!selectedColourForPopup) return;
-    $("colourPreviewDot").style.background = selectedColourForPopup.hex;
-    let pText = selectedColourForPopup.pantone ? ` | PT: ${selectedColourForPopup.pantone}` : "";
-    $("colourSelectedName").textContent = selectedColourForPopup.name + pText;
-    $("colourSelectedHex").textContent = selectedColourForPopup.hex;
-}
+function filterColourPopup() { let text = $("colourSearchInput").value.trim().toLowerCase(); const master = texfriendColourMaster[activeColourMasterIndex]; renderColourPopupGrid(master, text); }
 
 function closeColourPopup() { $("colourPopup").classList.remove("active"); }
 
 function applySelectedColour() {
     if(!selectedColourForPopup) { closeColourPopup(); return; }
-    const target = colourPopupTarget;
-    
-    // Auto-Sync Feature (Linked Colors) 🟢
-    let oldHex = "";
-    let inputObj = $(target.type === "warp" ? "wC"+target.index : "weftC"+target.index);
-    if(inputObj) oldHex = inputObj.value;
-
-    let syncAll = $("syncColorCheck")?.checked;
-    let newHex = selectedColourForPopup.hex;
-    let newNameHTML = makeColourNameHTML(selectedColourForPopup);
+    const target = colourPopupTarget; let oldHex = "";
+    let inputObj = $(target.type === "warp" ? "wC"+target.index : "weftC"+target.index); if(inputObj) oldHex = inputObj.value;
+    let syncAll = $("syncColorCheck")?.checked; let newHex = selectedColourForPopup.hex.toLowerCase(); let newNameHTML = makeColourNameHTML(selectedColourForPopup);
 
     if(syncAll && oldHex) {
-        for(let i=1; i<=currentWarpCount; i++) {
-            let wInp = $("wC"+i);
-            if(wInp && wInp.value.toLowerCase() === oldHex.toLowerCase()) {
-                wInp.value = newHex; let wName = $("wName"+i); if(wName) wName.innerHTML = newNameHTML;
-            }
-        }
-        for(let i=1; i<=currentWeftCount; i++) {
-            let fInp = $("weftC"+i);
-            if(fInp && fInp.value.toLowerCase() === oldHex.toLowerCase()) {
-                fInp.value = newHex; let fName = $("weftName"+i); if(fName) fName.innerHTML = newNameHTML;
-            }
-        }
+        for(let i=1; i<=currentWarpCount; i++) { let wInp = $("wC"+i); if(wInp && wInp.value.toLowerCase() === oldHex.toLowerCase()) { wInp.value = newHex; let wName = $("wName"+i); if(wName) wName.innerHTML = newNameHTML; } }
+        for(let i=1; i<=currentWeftCount; i++) { let fInp = $("weftC"+i); if(fInp && fInp.value.toLowerCase() === oldHex.toLowerCase()) { fInp.value = newHex; let fName = $("weftName"+i); if(fName) fName.innerHTML = newNameHTML; } }
     } else {
-        if(target.type==="warp" && target.index) {
-            const input = $("wC"+target.index); if(input) input.value = newHex;
-            const name = $("wName"+target.index); if(name) name.innerHTML = newNameHTML;
-        }
-        if(target.type==="weft" && target.index) {
-            const input = $("weftC"+target.index); if(input) input.value = newHex;
-            const name = $("weftName"+target.index); if(name) name.innerHTML = newNameHTML;
-        }
+        if(target.type==="warp" && target.index) { const input = $("wC"+target.index); if(input) input.value = newHex; const name = $("wName"+target.index); if(name) name.innerHTML = newNameHTML; }
+        if(target.type==="weft" && target.index) { const input = $("weftC"+target.index); if(input) input.value = newHex; const name = $("weftName"+target.index); if(name) name.innerHTML = newNameHTML; }
     }
-
     saveTexfriendColourMaster(); autoRefresh3D(); closeColourPopup();
 }
 
-function makeColourNameHTML(shade) { 
-    let pnt = shade.pantone ? `<span class="pantone-lbl">${escapeColourText(shade.pantone)}</span>` : '';
-    return `<div style="display:flex; align-items:center; width:100%;"><span class="colour-dot" style="background:${shade.hex}"></span>${escapeColourText(shade.name)} ${pnt}</div>`; 
+function getContrastColor(hex) {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? '#000000' : '#ffffff';
 }
+
+function makeColourNameHTML(shade) { 
+    let textColor = getContrastColor(shade.hex);
+    let pnt = shade.pantone ? `<span style="font-size: 0.5rem; opacity: 0.85; margin-top: 1px;">PT: ${escapeColourText(shade.pantone)}</span>` : '';
+    return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; background:${shade.hex}; color:${textColor}; border-radius:6px; padding: 2px;">
+                <span style="font-size: 0.75rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${escapeColourText(shade.name)}</span>
+                ${pnt}
+            </div>`; 
+}
+
 function escapeColourText(value) { return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 
-/* ================== PANTONE MODAL MANAGER ================== */
-function openColorManager() {
-    $("cmCatList").innerHTML = "";
-    texfriendColourMaster.forEach(m => {
-        $("cmCatList").innerHTML += `<option value="${m.name}">`;
-    });
-    // Set default category to current
-    $("cmCategory").value = texfriendColourMaster[activeColourMasterIndex]?.name || "";
-    $("cmPantone").value = "";
-    $("cmName").value = "";
-    $("cmHex").value = "#22c55e";
-    $("cmHexPicker").value = "#22c55e";
+// 🔥 MODIFIED FOR EDIT / ADD 🔥
+function openColorManager(index = -1) {
+    editingShadeIndex = index;
+    let catSelect = $("cmCategory");
+    catSelect.innerHTML = ""; 
+    texfriendColourMaster.forEach(m => { catSelect.innerHTML += `<option value="${m.name}">${m.name}</option>`; });
+    catSelect.innerHTML += `<option value="_new_">➕ Add New Category</option>`;
+    
+    if(index >= 0) {
+        // Edit Mode
+        $("cmPopupTitle").innerHTML = "✏️ Edit / Delete Shade";
+        let shade = texfriendColourMaster[activeColourMasterIndex].shades[index];
+        catSelect.value = texfriendColourMaster[activeColourMasterIndex].name;
+        $("cmPantone").value = shade.pantone || ""; 
+        $("cmName").value = shade.name || ""; 
+        
+        let hexVal = (shade.hex || "#22c55e").toLowerCase(); 
+        // Force valid 7-char lowercase hex for Android Native Picker Bug 🔥
+        if(/^#[0-9a-f]{3}$/i.test(hexVal)) {
+            hexVal = "#" + hexVal[1]+hexVal[1] + hexVal[2]+hexVal[2] + hexVal[3]+hexVal[3];
+        }
+        if(!/^#[0-9a-f]{6}$/i.test(hexVal)) {
+            hexVal = "#22c55e"; // Fallback to avoid black screen bug
+        }
+        
+        $("cmHex").value = hexVal; 
+        $("cmHexPicker").value = hexVal;
+        $("cmHexWrapper").style.background = hexVal;
+        $("cmDeleteBtnContainer").style.display = "block";
+    } else {
+        // Add Mode
+        $("cmPopupTitle").innerHTML = "🎨 Add New Shade";
+        catSelect.value = texfriendColourMaster[activeColourMasterIndex]?.name || ""; 
+        $("cmPantone").value = ""; $("cmName").value = ""; 
+        $("cmHex").value = "#22c55e"; 
+        $("cmHexPicker").value = "#22c55e";
+        $("cmHexWrapper").style.background = "#22c55e";
+        $("cmDeleteBtnContainer").style.display = "none";
+    }
     
     $("colorManagerModal").classList.add("active");
 }
 
-function closeColorManager() {
-    $("colorManagerModal").classList.remove("active");
+function handleCatChange() {
+    let catSelect = $("cmCategory");
+    if (catSelect.value === "_new_") {
+        let n = prompt("Enter new category name:");
+        if(n && n.trim() !== "") {
+            n = n.trim();
+            catSelect.innerHTML = `<option value="${n}">${n}</option>` + catSelect.innerHTML;
+            catSelect.value = n;
+        } else {
+            catSelect.selectedIndex = 0;
+        }
+    }
 }
 
+function closeColorManager() { $("colorManagerModal").classList.remove("active"); }
+
 function searchPantoneDB() {
-    let code = $("cmPantone").value.trim().toUpperCase();
-    if(!code) return;
-    
-    if(PANTONE_DB[code]) {
-        $("cmName").value = PANTONE_DB[code].name;
-        $("cmHex").value = PANTONE_DB[code].hex;
-        $("cmHexPicker").value = PANTONE_DB[code].hex;
-        alert(`✅ Pantone Code Found!\nName: ${PANTONE_DB[code].name}\nHex: ${PANTONE_DB[code].hex}`);
-    } else {
-        alert("ℹ️ Pantone Not Found in Offline Database.\nYou can manually choose the HEX color below and save it!");
-    }
+    let code = $("cmPantone").value.trim().toUpperCase(); if(!code) return;
+    if(PANTONE_DB[code]) { 
+        $("cmName").value = PANTONE_DB[code].name; 
+        let h = PANTONE_DB[code].hex.toLowerCase(); // Lowercase for Android Fix 🔥
+        $("cmHex").value = h; 
+        $("cmHexPicker").value = h; 
+        $("cmHexWrapper").style.background = h;
+        alert(`✅ Pantone Code Found!\nName: ${PANTONE_DB[code].name}\nHex: ${PANTONE_DB[code].hex}`); 
+    } 
+    else { alert("ℹ️ Pantone Not Found in Offline Database.\nYou can manually choose the HEX color below and save it!"); }
 }
 
 function saveNewColorAdvanced() {
-    let catName = $("cmCategory").value.trim() || "Others";
-    let pantone = $("cmPantone").value.trim().toUpperCase();
-    let shadeName = $("cmName").value.trim() || (pantone ? `PT ${pantone}` : "New Shade");
-    let hex = $("cmHex").value.trim();
-    
-    if(!/^#[0-9a-fA-F]{6}$/.test(hex)) { alert("❌ Invalid Hex Code!"); return; }
-
-    let catIndex = texfriendColourMaster.findIndex(m => m.name.toLowerCase() === catName.toLowerCase());
+    let catName = $("cmCategory").value.trim() || "Others"; let pantone = $("cmPantone").value.trim().toUpperCase(); let shadeName = $("cmName").value.trim() || (pantone ? `PT ${pantone}` : "New Shade"); let hex = $("cmHex").value.trim().toLowerCase();
+    if(!/^#[0-9a-f]{6}$/i.test(hex)) { alert("❌ Invalid Hex Code! (Use #RRGGBB)"); return; }
     
     let newShade = { name: shadeName, pantone: pantone, hex: hex };
 
-    if(catIndex >= 0) {
-        texfriendColourMaster[catIndex].shades.push(newShade);
-        activeColourMasterIndex = catIndex;
+    if(editingShadeIndex >= 0) {
+        let oldCatName = texfriendColourMaster[activeColourMasterIndex].name;
+        if(oldCatName.toLowerCase() === catName.toLowerCase()) {
+            texfriendColourMaster[activeColourMasterIndex].shades[editingShadeIndex] = newShade;
+        } else {
+            texfriendColourMaster[activeColourMasterIndex].shades.splice(editingShadeIndex, 1);
+            let newCatIndex = texfriendColourMaster.findIndex(m => m.name.toLowerCase() === catName.toLowerCase());
+            if(newCatIndex >= 0) { texfriendColourMaster[newCatIndex].shades.push(newShade); activeColourMasterIndex = newCatIndex; } 
+            else { texfriendColourMaster.push({ name: catName, shades: [newShade] }); activeColourMasterIndex = texfriendColourMaster.length - 1; }
+        }
     } else {
-        texfriendColourMaster.push({ name: catName, shades: [newShade] });
-        activeColourMasterIndex = texfriendColourMaster.length - 1;
+        let catIndex = texfriendColourMaster.findIndex(m => m.name.toLowerCase() === catName.toLowerCase()); 
+        if(catIndex >= 0) { texfriendColourMaster[catIndex].shades.push(newShade); activeColourMasterIndex = catIndex; } 
+        else { texfriendColourMaster.push({ name: catName, shades: [newShade] }); activeColourMasterIndex = texfriendColourMaster.length - 1; }
     }
 
-    saveTexfriendColourMaster();
-    renderColourMasterTabs();
-    renderColourShades();
-    closeColorManager();
+    saveTexfriendColourMaster(); renderColourMasterTabs(); renderColourShades(); closeColorManager();
+}
+
+function deleteShadeAdvanced() {
+    if (editingShadeIndex >= 0) {
+        if(confirm("Are you sure you want to delete this shade?")) {
+            texfriendColourMaster[activeColourMasterIndex].shades.splice(editingShadeIndex, 1);
+            saveTexfriendColourMaster(); renderColourMasterTabs(); renderColourShades(); closeColorManager();
+        }
+    }
 }
 
 function addColourNameButtons() {
     for(let i=1; i<=currentWarpCount; i++) {
-        const input = $("wC"+i); if(!input) continue;
-        const parent = input.parentElement; if($("wName"+i)) continue;
+        const input = $("wC"+i); if(!input) continue; const parent = input.parentElement; if($("wName"+i)) continue;
         const name = document.createElement("button"); name.type="button"; name.id="wName"+i; name.className="design-colour-name";
-        name.innerHTML = getExistingColourName(input.value); name.onclick=()=>openColourPickerForEntry("warp", i);
+        let origName = input.getAttribute("data-orig") || "";
+        name.innerHTML = getExistingColourName(input.value, origName); 
+        name.onclick=()=>openColourPickerForEntry("warp", i);
         parent.replaceChild(name, input); input.style.display="none"; parent.appendChild(input);
     }
     for(let i=1; i<=currentWeftCount; i++) {
-        const input = $("weftC"+i); if(!input) continue;
-        const parent = input.parentElement; if($("weftName"+i)) continue;
+        const input = $("weftC"+i); if(!input) continue; const parent = input.parentElement; if($("weftName"+i)) continue;
         const name = document.createElement("button"); name.type="button"; name.id="weftName"+i; name.className="design-colour-name";
-        name.innerHTML = getExistingColourName(input.value); name.onclick=()=>openColourPickerForEntry("weft", i);
+        let origName = input.getAttribute("data-orig") || "";
+        name.innerHTML = getExistingColourName(input.value, origName); 
+        name.onclick=()=>openColourPickerForEntry("weft", i);
         parent.replaceChild(name, input); input.style.display="none"; parent.appendChild(input);
     }
 }
 
-function getExistingColourName(hex) {
-    for(const master of texfriendColourMaster) {
-        for(const shade of master.shades) {
-            if(shade.hex.toLowerCase()===String(hex).toLowerCase()) return makeColourNameHTML(shade);
-        }
+function getExistingColourName(hex, origName = "") {
+    for(const master of texfriendColourMaster) { 
+        for(const shade of master.shades) { 
+            if(shade.hex.toLowerCase()===String(hex).toLowerCase()) {
+                return makeColourNameHTML(shade); 
+            }
+        } 
     }
-    return `<div style="display:flex; align-items:center; width:100%;"><span class="colour-dot" style="background:${hex}"></span>Select Colour</div>`;
+    
+    let textColor = getContrastColor(hex);
+    let displayTxt = origName !== "" ? `${escapeColourText(origName)} <span style="font-size:0.5rem;display:block;opacity:0.8;">(Tap to map tone)</span>` : `Select Colour`;
+    
+    return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; background:${hex}; color:${textColor}; border-radius:6px; padding: 2px;">
+                <span style="font-size: 0.75rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align:center;">${displayTxt}</span>
+            </div>`;
 }
 
 function openColourPickerForEntry(type, index) {
     const input = $(type==="warp" ? "wC"+index : "weftC"+index); const hex = input?.value || "#22c55e";
     let foundMaster = texfriendColourMaster.findIndex(master=>master.shades.some(shade=>shade.hex.toLowerCase()===hex.toLowerCase()));
-    if(foundMaster<0) foundMaster=0; activeColourMasterIndex = foundMaster;
-    const master = texfriendColourMaster[foundMaster];
+    if(foundMaster<0) foundMaster=0; activeColourMasterIndex = foundMaster; const master = texfriendColourMaster[foundMaster];
     let foundShade = master.shades.find(shade=>shade.hex.toLowerCase()===hex.toLowerCase()); if(!foundShade) foundShade=master.shades[0];
-    selectedColourForPopup = foundShade;
-    openColourPopup(master.name, master.shades.indexOf(foundShade), type, index);
+    selectedColourForPopup = foundShade; openColourPopup(master.name, master.shades.indexOf(foundShade), type, index);
 }
 
 const _originalRenderUIWithData = window.renderUIWithData;
 window.renderUIWithData = function(w=[], f=[]) { _originalRenderUIWithData(w,f); setTimeout(()=>addColourNameButtons(), 0); };
 
 window.addEventListener("load", async () => {
-    loadTexfriendColourMaster();
-    renderUIWithData([],[]);
+    loadTexfriendColourMaster(); renderUIWithData([],[]);
     let cache = safeJSON("weave_designs_cache", []); let local = safeJSON("design_masters_data", []);
     allCloudDesigns = mergeDesigns([...(Array.isArray(cache)?cache:[]), ...(Array.isArray(local)?local:[])]);
     if(allCloudDesigns.length) populateDesignSelect(true); else setStatus("ℹ️ Design இல்லை — முதலில் Design data save செய்யவும்");
