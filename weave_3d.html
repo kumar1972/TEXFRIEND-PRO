@@ -563,55 +563,30 @@ input, select {
     </div>
 
     <!-- WEAVE -->
+        <!-- 3D VIEW & PRINT DESIGN (முன்பு Weave இருந்த பகுதி) -->
     <div class="card">
-        <div class="step">
-            <div class="step-no">3</div>
-            <div>
-                <h3>Weave அமைப்பு</h3>
-                <p>Graph edit செய்ய Custom தேர்வு செய்யவும்</p>
-            </div>
-        </div>
-        <label style="margin-bottom: 6px;">Weave Type</label>
-        <select id="weaveType" onchange="onWeaveChange()" style="margin-bottom: 10px;">
-            <option value="plain">Plain Weave (1 / 1)</option>
-            <option value="twill">Twill 2/2</option>
-            <option value="custom">🛠️ Custom Graph Grid</option>
-        </select>
         
-        <div id="gridEditorSection" style="display:none">
-            <div style="font-size:.65rem; color:#a9d6b2; font-weight:800; margin-bottom:7px">
-                ⚙️ Graph Editor — click cells to toggle 0 / 1
-            </div>
-            <div class="grid-controls">
-                <button onclick="addCol()">➕ Column</button>
-                <button onclick="addRowTop()">➕ Row</button>
-                <button onclick="removeLastRow()">➖ Row</button>
-                <button onclick="removeLastCol()">➖ Column</button>
-                <button onclick="duplicateSet()">⏬ Duplicate</button>
-                <button onclick="triggerGraphScan()">📸 Scan</button>
-            </div>
-            <div id="matrixGridContainer" class="matrix-grid-container"></div>
-            <div style="font-size:.6rem; color:#8fb99a; text-align:center; margin-top:5px">
-                1 = Warp Up • 0 = Weft Up • Graph direction → 3D-லும் அதே direction
-            </div>
-            <div class="save-row">
-                <button class="save" onclick="saveCurrentDesign()">💾 Save in Same Design</button>
-                <button class="preview" onclick="openGraphPrintPreview()">🖨️ Print Graph</button>
-            </div>
+        <!-- JavaScript எரர் வராமல் இருக்க பழைய Weave & Grid ஆப்ஷன்களை மறைத்து (Hide) வைத்துள்ளோம் -->
+        <div style="display: none;">
+            <select id="weaveType" onchange="onWeaveChange()">
+                <option value="plain">Plain Weave (1 / 1)</option>
+                <option value="twill">Twill 2/2</option>
+                <option value="custom">🛠️ Custom Graph Grid</option>
+            </select>
+            <div id="gridEditorSection"></div>
         </div>
 
-        <div class="main-actions">
-            <button class="btn btn-green" onclick="openFullscreen()">🧊 3D VIEW</button>
-            <button class="btn btn-blue" onclick="openDentingModal()">📐 DENTING</button>
-            <button class="btn btn-dark wide" onclick="printDesign()">🖨️ PRINT DESIGN</button>
+        <!-- 3D View மற்றும் Print பட்டன்கள் மட்டும் (Full Width) -->
+        <div class="main-actions" style="grid-template-columns: 1fr; gap: 10px; margin-top: 4px;">
+            <button class="btn btn-green" style="padding: 14px; font-size: 0.95rem; font-weight: 900; letter-spacing: 1px;" onclick="openFullscreen()">
+                🧊 3D VIEW PREVIEW
+            </button>
+            <button class="btn btn-dark" style="padding: 12px; font-size: 0.8rem;" onclick="printDesign()">
+                🖨️ PRINT DESIGN
+            </button>
         </div>
+        
     </div>
-
-    <div class="card print-card" id="designPrintCard">
-        <h3 style="color:#000;margin-bottom:8px;text-align:center;">Weave Design</h3>
-        <img id="designPrintImage" alt="Print Preview" style="width:100%;max-width:800px;height:auto;display:block;margin:auto;">
-    </div>
-</div>
 
 <!-- FULLSCREEN 3D -->
 <div id="fsModal" class="fs-modal">
@@ -2167,7 +2142,18 @@ function calculateAdvancedDenting() {
 }
 
 let scale = 1, pointX = 0, pointY = 0, panning = false, startX = 0, startY = 0, lastDist = 0;
-function openFullscreen() { const modal = $("fsModal"); if(!modal) return; modal.style.display="flex"; scale=1; pointX=0; pointY=0; panning=false; requestAnimationFrame(()=>{ draw3DWeave(); updateTransform(); }); }
+function openFullscreen() { 
+    // புதிய Denting பக்கத்தில் Save செய்த டேட்டாவை 3D-யில் காட்ட:
+    let savedDent = localStorage.getItem("saved_denting_pattern");
+    let savedDraw = localStorage.getItem("saved_drawing_pattern");
+    if(savedDent && $("dentingPatternInput")) $("dentingPatternInput").value = savedDent;
+    if(savedDraw && $("drawingPatternInput")) $("drawingPatternInput").value = savedDraw;
+
+    const modal = $("fsModal"); if(!modal) return; 
+    modal.style.display="flex"; scale=1; pointX=0; pointY=0; panning=false; 
+    requestAnimationFrame(()=>{ draw3DWeave(); updateTransform(); }); 
+}
+
 function refreshFullscreen3D() { scale=1; pointX=0; pointY=0; draw3DWeave(); updateTransform(); }
 function closeFullscreen() { const modal = $("fsModal"); if(!modal) return; modal.style.display="none"; const c = $("weaveCanvas"); if(c) { const ctx = c.getContext("2d"); if(ctx) ctx.clearRect(0,0,c.width,c.height); c.style.transform="translate(0px,0px) scale(1)"; } scale=1; pointX=0; pointY=0; panning=false; lastDist=0; }
 function updateTransform() { const c=$("weaveCanvas"); if(c) c.style.transform=`translate(${pointX}px,${pointY}px) scale(${scale})`; }
