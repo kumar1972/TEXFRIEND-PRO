@@ -126,6 +126,10 @@ input, select {
     display: none !important;
 }
 
+.hidden-sys-input {
+    display: none !important;
+}
+
 .btn {
     border: 0;
     border-radius: 8px;
@@ -316,7 +320,7 @@ input, select {
 .print-controls button { border: 0; padding: 8px 12px; border-radius: 6px; color: #fff; font-weight: bold; }
 .print-card { display: none !important; }
 
-/* ================= 🔥 ADVANCED COLOUR MASTER STYLES 🔥 ================= */
+/* ================= COLOUR MASTER STYLES ================= */
 .colour-master-card {
     background: #102019;
     border: 1px solid #315746;
@@ -421,6 +425,37 @@ input, select {
 .pm-form-box { background: #172b23; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px dashed #395648; }
 .pm-label { font-size:0.65rem; color:#f59e0b; margin-bottom:4px; display:block; font-weight:bold; }
 .pm-label-w { font-size:0.65rem; color:#9be4a8; margin-bottom:4px; display:block; font-weight:bold; }
+
+#dentingModal {
+    padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+}
+#dentingModal .colour-popup-box {
+    width: 100vw !important;
+    max-width: none !important;
+    height: 100vh !important;
+    max-height: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 10px !important;
+    overflow: auto !important;
+}
+.denting-tabs { display:flex; gap:6px; margin:4px 0 10px; position:sticky; top:0; z-index:3; background:#14251e; padding-bottom:6px; }
+.denting-tab { flex:1; border:1px solid #39614f; background:#203b30; color:#b8d8bf; border-radius:8px; padding:9px 6px; font-weight:900; font-size:.72rem; }
+.denting-tab.active { background:#2d9148; color:#fff; }
+.denting-pane { display:none; }
+.denting-pane.active { display:block; }
+.manual-box { background:#0d1813; border:1px solid #315746; border-radius:8px; padding:8px; margin-top:7px; }
+.manual-row { display:grid; grid-template-columns:45px 1fr 42px; gap:6px; align-items:center; background:#172b23; border:1px solid #2e5041; border-radius:6px; padding:5px; margin-bottom:5px; }
+.manual-row .num { color:#9be4a8; font-weight:900; font-size:.65rem; text-align:center; }
+.manual-row input { height:34px; min-height:34px; padding:5px; }
+.manual-row button { height:34px; border:0; border-radius:6px; background:#633b3b; color:#fff; font-weight:900; }
+.preset-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:7px; }
+.preset-grid button { border:1px solid #39614f; background:#244638; color:#aee9ba; border-radius:7px; padding:7px 4px; font-size:.62rem; font-weight:900; }
+.adv-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.adv-grid button { border:0; border-radius:7px; padding:9px 5px; background:#217eaf; color:#fff; font-weight:900; font-size:.65rem; }
+@media(max-width:430px){ .manual-row{grid-template-columns:38px 1fr 38px}.preset-grid{grid-template-columns:1fr 1fr 1fr} }
 
 @media(max-width: 430px) {
     body { padding: 4px; }
@@ -567,18 +602,8 @@ input, select {
 
         <div class="main-actions">
             <button class="btn btn-green" onclick="openFullscreen()">🧊 3D VIEW</button>
-            <button class="btn btn-blue" onclick="openMenu('denting')">📐 DENTING</button>
+            <button class="btn btn-blue" onclick="openDentingModal()">📐 DENTING</button>
             <button class="btn btn-dark wide" onclick="printDesign()">🖨️ PRINT DESIGN</button>
-        </div>
-
-        <div id="dentingPanel" class="menu-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <div class="preview-title" style="font-weight: 900; color: #9be4a8; font-size: 0.8rem;">📐 Denting / Drawing</div>
-                <div style="display: flex; align-items: center; gap: 5px; font-size: 0.65rem; color: #a9d6b2; font-weight: 800;">
-                    Ends/Dent: <input type="number" id="endsPerDent" value="2" min="1" style="width: 40px; height: 24px; min-height: 24px; padding: 2px; text-align: center;" oninput="calculateDenting()">
-                </div>
-            </div>
-            <div class="info-box" id="dentingInfo">Denting data loading...</div>
         </div>
     </div>
 
@@ -588,7 +613,7 @@ input, select {
     </div>
 </div>
 
-<!-- FULLSCREEN -->
+<!-- FULLSCREEN 3D -->
 <div id="fsModal" class="fs-modal">
     <div class="fs-header">
         <div class="fs-title">🧊 3D Weave Preview</div>
@@ -615,7 +640,7 @@ input, select {
     </div>
 </div>
 
-<!-- 🔥 SELECT SHADE POPUP 🔥 -->
+<!-- SELECT SHADE POPUP -->
 <div id="colourPopup" class="colour-popup">
     <div class="colour-popup-box">
         <div class="colour-popup-head">
@@ -643,7 +668,84 @@ input, select {
     </div>
 </div>
 
-<!-- 🔥 FIX: HACK FOR ANDROID NATIVE COLOR PICKER BLACK SLIDER BUG 🔥 -->
+<!-- FULL SCREEN DENTING & DRAWING MODAL -->
+<div id="dentingModal" class="colour-popup">
+    <div class="colour-popup-box">
+        <div class="colour-popup-head">
+            <b style="font-size:0.95rem;color:#f59e0b;">📐 Denting & Drawing — Advanced Editor</b>
+            <button class="colour-popup-close" onclick="closeDentingModal()">✕</button>
+        </div>
+
+        <div class="denting-tabs">
+            <button class="denting-tab active" id="dentTabBtn" onclick="showDentingPane('dent')">📐 Denting Order</button>
+            <button class="denting-tab" id="drawTabBtn" onclick="showDentingPane('draw')">🧵 Drawing Order</button>
+            <button class="denting-tab" id="advTabBtn" onclick="showDentingPane('adv')">⚙️ Advanced</button>
+        </div>
+
+        <div id="dentPane" class="denting-pane active">
+            <div class="pm-form-box">
+                <label class="pm-label-w">Denting Pattern</label>
+                <input type="text" id="dentingPatternInput" value="2" oninput="calculateAdvancedDenting();autoRefresh3D();" style="height:38px;min-height:38px;font-size:.85rem;font-weight:bold;letter-spacing:1px;background:#14251e;color:#fff;">
+                <div class="preset-grid">
+                    <button onclick="setDentPreset('2')">2 per Dent</button>
+                    <button onclick="setDentPreset('3')">3 per Dent</button>
+                    <button onclick="setDentPreset('2,3')">2,3 Repeat</button>
+                </div>
+            </div>
+            <div class="manual-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <b style="font-size:.72rem;color:#9be4a8;">Manual Denting Order</b>
+                    <button class="btn btn-green" style="padding:6px 9px;min-height:30px;" onclick="addDentingManualRow()">➕ Add Dent</button>
+                </div>
+                <div id="dentingManualRows"></div>
+                <div style="font-size:.58rem;color:#9fc5aa;margin-top:5px;">ஒவ்வொரு Dent-க்கும் Ends எண்ணிக்கையை தனித்தனியாக மாற்றலாம். 0 = Missing / Empty Dent.</div>
+            </div>
+        </div>
+
+        <div id="drawPane" class="denting-pane">
+            <div class="pm-form-box">
+                <label class="pm-label-w">Drawing / Frame Order</label>
+                <input type="text" id="drawingPatternInput" value="1,2,3,4" oninput="calculateAdvancedDenting();autoRefresh3D();" style="height:38px;min-height:38px;font-size:.85rem;font-weight:bold;letter-spacing:1px;background:#14251e;color:#fff;">
+                <div class="preset-grid">
+                    <button onclick="setDrawingPreset('1,2,3,4')">1-2-3-4</button>
+                    <button onclick="setDrawingPreset('1,2,3,4,8,5,9,2')">8 Frame</button>
+                    <button onclick="setDrawingPreset('1,2,3,4,3,2')">Return</button>
+                </div>
+            </div>
+            <div class="manual-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <b style="font-size:.72rem;color:#9be4a8;">Manual Drawing Order</b>
+                    <button class="btn btn-green" style="padding:6px 9px;min-height:30px;" onclick="addDrawingManualRow()">➕ Add Frame</button>
+                </div>
+                <div id="drawingManualRows"></div>
+                <div style="font-size:.58rem;color:#9fc5aa;margin-top:5px;">Frame order-ஐ தனித்தனியாக edit செய்யலாம்.</div>
+            </div>
+        </div>
+
+        <div id="advPane" class="denting-pane">
+            <div class="pm-form-box">
+                <label class="pm-label-w">Advanced Denting Options</label>
+                <div class="adv-grid">
+                    <button onclick="setDentPreset('2')">2 Ends / Dent</button>
+                    <button onclick="setDentPreset('3')">3 Ends / Dent</button>
+                    <button onclick="setDentPreset('0')">Missing Dent</button>
+                    <button onclick="setDentPreset('2,2,0,3')">2,2,Missing,3</button>
+                </div>
+                <div style="font-size:.62rem;color:#b8d8bf;line-height:1.5;margin-top:9px;">
+                    <b>0</b> = Missing / Empty Dent. உதாரணம்: <b>2,2,0,3</b> என்றால் 2 ends, 2 ends, missing dent, 3 ends என்று வரிசையாக repeat ஆகும்.
+                </div>
+            </div>
+            <div id="dentingResultDisplay" style="background:#09110d;border:1px dashed #4a7c59;padding:12px;border-radius:8px;font-size:.75rem;color:#b8d8bf;line-height:1.6;margin-top:8px;"></div>
+        </div>
+
+        <div class="colour-popup-footer" style="grid-template-columns:1fr 1fr;position:sticky;bottom:0;background:#14251e;">
+            <button class="colour-use-btn" onclick="closeDentingModal();autoRefresh3D();saveCurrentDesign();">✅ OK — Save Pattern</button>
+            <button class="colour-cancel-btn" onclick="closeDentingModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- PANTONE MODAL -->
 <div id="colorManagerModal" class="pantone-modal">
     <div class="colour-popup-box" style="max-width: 340px; padding: 12px;">
         <div class="colour-popup-head">
@@ -666,13 +768,10 @@ input, select {
         <input type="text" id="cmName" placeholder="e.g. Navy Blue" style="height:32px; min-height:32px; font-size:0.75rem; margin-bottom:8px;">
 
         <label class="pm-label-w">Pick Colour</label>
-        <!-- 🔥 ANDROID BUG FIX IMPLEMENTATION HERE 🔥 -->
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; background: #0d1813; padding: 6px; border-radius: 6px; border: 1px solid #3c6752;">
-            
             <div id="cmHexWrapper" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #3c6752; overflow: hidden; background: #22c55e; position: relative; flex-shrink: 0; cursor: pointer;">
                 <input type="color" id="cmHexPicker" value="#22c55e" style="position: absolute; top: -10px; left: -10px; width: 60px; height: 60px; opacity: 0; cursor: pointer; padding: 0; border: none;" oninput="document.getElementById('cmHex').value = this.value.toLowerCase(); document.getElementById('cmHexWrapper').style.background = this.value;">
             </div>
-            
             <input type="text" id="cmHex" value="#22c55e" style="height:32px; min-height:32px; font-size:0.8rem; font-weight:bold; letter-spacing:1px; text-transform:lowercase; margin:0;" oninput="let v = this.value.toLowerCase(); if(/^#[0-9a-f]{6}$/i.test(v)){ document.getElementById('cmHexPicker').value = v; document.getElementById('cmHexWrapper').style.background = v; }" placeholder="#hexcode">
         </div>
 
@@ -700,6 +799,33 @@ let weavePatterns = {
 };
 
 /* =========================================================
+   PATTERN EXPANSION HELPER
+========================================================= */
+function expandPattern(str) {
+    if(!str) return [];
+    let s = String(str).toLowerCase().replace(/\s+/g, '');
+    s = s.replace(/[x×*]/g, '*');
+    
+    let parts = s.split(',');
+    let res = [];
+    for(let p of parts) {
+        if(!p) continue;
+        if(p.includes('*')) {
+            let [val, count] = p.split('*');
+            let v = parseInt(val.replace(/[^0-9]/g, ''));
+            let c = parseInt(count.replace(/[^0-9]/g, ''));
+            if(!isNaN(v) && !isNaN(c) && c > 0) {
+                for(let i=0; i<c; i++) res.push(v);
+            }
+        } else {
+            let v = parseInt(p.replace(/[^0-9]/g, ''));
+            if(!isNaN(v)) res.push(v);
+        }
+    }
+    return res;
+}
+
+/* =========================================================
    HELPERS
 ========================================================= */
 const $ = id => document.getElementById(id);
@@ -709,7 +835,8 @@ function safeJSON(key, fallback=null) {
     catch(e) { return fallback; }
 }
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
-function designName(d) { return String(d?.designNo ?? d?.design_no ?? d?.designNumber ?? d?.design_number ?? d?.name ?? d?.design ?? d?.id ?? "Unnamed"); }
+function cleanDesignName(str) { return str ? str.toString().replace(/#/g, '').trim().toLowerCase() : ''; }
+function designName(d) { return String(d?.designNo ?? d?.design_no ?? d?.designNumber ?? d?.design_number ?? d?.name ?? d?.design ?? d?.id ?? "Unnamed").trim(); }
 function setStatus(x) { const el = $("designStatus"); if(el) el.textContent = x; }
 
 function colorName(n) {
@@ -719,7 +846,7 @@ function colorName(n) {
     if(/^#[0-9a-f]{3}$/i.test(s)) return "#" + s[1]+s[1] + s[2]+s[2] + s[3]+s[3];
     let m = [
         ["black","#111827"], ["கருப்பு","#111827"], ["white","#f8fafc"], ["வெள்ளை","#f8fafc"],
-        ["red","#ef4444"], ["சிவப்பு","#ef4444"], ["green","#22c55e"], ["blue","#3b82f6"],
+        ["red","#ef4444"], ["சிவப்பு","#ef4444"], ["green","#22c55e"], ["blue","#1e3a8a"],
         ["navy","#1e3a8a"], ["yellow","#eab308"], ["gold","#fbbf24"], ["orange","#f97316"],
         ["brown","#92400e"], ["maroon","#9f1239"], ["pink","#ec4899"], ["purple","#8b5cf6"],
         ["violet","#8b5cf6"], ["grey","#64748b"], ["gray","#64748b"], ["சாம்பல்","#64748b"],
@@ -734,10 +861,13 @@ function colorName(n) {
 
 function normLine(x, warp) {
     x = x || {};
-    let color = x.color ?? x.colour ?? x.Color ?? x.Colour ?? x.col ?? x.colourName;
-    let amount = warp ? (x.ends ?? x.end ?? x.count ?? x.qty ?? x.orderEnds) : (x.picks ?? x.pick ?? x.count ?? x.qty ?? x.orderPicks);
-    let rowSpan = x.span ?? x.setRows ?? x.set_rows ?? x.group ?? x.row_span ?? 1;
-    let repCount = x.repeat ?? x.setRep ?? x.set_repeat ?? x.multiplier ?? x.rep_count ?? 1;
+    let lowerX = {};
+    for (let k in x) { lowerX[k.toLowerCase()] = x[k]; }
+    
+    let color = lowerX.color ?? lowerX.colour ?? lowerX.col ?? lowerX.colourname ?? "";
+    let amount = warp ? (lowerX.ends ?? lowerX.end ?? lowerX.count ?? lowerX.qty ?? lowerX.orderends) : (lowerX.picks ?? lowerX.pick ?? lowerX.count ?? lowerX.qty ?? lowerX.orderpicks);
+    let rowSpan = lowerX.span ?? lowerX.setrows ?? lowerX.set_rows ?? lowerX.group ?? lowerX.row_span ?? 1;
+    let repCount = lowerX.repeat ?? lowerX.setrep ?? lowerX.set_repeat ?? lowerX.multiplier ?? lowerX.rep_count ?? 1;
     
     return { 
         origName: color || "", 
@@ -748,12 +878,53 @@ function normLine(x, warp) {
     };
 }
 
+function sanitizeDesignObj(d) {
+    if (!d) return null;
+    if (!Array.isArray(d.warpLines) || d.warpLines.length === 0) {
+        let tempWarp = [];
+        for(let i=1; i<=30; i++) {
+            let col = d[`warpColor${i}`] || d[`warpColour${i}`] || d[`warpcolor${i}`];
+            let ends = d[`warpEnds${i}`] || d[`warpEnd${i}`] || d[`warpends${i}`];
+            if (col || ends) tempWarp.push({ color: col, ends: ends });
+        }
+        if(tempWarp.length > 0) d.warpLines = tempWarp;
+    }
+    if (!Array.isArray(d.weftLines) || d.weftLines.length === 0) {
+        let tempWeft = [];
+        for(let i=1; i<=30; i++) {
+            let col = d[`weftColor${i}`] || d[`weftColour${i}`] || d[`weftcolor${i}`];
+            let picks = d[`weftPicks${i}`] || d[`weftPick${i}`] || d[`weftpicks${i}`];
+            if (col || picks) tempWeft.push({ color: col, picks: picks });
+        }
+        if(tempWeft.length > 0) d.weftLines = tempWeft;
+    }
+    return d;
+}
+
+function pickRicherArray(arr1, arr2) {
+    if (!Array.isArray(arr1) || arr1.length === 0) return Array.isArray(arr2) ? arr2 : [];
+    if (!Array.isArray(arr2) || arr2.length === 0) return arr1;
+    return arr1.length >= arr2.length ? arr1 : arr2;
+}
+
 function mergeDesigns(items) {
     let map = new Map();
-    (items||[]).filter(Boolean).forEach(d => {
-        let n = designName(d); if(!n || n==="Unnamed") return;
-        let old = map.get(n); if(!old) map.set(n, d);
-        else map.set(n, { ...old, ...d, warpLines: d.warpLines?.length ? d.warpLines : old.warpLines, weftLines: d.weftLines?.length ? d.weftLines : old.weftLines, customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix });
+    (items||[]).filter(Boolean).forEach(rawD => {
+        let d = sanitizeDesignObj(clone(rawD));
+        let n = cleanDesignName(designName(d)); 
+        if(!n || n==="unnamed") return;
+        let old = map.get(n); 
+        if(!old) map.set(n, d);
+        else map.set(n, { 
+            ...old, ...d, 
+            warpLines: pickRicherArray(old.warpLines, d.warpLines),
+            weftLines: pickRicherArray(old.weftLines, d.weftLines),
+            warpRanges: pickRicherArray(old.warpRanges, d.warpRanges),
+            weftRanges: pickRicherArray(old.weftRanges, d.weftRanges),
+            customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix, 
+            dentingPattern: d.dentingPattern || old.dentingPattern, 
+            drawingPattern: d.drawingPattern || old.drawingPattern 
+        });
     });
     return [...map.values()];
 }
@@ -781,7 +952,7 @@ function renderUIWithData(w=[], f=[]) {
         wh += `<div>
             <label>W${i+1}</label>
             <input type="color" id="wC${i+1}" value="${x.color}" data-orig="${safeOrig}">
-            <input type="number" id="wE${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('warp'); calculateDenting(); autoRefresh3D();">
+            <input type="number" id="wE${i+1}" value="${x.amount||''}" min="0" inputmode="numeric" oninput="updateYarnSummary('warp'); autoRefresh3D();">
             <div class="set-box">
                 <input type="number" id="wSpan${i+1}" value="${spanVal}">
                 <input type="number" id="wRep${i+1}" value="${repVal}">
@@ -805,7 +976,7 @@ function renderUIWithData(w=[], f=[]) {
         </div>`;
     }
     $("warpInputsContainer").innerHTML = wh; $("weftInputsContainer").innerHTML = fh;
-    updateYarnSummary("warp"); calculateDenting();
+    updateYarnSummary("warp");
 }
 
 function calculateYarnDetails(type) {
@@ -825,6 +996,41 @@ function calculateYarnDetails(type) {
     return { totalYarns, activeRows, count };
 }
 
+function getWarpTotalEnds() {
+    let details = calculateYarnDetails("warp");
+    if (details.totalYarns > 0) return details.totalYarns; 
+    
+    if (activeDesignObj && Array.isArray(activeDesignObj.warpLines) && activeDesignObj.warpLines.length > 0) {
+        let total = 0;
+        let wRanges = activeDesignObj.warpRanges || [];
+        let i = 0;
+        while(i < activeDesignObj.warpLines.length) {
+            let lineNum = i + 1;
+            let range = wRanges.find(r => r.start == lineNum);
+            let lineObj = activeDesignObj.warpLines[i] || {};
+            let lowerLine = {};
+            for(let k in lineObj) lowerLine[k.toLowerCase()] = lineObj[k];
+            
+            if (range && range.end >= range.start && range.set > 1) {
+                let setSum = 0;
+                for(let j = range.start - 1; j < range.end && j < activeDesignObj.warpLines.length; j++) {
+                    let rLine = activeDesignObj.warpLines[j] || {};
+                    let lowerRLine = {};
+                    for(let k in rLine) lowerRLine[k.toLowerCase()] = rLine[k];
+                    setSum += parseInt(lowerRLine.ends || lowerRLine.amount || lowerRLine.end || lowerRLine.qty || 0) || 0;
+                }
+                total += (setSum * range.set);
+                i = range.end;
+            } else {
+                total += parseInt(lowerLine.ends || lowerLine.amount || lowerLine.end || lowerLine.qty || 0) || 0;
+                i++;
+            }
+        }
+        if (total > 0) return total;
+    }
+    return 0;
+}
+
 function updateYarnSummary(type) {
     let details = calculateYarnDetails(type);
     $("activeYarnCount").textContent = details.activeRows + " / " + details.count;
@@ -842,28 +1048,50 @@ function populateDesignSelect(auto = true) {
     let s = $("designSelect"); let cur = activeDesignObj ? designName(activeDesignObj) : safeJSON("weave_last_design_name", "");
     s.innerHTML = '<option value="">-- டிசைனைத் தேர்ந்தெடுக்கவும் --</option>';
     allCloudDesigns.forEach((d,i) => { let o = document.createElement("option"); o.value = i; o.textContent = "🎨 " + designName(d); s.appendChild(o); });
-    if(auto && allCloudDesigns.length) { let i = allCloudDesigns.findIndex(d => designName(d) === cur); if(i < 0) i = 0; s.value = i; loadSelectedDesign(); }
+    if(auto && allCloudDesigns.length) { 
+        let i = allCloudDesigns.findIndex(d => cleanDesignName(designName(d)) === cleanDesignName(cur) || designName(d) === cur); 
+        if(i < 0) i = 0; 
+        s.value = i; 
+        loadSelectedDesign(); 
+    }
 }
 
 async function importFromFirebase(manual = false) {
     try {
         setStatus(manual ? "🔄 Local + Cloud refresh..." : "⚡ Loading designs...");
-        let local = []; ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "warping_data"].forEach(k => { let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a); });
-        allCloudDesigns = mergeDesigns(local); populateDesignSelect(true);
+        let local = []; 
+        ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "weft_entry_data", "warping_data"].forEach(k => { 
+            let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a); 
+        });
+        allCloudDesigns = mergeDesigns(local); 
+        populateDesignSelect(true);
         setStatus(allCloudDesigns.length ? "💾 Local designs ready" : "ℹ️ Design இல்லை");
     } catch(e) {}
 }
 
 function loadSelectedDesign() {
-    let i = parseInt($("designSelect").value); if(isNaN(i) || !allCloudDesigns[i]) return;
-    activeDesignObj = clone(allCloudDesigns[i]); localStorage.setItem("weave_last_design_name", designName(activeDesignObj));
-    $("activeDesignText").textContent = "Active Design: " + designName(activeDesignObj);
-    let w = activeDesignObj.warpLines || activeDesignObj.warp || []; let f = activeDesignObj.weftLines || activeDesignObj.weft || [];
+    let s = $("designSelect");
+    if(!s) return;
+    let i = parseInt(s.value);
+    if(isNaN(i) || !allCloudDesigns[i]) {
+        let foundIdx = allCloudDesigns.findIndex(d => cleanDesignName(designName(d)) === cleanDesignName(s.value) || designName(d) === s.value);
+        if(foundIdx >= 0) { i = foundIdx; s.value = i; } else { return; }
+    }
+    activeDesignObj = clone(allCloudDesigns[i]);
+    let dName = designName(activeDesignObj);
+    localStorage.setItem("weave_last_design_name", dName);
+    $("activeDesignText").textContent = "Active Design: " + dName;
+    
+    if($("dentingPatternInput")) $("dentingPatternInput").value = activeDesignObj.dentingPattern || "2";
+    if($("drawingPatternInput")) $("drawingPatternInput").value = activeDesignObj.drawingPattern || "1,2,3,4";
+
+    let w = activeDesignObj.warpLines || activeDesignObj.warp || []; 
+    let f = activeDesignObj.weftLines || activeDesignObj.weft || [];
     renderUIWithData(w, f);
     let type = activeDesignObj.type || "plain";
     if(activeDesignObj.customMatrix?.length) { weavePatterns.custom = clone(activeDesignObj.customMatrix); if(activeDesignObj.type === "custom") type = "custom"; }
     if(!weavePatterns[type]) type = "plain"; $("weaveType").value = type;
-    onWeaveChange(false); closeAllMenus(); calculateDenting();
+    onWeaveChange(false);
 }
 
 function getCurrentData() {
@@ -890,7 +1118,15 @@ function getCurrentData() {
             fCurrentLine++;
         }
     }
-    return { warpLines: w, weftLines: f, warpRanges: wRanges, weftRanges: fRanges, customMatrix: clone(weavePatterns.custom), type: $("weaveType").value };
+
+    let dentP = $("dentingPatternInput")?.value || "2";
+    let drawP = $("drawingPatternInput")?.value || "1,2,3,4";
+
+    return { 
+        warpLines: w, weftLines: f, warpRanges: wRanges, weftRanges: fRanges, 
+        customMatrix: clone(weavePatterns.custom), type: $("weaveType").value,
+        dentingPattern: dentP, drawingPattern: drawP
+    };
 }
 
 async function saveCurrentDesign() {
@@ -901,14 +1137,23 @@ async function saveCurrentDesign() {
         if(activeDesignObj?.id) data.id = activeDesignObj.id;
         data.designNo = name; data.name = name; data.timestamp = new Date().toISOString();
         let local = safeJSON("design_masters_data", []); if(!Array.isArray(local)) local = [];
-        local = local.filter(x => designName(x) !== name); local.push(clone(data)); localStorage.setItem("design_masters_data", JSON.stringify(local));
-        let cache = Array.isArray(allCloudDesigns) ? allCloudDesigns.filter(x => designName(x) !== name) : []; cache.push(clone(data));
-        allCloudDesigns = mergeDesigns(cache); localStorage.setItem("weave_designs_cache", JSON.stringify(allCloudDesigns));
-        activeDesignObj = clone(data); localStorage.setItem("weave_last_design_name", name);
+        local = local.filter(x => cleanDesignName(designName(x)) !== cleanDesignName(name)); 
+        local.push(clone(data)); 
+        localStorage.setItem("design_masters_data", JSON.stringify(local));
+        
+        let cache = Array.isArray(allCloudDesigns) ? allCloudDesigns.filter(x => cleanDesignName(designName(x)) !== cleanDesignName(name)) : []; 
+        cache.push(clone(data));
+        allCloudDesigns = mergeDesigns(cache); 
+        localStorage.setItem("weave_designs_cache", JSON.stringify(allCloudDesigns));
+        activeDesignObj = clone(data); 
+        localStorage.setItem("weave_last_design_name", name);
+        
         $("activeDesignText").textContent = "Active Design: " + name; populateDesignSelect(false);
-        let idx = allCloudDesigns.findIndex(x => designName(x) === name); if(idx >= 0) $("designSelect").value = idx;
+        let idx = allCloudDesigns.findIndex(x => cleanDesignName(designName(x)) === cleanDesignName(name)); 
+        if(idx >= 0) $("designSelect").value = idx;
+        
         setStatus("✅ Saved Successfully — Local");
-        calculateDenting(); draw3DWeave(); alert("✅ Design வெற்றிகரமாக Save / Update ஆகிவிட்டது!");
+        draw3DWeave(); alert("✅ Design வெற்றிகரமாக Save / Update ஆகிவிட்டது!");
     } catch(error) { setStatus("⚠️ Save Error: " + error.message); }
 }
 
@@ -969,12 +1214,23 @@ function processGraphImage(img) {
 }
 
 /* =========================================================
-   CANVAS 3D RENDER ENGINE
+   CANVAS 3D RENDER ENGINE (3 REPEATS & 1:1 MM SCALE)
 ========================================================= */
-function isWarpUp(r, c, type) {
+function isWarpUp(r, c, type, draftArr) {
     let m = type === "custom" ? weavePatterns.custom : (weavePatterns[type] || weavePatterns.custom);
     if(!m || !m.length || !m[0]?.length) return true;
-    let rr = (m.length-1) - (r%m.length); let cc = c % m[0].length; return m[rr][cc] === 1;
+    let rr = (m.length-1) - (r%m.length); 
+    
+    let frame = 1;
+    if (draftArr && draftArr.length > 0) {
+        frame = draftArr[c % draftArr.length];
+    } else {
+        frame = c + 1;
+    }
+    
+    let cc = (frame - 1) % m[0].length;
+    if(isNaN(cc) || cc < 0) cc = c % m[0].length; 
+    return m[rr][cc] === 1;
 }
 
 function rgb(hex) {
@@ -987,128 +1243,928 @@ function shade(a, f) { return `rgb(${Math.max(0, Math.min(255, Math.round(a.r*f)
 
 let drawFramePending = false;
 function draw3DWeave() {
-    if(drawFramePending) return; drawFramePending = true;
+    if(drawFramePending) return;
+    drawFramePending = true;
+
     requestAnimationFrame(() => {
-        drawFramePending = false; let c = $("weaveCanvas"); if(!c) return; let ctx = c.getContext("2d", {alpha:false}); if(!ctx) return;
+        drawFramePending = false;
 
-        let warp = []; let w_idx = 1;
-        while (w_idx <= currentWarpCount) {
-            let co = $("wC"+w_idx); let e = $("wE"+w_idx); let sInp = $("wSpan"+w_idx); let rInp = $("wRep"+w_idx);
-            if(!co || !e) { w_idx++; continue; }
-            let n = Math.max(0, parseInt(e.value)||0); let span = Math.max(1, parseInt(sInp?.value)||1); let repeat = Math.max(1, parseInt(rInp?.value)||1);
+        const c = $("weaveCanvas");
+        const host = $("fsContent");
+        if(!c || !host) return;
+
+        const rect = host.getBoundingClientRect();
+        const W = Math.max(320, Math.floor(rect.width));
+        const H = Math.max(240, Math.floor(rect.height));
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        c.width = Math.floor(W * dpr);
+        c.height = Math.floor(H * dpr);
+
+        const ctx = c.getContext("2d", {alpha:false});
+        if(!ctx) return;
+
+        /* Draw in CSS pixels; canvas itself is DPR-scaled for sharpness. */
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "#00000";
+        ctx.fillRect(0, 0, W, H);
+
+        /* ---------------------------------------------------------
+           1. BUILD THE REAL WARP / WEFT YARN SEQUENCES
+           --------------------------------------------------------- */
+        let baseWarp = [];
+        let w_idx = 1;
+
+        while(w_idx <= currentWarpCount) {
+            const co = $("wC"+w_idx);
+            const e  = $("wE"+w_idx);
+            const sInp = $("wSpan"+w_idx);
+            const rInp = $("wRep"+w_idx);
+
+            if(!co || !e) {
+                w_idx++;
+                continue;
+            }
+
+            const n = Math.max(0, parseInt(e.value) || 0);
+            const span = Math.max(1, parseInt(sInp?.value) || 1);
+            const repeat = Math.max(1, parseInt(rInp?.value) || 1);
+
             if(span > 1 && repeat > 1) {
-                let setSequence = [];
-                for(let s=0; s<span; s++) { let currIdx = w_idx + s; if(currIdx > currentWarpCount) break;
-                    let rCo = $("wC"+currIdx); let rE = $("wE"+currIdx);
-                    if(rCo && rE) { let rN = Math.max(0, parseInt(rE.value)||0); let rColor = rgb(rCo.value); for(let j=0; j<rN; j++) setSequence.push(rColor); }
+                const setSequence = [];
+
+                for(let s=0; s<span; s++) {
+                    const currIdx = w_idx + s;
+                    if(currIdx > currentWarpCount) break;
+
+                    const rCo = $("wC"+currIdx);
+                    const rE  = $("wE"+currIdx);
+
+                    if(rCo && rE) {
+                        const rN = Math.max(0, parseInt(rE.value) || 0);
+                        const rColor = rgb(rCo.value);
+                        for(let j=0; j<rN; j++) setSequence.push(rColor);
+                    }
                 }
-                for(let rep=0; rep<repeat; rep++) warp.push(...setSequence); w_idx += span;
-            } else { if(n > 0) { let color = rgb(co.value); for(let j=0; j<n; j++) warp.push(color); } w_idx++; }
-        }
 
-        let weft = []; let f_idx = 1;
-        while (f_idx <= currentWeftCount) {
-            let co = $("weftC"+f_idx); let p = $("weftP"+f_idx); let sInp = $("weftSpan"+f_idx); let rInp = $("weftRep"+f_idx);
-            if(!co || !p) { f_idx++; continue; }
-            let n = Math.max(0, parseInt(p.value)||0); let span = Math.max(1, parseInt(sInp?.value)||1); let repeat = Math.max(1, parseInt(rInp?.value)||1);
-            if(span > 1 && repeat > 1) {
-                let setSequence = [];
-                for(let s=0; s<span; s++) { let currIdx = f_idx + s; if(currIdx > currentWeftCount) break;
-                    let rCo = $("weftC"+currIdx); let rP = $("weftP"+currIdx);
-                    if(rCo && rP) { let rN = Math.max(0, parseInt(rP.value)||0); let rColor = rgb(rCo.value); for(let j=0; j<rN; j++) setSequence.push(rColor); }
+                for(let rep=0; rep<repeat; rep++) {
+                    baseWarp.push(...setSequence);
                 }
-                for(let rep=0; rep<repeat; rep++) weft.push(...setSequence); f_idx += span;
-            } else { if(n > 0) { let color = rgb(co.value); for(let j=0; j<n; j++) weft.push(color); } f_idx++; }
-        }
 
-        let realWarpLength = warp.length; let realWeftLength = weft.length;
-        if(!warp.length) warp = [rgb("#f8fafc")]; if(!weft.length) weft = [rgb("#dbe4df")];
-
-        const RULER = 32; const availW = Math.max(10, c.width-RULER); const availH = Math.max(10, c.height-RULER);
-        let reed = parseFloat(activeDesignObj?.finishedReed) || parseFloat(activeDesignObj?.reed) || 64;
-        let pick = parseFloat(activeDesignObj?.finishedPick) || parseFloat(activeDesignObj?.finishPick) || parseFloat(activeDesignObj?.pick) || parseFloat(activeDesignObj?.weftPick) || 48;
-        if(!isFinite(reed) || reed<=0) reed=64; if(!isFinite(pick) || pick<=0) pick=48;
-        let physW_mm = (realWarpLength/reed)*25.4; let physH_mm = (realWeftLength/pick)*25.4;
-        if(!isFinite(physW_mm) || physW_mm<=0) physW_mm=25.4; if(!isFinite(physH_mm) || physH_mm<=0) physH_mm=25.4;
-
-        let px_per_mm = Math.min(availW/(physW_mm*2||1), availH/(physH_mm*2||1));
-        if(!isFinite(px_per_mm)) px_per_mm=3; if(px_per_mm>25) px_per_mm=25; if(px_per_mm<1.5) px_per_mm=1.5;
-        let cw = (25.4/reed)*px_per_mm; let ch = (25.4/pick)*px_per_mm;
-        if(!isFinite(cw) || cw<0.5) cw=1; if(!isFinite(ch) || ch<0.5) ch=1;
-
-        const ends = Math.max(1, Math.ceil(availW/cw)); const picks = Math.max(1, Math.ceil(availH/ch));
-        let actualDrawW = availW; let actualDrawH = availH; let offsetX = RULER;
-
-        ctx.fillStyle = "#09110d"; ctx.fillRect(0, 0, c.width, c.height);
-        const type = $("weaveType")?.value || "plain"; const useGradient = cw>=4 && ch>=4;
-
-        for(let r=0; r<picks; r++) {
-            for(let col=0; col<ends; col++) {
-                const up = isWarpUp(r, col, type); const base = up ? warp[col%warp.length] : weft[r%weft.length];
-                const x = offsetX + col*cw; const y = availH - ((r+1)*ch);
-                if(x>c.width || y+ch<0) continue;
-                if(useGradient) {
-                    let g = up ? ctx.createLinearGradient(x,y,x+cw,y) : ctx.createLinearGradient(x,y,x,y+ch);
-                    g.addColorStop(0, shade(base,.55)); g.addColorStop(.35, shade(base,1.08)); g.addColorStop(.65, shade(base,1.18)); g.addColorStop(1, shade(base,.55)); ctx.fillStyle = g;
-                } else { ctx.fillStyle = shade(base, up ? 0.95 : 0.82); }
-                ctx.fillRect(x, y, cw+.8, ch+.8);
+                w_idx += span;
+            } else {
+                if(n > 0) {
+                    const color = rgb(co.value);
+                    for(let j=0; j<n; j++) baseWarp.push(color);
+                }
+                w_idx++;
             }
         }
 
-        if(cw>=5 && ch>=5) {
-            ctx.globalAlpha = .12; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = .35;
-            for(let ix=offsetX; ix<=offsetX+actualDrawW+.1; ix+=cw) { ctx.beginPath(); ctx.moveTo(ix,0); ctx.lineTo(ix,availH); ctx.stroke(); }
-            for(let iy=0; iy<=availH+.1; iy+=ch) { ctx.beginPath(); ctx.moveTo(RULER,iy); ctx.lineTo(offsetX+actualDrawW,iy); ctx.stroke(); }
-            ctx.globalAlpha = 1;
+        let baseWeft = [];
+        let f_idx = 1;
+
+        while(f_idx <= currentWeftCount) {
+            const co = $("weftC"+f_idx);
+            const p  = $("weftP"+f_idx);
+            const sInp = $("weftSpan"+f_idx);
+            const rInp = $("weftRep"+f_idx);
+
+            if(!co || !p) {
+                f_idx++;
+                continue;
+            }
+
+            const n = Math.max(0, parseInt(p.value) || 0);
+            const span = Math.max(1, parseInt(sInp?.value) || 1);
+            const repeat = Math.max(1, parseInt(rInp?.value) || 1);
+
+            if(span > 1 && repeat > 1) {
+                const setSequence = [];
+
+                for(let s=0; s<span; s++) {
+                    const currIdx = f_idx + s;
+                    if(currIdx > currentWeftCount) break;
+
+                    const rCo = $("weftC"+currIdx);
+                    const rP  = $("weftP"+currIdx);
+
+                    if(rCo && rP) {
+                        const rN = Math.max(0, parseInt(rP.value) || 0);
+                        const rColor = rgb(rCo.value);
+                        for(let j=0; j<rN; j++) setSequence.push(rColor);
+                    }
+                }
+
+                for(let rep=0; rep<repeat; rep++) {
+                    baseWeft.push(...setSequence);
+                }
+
+                f_idx += span;
+            } else {
+                if(n > 0) {
+                    const color = rgb(co.value);
+                    for(let j=0; j<n; j++) baseWeft.push(color);
+                }
+                f_idx++;
+            }
         }
 
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,RULER,c.height); ctx.fillRect(0,availH,c.width,RULER); ctx.fillStyle = "#f1f5f9"; ctx.fillRect(0,availH,RULER,RULER);
-        ctx.beginPath(); ctx.strokeStyle = "#334155"; ctx.lineWidth = 1; ctx.moveTo(RULER+.5,0); ctx.lineTo(RULER+.5,availH+.5); ctx.lineTo(c.width,availH+.5); ctx.stroke();
+        /*
+         * IMPORTANT:
+         * If the UI has no active values, read the saved Design object.
+         * This keeps Warp/Weft Set data working even after reopening a design.
+         */
+        if(baseWarp.length === 0 && activeDesignObj && Array.isArray(activeDesignObj.warpLines)) {
+            const wRanges = Array.isArray(activeDesignObj.warpRanges) ? activeDesignObj.warpRanges : [];
+            let i = 0;
 
-        let max_mm_x = actualDrawW/px_per_mm; let max_mm_y = actualDrawH/px_per_mm;
-        ctx.fillStyle = "#000000"; ctx.font = "10px Arial,sans-serif";
-        ctx.textAlign = "center"; ctx.textBaseline = "top";
-        for(let mm=0; mm<=max_mm_x; mm++) {
-            let isCm = mm%10===0; let isHalf = mm%5===0 && !isCm; if(!isCm && !isHalf && px_per_mm<2.5) continue;
-            let x = offsetX + mm*px_per_mm; if(x>offsetX+actualDrawW) break;
-            let drawX = Math.floor(x)+.5; let tickLen = isCm?12:(isHalf?7:4);
-            ctx.beginPath(); ctx.moveTo(drawX,availH); ctx.lineTo(drawX,availH+tickLen); ctx.strokeStyle = isCm?"#000000":"#64748b"; ctx.stroke();
-            if(isCm && mm>0) { let cmVal = mm/10; let cmWidthPx = 10*px_per_mm; if(!(cmWidthPx<18 && cmVal%2!==0) && !(cmWidthPx<9 && cmVal%5!==0)) ctx.fillText(cmVal, drawX, availH+14); }
-        }
-        ctx.textAlign = "right"; ctx.textBaseline = "middle";
-        for(let mm=0; mm<=max_mm_y; mm++) {
-            let isCm = mm%10===0; let isHalf = mm%5===0 && !isCm; if(!isCm && !isHalf && px_per_mm<2.5) continue;
-            let y = availH - mm*px_per_mm; if(y<0) break;
-            let drawY = Math.floor(y)+.5; let tickLen = isCm?12:(isHalf?7:4);
-            ctx.beginPath(); ctx.moveTo(RULER,drawY); ctx.lineTo(RULER-tickLen,drawY); ctx.strokeStyle = isCm?"#000000":"#64748b"; ctx.stroke();
-            if(isCm && mm>0) { let cmVal = mm/10; let cmWidthPx = 10*px_per_mm; if(!(cmWidthPx<18 && cmVal%2!==0) && !(cmWidthPx<9 && cmVal%5!==0)) ctx.fillText(cmVal, RULER-14, drawY); }
-        }
-        ctx.fillStyle = "#000000"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("cm", RULER/2, availH+RULER/2);
+            while(i < activeDesignObj.warpLines.length) {
+                const lineNum = i + 1;
+                const range = wRanges.find(r => Number(r.start) === lineNum);
 
-        let repeat_width_mm = (realWarpLength/reed)*25.4; let repeat_height_mm = (realWeftLength/pick)*25.4;
-        let text1 = `W: (${realWarpLength} ÷ ${reed}) × 25.4 = ${repeat_width_mm.toFixed(2)} mm`; let text2 = `H: (${realWeftLength} ÷ ${pick}) × 25.4 = ${repeat_height_mm.toFixed(2)} mm`;
-        ctx.font = "bold 11px Arial,sans-serif"; let tw1 = ctx.measureText(text1).width; let tw2 = ctx.measureText(text2).width;
-        let boxWidth = Math.min(c.width-20, Math.max(tw1,tw2)+30); let boxX = c.width-boxWidth-10;
-        ctx.fillStyle = "rgba(0,0,0,.85)"; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.fillRect(boxX, 10, boxWidth, 46); ctx.strokeRect(boxX, 10, boxWidth, 46);
-        ctx.fillStyle = "#ffffff"; ctx.textAlign = "right"; ctx.fillText(text1, c.width-25, 26); ctx.fillText(text2, c.width-25, 44);
+                if(range && Number(range.end) >= Number(range.start) && Number(range.set) > 1) {
+                    const setSeq = [];
+
+                    for(let j=Number(range.start)-1;
+                        j<Number(range.end) && j<activeDesignObj.warpLines.length;
+                        j++) {
+
+                        const l = activeDesignObj.warpLines[j] || {};
+                        const endsCount = parseInt(
+                            l.ends ?? l.amount ?? l.end ?? l.qty ?? 0
+                        ) || 0;
+
+                        const col = rgb(colorName(
+                            l.color || l.colour || l.colourName || "#ffffff"
+                        ));
+
+                        for(let k=0; k<endsCount; k++) setSeq.push(col);
+                    }
+
+                    for(let rep=0; rep<Number(range.set); rep++) {
+                        baseWarp.push(...setSeq);
+                    }
+
+                    i = Number(range.end);
+                } else {
+                    const l = activeDesignObj.warpLines[i] || {};
+                    const endsCount = parseInt(
+                        l.ends ?? l.amount ?? l.end ?? l.qty ?? 0
+                    ) || 0;
+
+                    const col = rgb(colorName(
+                        l.color || l.colour || l.colourName || "#ffffff"
+                    ));
+
+                    for(let k=0; k<endsCount; k++) baseWarp.push(col);
+                    i++;
+                }
+            }
+        }
+
+        if(baseWeft.length === 0 && activeDesignObj && Array.isArray(activeDesignObj.weftLines)) {
+            const fRanges = Array.isArray(activeDesignObj.weftRanges) ? activeDesignObj.weftRanges : [];
+            let i = 0;
+
+            while(i < activeDesignObj.weftLines.length) {
+                const lineNum = i + 1;
+                const range = fRanges.find(r => Number(r.start) === lineNum);
+
+                if(range && Number(range.end) >= Number(range.start) && Number(range.set) > 1) {
+                    const setSeq = [];
+
+                    for(let j=Number(range.start)-1;
+                        j<Number(range.end) && j<activeDesignObj.weftLines.length;
+                        j++) {
+
+                        const l = activeDesignObj.weftLines[j] || {};
+                        const picksCount = parseInt(
+                            l.picks ?? l.pick ?? l.amount ?? l.qty ?? 0
+                        ) || 0;
+
+                        const col = rgb(colorName(
+                            l.color || l.colour || l.colourName || "#ffffff"
+                        ));
+
+                        for(let k=0; k<picksCount; k++) setSeq.push(col);
+                    }
+
+                    for(let rep=0; rep<Number(range.set); rep++) {
+                        baseWeft.push(...setSeq);
+                    }
+
+                    i = Number(range.end);
+                } else {
+                    const l = activeDesignObj.weftLines[i] || {};
+                    const picksCount = parseInt(
+                        l.picks ?? l.pick ?? l.amount ?? l.qty ?? 0
+                    ) || 0;
+
+                    const col = rgb(colorName(
+                        l.color || l.colour || l.colourName || "#ffffff"
+                    ));
+
+                    for(let k=0; k<picksCount; k++) baseWeft.push(col);
+                    i++;
+                }
+            }
+        }
+
+        if(!baseWarp.length) baseWarp = [rgb("#1e3a8a"), rgb("#ffffff")];
+        if(!baseWeft.length) baseWeft = [rgb("#ffffff"), rgb("#1e3a8a")];
+
+        /* ---------------------------------------------------------
+           3D SIMULATION REPEAT
+           The entered Warp/Weft set is treated as ONE repeat.
+           The 3D view always renders EXACTLY 3 repeats.
+        --------------------------------------------------------- */
+        const singleWarp = baseWarp.slice();
+        const singleWeft = baseWeft.slice();
+
+        const singleWarpLen = singleWarp.length;
+        const singleWeftLen = singleWeft.length;
+
+        const warp = [
+            ...singleWarp,
+            ...singleWarp,
+            ...singleWarp
+        ];
+
+        const weft = [
+            ...singleWeft,
+            ...singleWeft,
+            ...singleWeft
+        ];
+
+        const realWarpLength = warp.length;
+        const realWeftLength = weft.length;
+
+        /* ---------------------------------------------------------
+           2. READ REED / PICK
+           --------------------------------------------------------- */
+        let reed = parseFloat(
+            activeDesignObj?.finishedReed ??
+            activeDesignObj?.reed ??
+            activeDesignObj?.reedCount
+        );
+
+        let pick = parseFloat(
+            activeDesignObj?.finishedPick ??
+            activeDesignObj?.finishPick ??
+            activeDesignObj?.pick ??
+            activeDesignObj?.weftPick ??
+            activeDesignObj?.pickCount
+        );
+        if(!isFinite(reed) || reed <= 0) reed = 64;
+        if(!isFinite(pick) || pick <= 0) pick = 48;
+
+        /*
+         * Physical repeat size.
+         * This is the same formula displayed in the measurement box:
+         *     Width  = Ends / Reed × 25.4 mm
+         *     Height = Picks / Pick × 25.4 mm
+         *
+         * The old code used dent-count to determine the drawing width
+         * but used ends-count for the measurement label. That caused the
+         * ruler and the displayed W/H to disagree.
+         */
+        const physW_mm = (realWarpLength / reed) * 25.4;
+        const physH_mm = (realWeftLength / pick) * 25.4;
+
+        /* ---------------------------------------------------------
+           3. DENTING + DRAWING PATTERN
+           --------------------------------------------------------- */
+        let dentArr = expandPattern(
+            $("dentingPatternInput")?.value || "2"
+        );
+
+        if(!dentArr.length) dentArr = [2];
+
+        let drawArr = expandPattern(
+            $("drawingPatternInput")?.value || "1,2,3,4"
+        );
+
+        if(!drawArr.length) drawArr = [1,2,3,4];
+
+        /*
+         * Calculate the number of dents needed for the actual number
+         * of warp ends. A partial final dent is allowed, but it never
+         * creates an extra warp end.
+         */
+        let dentsRequired = 0;
+        let endsRemaining = realWarpLength;
+        let dIdx = 0;
+
+        while(endsRemaining > 0) {
+            const patternValue = Math.max(
+                0,
+                parseInt(dentArr[dIdx % dentArr.length]) || 0
+            );
+
+            dentsRequired++;
+
+            if(patternValue > 0) {
+                endsRemaining -= Math.min(patternValue, endsRemaining);
+            }
+
+            dIdx++;
+
+            /* Protect against an all-zero dent pattern. */
+            if(dIdx > 50000) break;
+        }
+
+        if(dentsRequired <= 0) dentsRequired = realWarpLength;
+
+        /* ---------------------------------------------------------
+           4. ONE COMMON SCALE FOR BOTH WIDTH AND HEIGHT
+           --------------------------------------------------------- */
+        const RULER = 32;
+        const availW = Math.max(10, W - RULER);
+        const availH = Math.max(10, H - RULER);
+
+        /*
+         * THIS IS THE MAIN FIX:
+         * The old renderer calculated scale from WIDTH ONLY and then
+         * forced the height to fill the screen. That distorted designs
+         * whose W/H ratio was not close to the canvas ratio.
+         *
+         * Now BOTH W and H use the same mm scale.
+         */
+        let px_per_mm = Math.min(
+            availW / Math.max(0.01, physW_mm),
+            availH / Math.max(0.01, physH_mm)
+        );
+
+        if(!isFinite(px_per_mm) || px_per_mm <= 0) px_per_mm = 2;
+
+        /* Keep very small designs visible but do not distort them. */
+        const drawW = physW_mm * px_per_mm;
+        const drawH = physH_mm * px_per_mm;
+
+        const left = RULER;
+        const bottom = H - RULER;
+        const top = bottom - drawH;
+
+        /*
+         * Exact dent width inside the physical design width.
+         * This keeps the displayed W measurement and the actual
+         * rendered width identical even when Ends/Dent changes.
+         */
+        const dentWidthPx = drawW / Math.max(1, dentsRequired);
+        const cellH = drawH / Math.max(1, realWeftLength);
+
+        /* ---------------------------------------------------------
+           5. MAP EACH WARP END TO A DENT
+           --------------------------------------------------------- */
+        const warpPositions = [];
+        let endIndex = 0;
+        let dentIndex = 0;
+
+        while(endIndex < realWarpLength && dentIndex < dentsRequired) {
+            const requestedEnds = Math.max(
+                0,
+                parseInt(dentArr[dentIndex % dentArr.length]) || 0
+            );
+
+            const x = left + dentIndex * dentWidthPx;
+
+            if(requestedEnds === 0) {
+                warpPositions.push({
+                    colIndex: -1,
+                    x,
+                    w: dentWidthPx,
+                    isEmpty: true
+                });
+            } else {
+                const actualEnds = Math.min(
+                    requestedEnds,
+                    realWarpLength - endIndex
+                );
+
+                const yarnW = dentWidthPx / Math.max(1, actualEnds);
+
+                for(let e=0; e<actualEnds; e++) {
+                    warpPositions.push({
+                        colIndex: endIndex,
+                        x: x + e * yarnW,
+                        w: yarnW,
+                        isEmpty: false
+                    });
+                    endIndex++;
+                }
+            }
+
+            dentIndex++;
+        }
+
+        /* ---------------------------------------------------------
+           6. DRAW EXACTLY 3 REPEATS
+           --------------------------------------------------------- */
+        const type = $("weaveType")?.value || "plain";
+        const useGradient = dentWidthPx >= 1.4 && cellH >= 1.4;
+
+        for(let r=0; r<realWeftLength; r++) {
+            const y = bottom - ((r + 1) * cellH);
+            const weftColor = weft[r % weft.length];
+
+            for(const wp of warpPositions) {
+                if(wp.x >= left + drawW) continue;
+
+                if(wp.isEmpty) {
+                    ctx.fillStyle = shade(weftColor, useGradient ? 0.90 : 0.85);
+                    ctx.fillRect(
+                        wp.x,
+                        y,
+                        Math.max(0.6, wp.w + 0.35),
+                        Math.max(0.6, cellH + 0.35)
+                    );
+                    continue;
+                }
+
+                const up = isWarpUp(
+                    r,
+                    wp.colIndex,
+                    type,
+                    drawArr
+                );
+
+                const baseColor = up
+                    ? warp[wp.colIndex % warp.length]
+                    : weftColor;
+
+                if(useGradient) {
+                    let g;
+
+                    if(up) {
+                        g = ctx.createLinearGradient(
+                            wp.x, y,
+                            wp.x + wp.w, y
+                        );
+                    } else {
+                        g = ctx.createLinearGradient(
+                            wp.x, y,
+                            wp.x, y + cellH
+                        );
+                    }
+
+                    g.addColorStop(0, shade(baseColor, 0.45));
+                    g.addColorStop(0.35, shade(baseColor, 1.08));
+                    g.addColorStop(0.65, shade(baseColor, 1.20));
+                    g.addColorStop(1, shade(baseColor, 0.45));
+
+                    ctx.fillStyle = g;
+                } else {
+                    ctx.fillStyle = shade(
+                        baseColor,
+                        up ? 0.95 : 0.82
+                    );
+                }
+
+                ctx.fillRect(
+                    wp.x,
+                    y,
+                    Math.max(0.6, wp.w + 0.35),
+                    Math.max(0.6, cellH + 0.35)
+                );
+            }
+        }
+
+/* ---------------------------------------------------------
+   7. RULER — EXACT DESIGN / 3 REPEAT SIZE
+--------------------------------------------------------- */
+
+/* Bottom horizontal ruler */
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(0, bottom, W, RULER);
+
+/* Vertical ruler — ONLY actual design height */
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(
+    0,
+    top,
+    RULER,
+    bottom - top
+);
+
+/* Corner */
+ctx.fillStyle = "#f1f5f9";
+ctx.fillRect(
+    0,
+    bottom,
+    RULER,
+    RULER
+);
+
+/* Ruler boundary */
+ctx.beginPath();
+
+ctx.strokeStyle = "#334155";
+ctx.lineWidth = 1;
+
+ctx.moveTo(RULER + 0.5, top);
+ctx.lineTo(RULER + 0.5, bottom + 0.5);
+
+ctx.lineTo(W, bottom + 0.5);
+
+ctx.stroke();
+
+
+/* ---------------------------------------------------------
+   EXACT PHYSICAL SIZE
+--------------------------------------------------------- */
+
+const max_mm_x = drawW / Math.max(0.01, px_per_mm);
+const max_mm_y = drawH / Math.max(0.01, px_per_mm);
+
+
+/* ---------------------------------------------------------
+   HORIZONTAL SCALE
+--------------------------------------------------------- */
+
+ctx.fillStyle = "#000000";
+ctx.font = "10px Arial,sans-serif";
+ctx.textAlign = "center";
+ctx.textBaseline = "top";
+
+for(let mm = 0; mm <= max_mm_x + 0.001; mm++) {
+
+    const isCm = mm % 10 === 0;
+    const isHalf = mm % 5 === 0 && !isCm;
+
+    if(!isCm && !isHalf && px_per_mm < 2.5) continue;
+
+    const x = left + mm * px_per_mm;
+
+    if(x > left + drawW + 0.5) break;
+
+    const drawX = Math.floor(x) + 0.5;
+
+    const tickLen =
+        isCm ? 12 :
+        (isHalf ? 7 : 4);
+
+    ctx.beginPath();
+
+    ctx.moveTo(drawX, bottom);
+    ctx.lineTo(drawX, bottom + tickLen);
+
+    ctx.strokeStyle =
+        isCm ? "#000000" : "#64748b";
+
+    ctx.stroke();
+
+    if(isCm && mm > 0) {
+
+        ctx.fillStyle = "#000000";
+
+        ctx.fillText(
+            mm / 10,
+            drawX,
+            bottom + 14
+        );
+    }
+}
+
+
+/* ---------------------------------------------------------
+   VERTICAL SCALE — EXACTLY 3 REPEAT
+--------------------------------------------------------- */
+
+ctx.textAlign = "right";
+ctx.textBaseline = "middle";
+
+for(let mm = 0; mm <= max_mm_y + 0.001; mm++) {
+
+    const isCm = mm % 10 === 0;
+    const isHalf = mm % 5 === 0 && !isCm;
+
+    if(!isCm && !isHalf && px_per_mm < 2.5) continue;
+
+    const y = bottom - mm * px_per_mm;
+
+    /* STOP EXACTLY AT DESIGN TOP */
+    if(y < top) break;
+
+    const drawY = Math.floor(y) + 0.5;
+
+    const tickLen =
+        isCm ? 12 :
+        (isHalf ? 7 : 4);
+
+    ctx.beginPath();
+
+    ctx.moveTo(RULER, drawY);
+    ctx.lineTo(RULER - tickLen, drawY);
+
+    ctx.strokeStyle =
+        isCm ? "#000000" : "#64748b";
+
+    ctx.stroke();
+
+    if(isCm && mm > 0) {
+
+        ctx.fillStyle = "#000000";
+
+        ctx.fillText(
+            mm / 10,
+            RULER - 14,
+            drawY
+        );
+    }
+}
+
+
+/* ---------------------------------------------------------
+   CM LABEL
+--------------------------------------------------------- */
+
+ctx.fillStyle = "#000000";
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillText(
+    "cm",
+    RULER / 2,
+    bottom + RULER / 2
+);
+
+/* ---------------------------------------------------------
+   VERTICAL RULER — STOP EXACTLY AT 3 REPEAT TOP
+--------------------------------------------------------- */
+
+ctx.textAlign = "right";
+ctx.textBaseline = "middle";
+
+/* Exact number of mm actually displayed */
+const verticalMm = drawH / px_per_mm;
+
+for(let mm = 0; mm <= verticalMm + 0.001; mm++) {
+
+    const isCm = mm % 10 === 0;
+    const isHalf = mm % 5 === 0 && !isCm;
+
+    if(!isCm && !isHalf && px_per_mm < 2.5) continue;
+
+    const y = bottom - (mm * px_per_mm);
+
+    /* IMPORTANT:
+       Do not draw anything above the actual 3-repeat top */
+    if(y < top) break;
+
+    const drawY = Math.floor(y) + 0.5;
+
+    const tickLen =
+        isCm ? 12 :
+        (isHalf ? 7 : 4);
+
+    ctx.beginPath();
+
+    ctx.moveTo(RULER, drawY);
+    ctx.lineTo(RULER - tickLen, drawY);
+
+    ctx.strokeStyle =
+        isCm ? "#000000" : "#64748b";
+
+    ctx.stroke();
+
+    if(isCm && mm > 0) {
+
+        const cmVal = mm / 10;
+
+        ctx.fillStyle = "#000000";
+
+        ctx.fillText(
+            cmVal,
+            RULER - 14,
+            drawY
+        );
+    }
+}
+
+/* ---------------------------------------------------------
+   CM LABEL
+--------------------------------------------------------- */
+
+ctx.fillStyle = "#000000";
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillText(
+    "cm",
+    RULER / 2,
+    bottom + RULER / 2
+);
+
+        /* ---------------------------------------------------------
+           8. EXACT MEASUREMENT BOX
+           --------------------------------------------------------- */
+        const repeat_width_mm = (singleWarpLen / reed) * 25.4;
+        const repeat_height_mm = (singleWeftLen / pick) * 25.4;
+
+        const text1 =
+            `W: (${singleWarpLen} ÷ ${reed}) × 25.4 = ${repeat_width_mm.toFixed(2)} mm`;
+
+        const text2 =
+            `H: (${singleWeftLen} ÷ ${pick}) × 25.4 = ${repeat_height_mm.toFixed(2)} mm`;
+
+        ctx.font = "bold 11px Arial,sans-serif";
+
+        const tw1 = ctx.measureText(text1).width;
+        const tw2 = ctx.measureText(text2).width;
+
+        const boxWidth = Math.min(
+            W - 20,
+            Math.max(tw1, tw2) + 30
+        );
+
+        const boxHeight = 46;
+
+const boxX = Math.max(
+    left + 5,
+    left + drawW - boxWidth - 10
+);
+
+const boxY = Math.max(
+    10,
+    top + 10
+);
+
+        ctx.fillStyle = "rgba(0,0,0,.85)";
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+
+        ctx.fillRect(
+            boxX,
+            boxY,
+            boxWidth,
+            boxHeight
+        );
+
+        ctx.strokeRect(
+            boxX,
+            boxY,
+            boxWidth,
+            boxHeight
+        );
+
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            text1,
+            W - 25,
+            boxY + 16
+        );
+
+        ctx.fillText(
+            text2,
+            W - 25,
+            boxY + 34
+        );
     });
 }
+
 let refreshTimer = null; function autoRefresh3D() { clearTimeout(refreshTimer); if($("fsModal")?.style.display==="flex") refreshTimer = setTimeout(draw3DWeave, 120); }
 
 /* =========================================================
-   DENTING & FULLSCREEN
+   DENTING & DRAWING MODAL LOGIC
 ========================================================= */
-function calculateDenting() {
-    let details = calculateYarnDetails("warp"); 
-    let total = details.totalYarns;
-    if(total === 0) { if($("dentingInfo")) $("dentingInfo").innerHTML="டேட்டா இல்லை"; return; }
-    let endsPerDent = parseInt($("endsPerDent")?.value) || 2;
-    let dents = Math.ceil(total / endsPerDent);
-    $("dentingInfo").innerHTML = `<b>பாவு மொத்தம்:</b> ${total} Ends <br><b>Denting:</b> ஒரு Dent-க்கு ${endsPerDent} Ends அடிப்படையில் சுமார் <b>${dents}</b> Dent தேவை.<br><b>Drawing:</b> Frame 1 → 2 → 3 → 4 என்ற வரிசையில் repeat செய்யலாம்.`;
+function openDentingModal() {
+    const modal = $("dentingModal");
+    if(!modal) return;
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+    buildManualDentingEditor();
+    buildManualDrawingEditor();
+    calculateAdvancedDenting();
 }
 
-function closeAllMenus() { const denting = $("dentingPanel"); if(denting) denting.classList.remove("active"); }
-function openMenu(type) { closeAllMenus(); if(type==="view3d") openFullscreen(); else if(type==="denting") { $("dentingPanel")?.classList.add("active"); calculateDenting(); } }
+function closeDentingModal() {
+    const modal = $("dentingModal");
+    if(modal) modal.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+function showDentingPane(name) {
+    ["dent","draw","adv"].forEach(x => {
+        $(x+"Pane")?.classList.toggle("active", x === name);
+    });
+    $("dentTabBtn")?.classList.toggle("active", name === "dent");
+    $("drawTabBtn")?.classList.toggle("active", name === "draw");
+    $("advTabBtn")?.classList.toggle("active", name === "adv");
+}
+
+function setDentPreset(value) {
+    $("dentingPatternInput").value = value;
+    buildManualDentingEditor();
+    calculateAdvancedDenting();
+    autoRefresh3D();
+}
+
+function setDrawingPreset(value) {
+    $("drawingPatternInput").value = value;
+    buildManualDrawingEditor();
+    calculateAdvancedDenting();
+    autoRefresh3D();
+}
+
+function buildManualDentingEditor() {
+    const box = $("dentingManualRows"); if(!box) return;
+    const arr = expandPattern($("dentingPatternInput")?.value || "2");
+    const values = arr.length ? arr : [2];
+    box.innerHTML = values.map((v,i) => `
+        <div class="manual-row">
+            <div class="num">Dent ${i+1}</div>
+            <input type="number" min="0" value="${Math.max(0,v)}" oninput="syncManualDenting();calculateAdvancedDenting();autoRefresh3D();">
+            <button onclick="removeDentingManualRow(${i})">✕</button>
+        </div>`).join("");
+}
+
+function syncManualDenting() {
+    const box=$("dentingManualRows"); if(!box) return;
+    const vals=[...box.querySelectorAll("input")].map(x=>Math.max(0,parseInt(x.value)||0));
+    if(vals.length) $("dentingPatternInput").value=vals.join(",");
+}
+
+function addDentingManualRow() {
+    syncManualDenting();
+    const vals=expandPattern($("dentingPatternInput").value||"2");
+    vals.push(vals.length ? vals[vals.length-1] : 2);
+    $("dentingPatternInput").value=vals.join(",");
+    buildManualDentingEditor();
+    calculateAdvancedDenting();
+}
+
+function removeDentingManualRow(i) {
+    const vals=expandPattern($("dentingPatternInput").value||"2");
+    if(vals.length<=1) return;
+    vals.splice(i,1);
+    $("dentingPatternInput").value=vals.join(",");
+    buildManualDentingEditor();
+    calculateAdvancedDenting();
+}
+
+function buildManualDrawingEditor() {
+    const box=$("drawingManualRows"); if(!box) return;
+    const arr=expandPattern($("drawingPatternInput")?.value||"1,2,3,4");
+    const values=arr.length?arr:[1,2,3,4];
+    box.innerHTML=values.map((v,i)=>`
+        <div class="manual-row">
+            <div class="num">${i+1}</div>
+            <input type="number" min="1" value="${Math.max(1,v)}" oninput="syncManualDrawing();calculateAdvancedDenting();autoRefresh3D();">
+            <button onclick="removeDrawingManualRow(${i})">✕</button>
+        </div>`).join("");
+}
+
+function syncManualDrawing() {
+    const box=$("drawingManualRows"); if(!box) return;
+    const vals=[...box.querySelectorAll("input")].map(x=>Math.max(1,parseInt(x.value)||1));
+    if(vals.length) $("drawingPatternInput").value=vals.join(",");
+}
+
+function addDrawingManualRow() {
+    syncManualDrawing();
+    const vals=expandPattern($("drawingPatternInput").value||"1,2,3,4");
+    vals.push(vals.length ? vals[vals.length-1] : 1);
+    $("drawingPatternInput").value=vals.join(",");
+    buildManualDrawingEditor();
+    calculateAdvancedDenting();
+}
+
+function removeDrawingManualRow(i) {
+    const vals=expandPattern($("drawingPatternInput").value||"1,2,3,4");
+    if(vals.length<=1) return;
+    vals.splice(i,1);
+    $("drawingPatternInput").value=vals.join(",");
+    buildManualDrawingEditor();
+    calculateAdvancedDenting();
+}
+
+function calculateAdvancedDenting() {
+    let totalEnds=getWarpTotalEnds();
+    let dentStr=$("dentingPatternInput")?.value.trim()||"2";
+    let drawStr=$("drawingPatternInput")?.value.trim()||"1,2,3,4";
+    let dentArr=expandPattern(dentStr); if(!dentArr.length) dentArr=[2];
+    let drawArr=expandPattern(drawStr); if(!drawArr.length) drawArr=[1,2,3,4];
+    if(totalEnds===0){ $("dentingResultDisplay").innerHTML="<span style='color:#ef4444;'>டேட்டா இல்லை — Warp Ends முதலில் உள்ளிடவும்.</span>"; return; }
+    let dentsUsed=0,endsCounted=0,emptyDents=0,ptr=0;
+    while(endsCounted<totalEnds && ptr<50000){
+        const n=Math.max(0,dentArr[ptr%dentArr.length]); dentsUsed++;
+        if(n===0) emptyDents++; else endsCounted+=n; ptr++;
+    }
+    const maxFrame=Math.max(...drawArr);
+    $("dentingResultDisplay").innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b>Warp Ends</b><span>${totalEnds}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b>Required Dents</b><span>${dentsUsed}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b>Missing / Empty Dents</b><span style="color:#f59e0b">${emptyDents}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b>Frames Required</b><span>${maxFrame}</span></div>
+      <div style="font-size:.6rem;color:#78d18a;margin-top:8px;">Denting: ${dentArr.join(", ")} &nbsp; | &nbsp; Drawing: ${drawArr.join(", ")}</div>`;
+}
 
 let scale = 1, pointX = 0, pointY = 0, panning = false, startX = 0, startY = 0, lastDist = 0;
 function openFullscreen() { const modal = $("fsModal"); if(!modal) return; modal.style.display="flex"; scale=1; pointX=0; pointY=0; panning=false; requestAnimationFrame(()=>{ draw3DWeave(); updateTransform(); }); }
@@ -1142,9 +2198,9 @@ function printDesign() {
 window.addEventListener("afterprint", () => { document.body.classList.remove("printing-graph","printing-design"); $("printModalBox").style.display="none"; });
 
 /* =========================================================
-   🔥 ADVANCED COLOUR MASTER PANTONE SYSTEM 🔥
+   COLOUR MASTER PANTONE SYSTEM
 ========================================================= */
-const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v5"; // Version bump to clear cache if needed
+const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v5";
 
 const PANTONE_DB = {
     "19-4052": { name: "Classic Blue", hex: "#0F4C81" }, "18-1662": { name: "Flame Scarlet", hex: "#CE2029" }, "11-0601": { name: "Bright White", hex: "#F4F5F0" },
@@ -1172,7 +2228,7 @@ const PANTONE_DB = {
 
 let texfriendColourMaster = [
     { name:"Red", shades:[{name:"Red", pantone:"19-1664", hex:"#ef4444"}, {name:"Dark Red", pantone:"19-1557", hex:"#b91c1c"}, {name:"Light Red", pantone:"", hex:"#fca5a5"}] },
-    { name:"Pink", shades:[{name:"Pink", pantone:"16-2130", hex:"#ec4899"}, {name:"Hot Pink", pantone:"", hex:"#db2777"}, {name:"Light Pink", pantone:"", hex:"#fbcfe8"}, {name:"Rose", pantone:"", hex:"#e11d48"}] },
+    { name:"Pink", shades:[{name:"Pink", pantone:"16-2130", hex:"#ec4899"}, {name:"Hot Pink", pantone:"", hex:"#db2777"}, {name:"Rose", pantone:"", hex:"#e11d48"}] },
     { name:"Magenta", shades:[{name:"Magenta", pantone:"17-2036", hex:"#d946ef"}, {name:"Fuchsia", pantone:"18-2436", hex:"#c026d3"}] },
     { name:"Maroon", shades:[{name:"Maroon", pantone:"19-1619", hex:"#800000"}, {name:"Wine", pantone:"19-1536", hex:"#722f37"}, {name:"Burgundy", pantone:"19-1725", hex:"#5c2c35"}] },
     { name:"Orange", shades:[{name:"Orange", pantone:"15-1340", hex:"#f97316"}, {name:"Dark Orange", pantone:"", hex:"#ea580c"}, {name:"Light Orange", pantone:"", hex:"#fdba74"}] },
@@ -1192,7 +2248,7 @@ let texfriendColourMaster = [
 ];
 
 let activeColourMasterIndex = 0; let selectedColourForPopup = null; let colourPopupTarget = { type:null, index:null };
-let editingShadeIndex = -1; // To track if we are editing or adding a new shade
+let editingShadeIndex = -1;
 
 function loadTexfriendColourMaster() {
     try { const saved = localStorage.getItem(TEXFRIEND_COLOUR_KEY); if(saved) { const parsed = JSON.parse(saved); if(Array.isArray(parsed) && parsed.length) texfriendColourMaster = parsed; } } catch(e) {}
@@ -1215,7 +2271,7 @@ function renderColourShades() {
         const card = document.createElement("div"); card.className = "swatch-card";
         let pantoneHTML = shade.pantone ? `<div class="swatch-pantone">PT: ${escapeColourText(shade.pantone)}</div>` : '';
         card.innerHTML = `<div class="swatch-color" style="background:${shade.hex}"></div><div class="swatch-details"><div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>${pantoneHTML}</div>`;
-        card.onclick = () => openColorManager(i); // 🔥 Click to Edit from Main Menu 🔥
+        card.onclick = () => openColorManager(i);
         box.appendChild(card);
     });
 }
@@ -1280,11 +2336,11 @@ function applySelectedColour() {
 }
 
 function getContrastColor(hex) {
-    hex = hex.replace('#', '');
+    hex = (hex || "#ffffff").replace('#', '');
     if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
+    const r = parseInt(hex.substring(0, 2), 16) || 255;
+    const g = parseInt(hex.substring(2, 4), 16) || 255;
+    const b = parseInt(hex.substring(4, 6), 16) || 255;
     const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? '#000000' : '#ffffff';
 }
@@ -1300,7 +2356,6 @@ function makeColourNameHTML(shade) {
 
 function escapeColourText(value) { return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 
-// 🔥 MODIFIED FOR EDIT / ADD 🔥
 function openColorManager(index = -1) {
     editingShadeIndex = index;
     let catSelect = $("cmCategory");
@@ -1309,7 +2364,6 @@ function openColorManager(index = -1) {
     catSelect.innerHTML += `<option value="_new_">➕ Add New Category</option>`;
     
     if(index >= 0) {
-        // Edit Mode
         $("cmPopupTitle").innerHTML = "✏️ Edit / Delete Shade";
         let shade = texfriendColourMaster[activeColourMasterIndex].shades[index];
         catSelect.value = texfriendColourMaster[activeColourMasterIndex].name;
@@ -1317,12 +2371,11 @@ function openColorManager(index = -1) {
         $("cmName").value = shade.name || ""; 
         
         let hexVal = (shade.hex || "#22c55e").toLowerCase(); 
-        // Force valid 7-char lowercase hex for Android Native Picker Bug 🔥
         if(/^#[0-9a-f]{3}$/i.test(hexVal)) {
             hexVal = "#" + hexVal[1]+hexVal[1] + hexVal[2]+hexVal[2] + hexVal[3]+hexVal[3];
         }
         if(!/^#[0-9a-f]{6}$/i.test(hexVal)) {
-            hexVal = "#22c55e"; // Fallback to avoid black screen bug
+            hexVal = "#22c55e";
         }
         
         $("cmHex").value = hexVal; 
@@ -1330,7 +2383,6 @@ function openColorManager(index = -1) {
         $("cmHexWrapper").style.background = hexVal;
         $("cmDeleteBtnContainer").style.display = "block";
     } else {
-        // Add Mode
         $("cmPopupTitle").innerHTML = "🎨 Add New Shade";
         catSelect.value = texfriendColourMaster[activeColourMasterIndex]?.name || ""; 
         $("cmPantone").value = ""; $("cmName").value = ""; 
@@ -1363,7 +2415,7 @@ function searchPantoneDB() {
     let code = $("cmPantone").value.trim().toUpperCase(); if(!code) return;
     if(PANTONE_DB[code]) { 
         $("cmName").value = PANTONE_DB[code].name; 
-        let h = PANTONE_DB[code].hex.toLowerCase(); // Lowercase for Android Fix 🔥
+        let h = PANTONE_DB[code].hex.toLowerCase(); 
         $("cmHex").value = h; 
         $("cmHexPicker").value = h; 
         $("cmHexWrapper").style.background = h;
