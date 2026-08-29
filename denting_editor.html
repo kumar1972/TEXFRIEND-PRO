@@ -435,62 +435,345 @@
         return total;
     }
 
-    async function saveDentingDrawingData() {
-        let dentStr = document.getElementById("dentingPatternInput").value;
-        let drawStr = document.getElementById("drawingPatternInput").value;
-        
-        localStorage.setItem("saved_denting_pattern", dentStr);
-        localStorage.setItem("saved_drawing_pattern", drawStr);
+   /* =========================================================
+   LOCAL FIRST → FIREBASE CLOUD SAVE
+   பழைய மற்ற code எதையும் மாற்ற வேண்டாம்
+========================================================= */
 
-        let sel = document.getElementById("designSelect").value;
-        if(sel !== "" && allCloudDesigns[sel]) {
-            let d = allCloudDesigns[sel];
-            d.dentingPattern = dentStr;
-            d.drawingPattern = drawStr;
-            updateDesignStorage(d);
-        }
-        alert("✅ Denting & Drawing Saved Successfully!");
+async function updateDesignStorage(d) {
+    if (!d) return false;
+
+    const name = String(d.designNo || d.name || "").trim();
+
+    if (!name) {
+        console.warn("⚠️ Design number/name missing. Local save skipped.");
+        return false;
     }
 
-    async function saveGraphDataOnly() {
-        let pickStr = document.getElementById("pickPatternInput").value;
-        let warpGStr = document.getElementById("warpGraphPatternInput").value;
-        let wType = document.getElementById("weaveType").value;
-        let matrix = JSON.parse(JSON.stringify(weavePatterns.custom));
-        
-        localStorage.setItem("saved_pick_pattern", pickStr);
-        localStorage.setItem("saved_warp_graph_pattern", warpGStr);
+    /* =====================================================
+       STEP 1 — LOCAL SAVE FIRST
+    ===================================================== */
 
-        let sel = document.getElementById("designSelect").value;
-        if(sel !== "" && allCloudDesigns[sel]) {
-            let d = allCloudDesigns[sel];
-            d.pickPattern = pickStr;
-            d.warpGraphPattern = warpGStr;
-            d.type = wType;
-            d.customMatrix = matrix;
-            updateDesignStorage(d);
+    try {
+        let local = JSON.parse(
+            localStorage.getItem("design_masters_data") || "[]"
+        );
+
+        if (!Array.isArray(local)) local = [];
+
+        const idx = local.findIndex(x =>
+            x &&
+            (
+                String(x.designNo || "").trim() === name ||
+                String(x.name || "").trim() === name
+            )
+        );
+
+        if (idx >= 0) {
+            local[idx] = {
+                ...local[idx],
+                ...d
+            };
+        } else {
+            local.push(d);
         }
-        alert("✅ Weave Graph Saved Successfully!");
+
+        localStorage.setItem(
+            "design_masters_data",
+            JSON.stringify(local)
+        );
+
+        /* Keep cache also updated if it already exists */
+        let cache = JSON.parse(
+            localStorage.getItem("weave_designs_cache") || "[]"
+        );
+
+        if (!Array.isArray(cache)) cache = [];
+
+        const cacheIdx = cache.findIndex(x =>
+            x &&
+            (
+                String(x.designNo || "").trim() === name ||
+                String(x.name || "").trim() === name
+            )
+        );
+
+        if (cacheIdx >= 0) {
+            cache[cacheIdx] = {
+                ...cache[cacheIdx],
+                ...d
+            };
+        }
+
+        localStorage.setItem(
+            "weave_designs_cache",
+            JSON.stringify(cache)
+        );
+
+        console.log("✅ LOCAL SAVE SUCCESS:", name);
+
+    } catch (localErr) {
+
+        console.error("❌ LOCAL SAVE FAILED:", localErr);
+
+        alert(
+            "❌ Local save failed!\n\n" +
+            "Firebase save செய்யப்படவில்லை."
+        );
+
+        return false;
     }
 
-    async function updateDesignStorage(d) {
-        let name = d.designNo || d.name;
-        let local = JSON.parse(localStorage.getItem("design_masters_data") || "[]");
-        let idx = local.findIndex(x => (x.designNo === name || x.name === name));
-        if(idx >= 0) {
-            local[idx] = d;
-            localStorage.setItem("design_masters_data", JSON.stringify(local));
-        }
+    /* =====================================================
+       STEP 2 — FIREBASE CLOUD SAVE
+       Local save successful ஆன பிறகே இங்கே வரும்
+    ===================================================== */
 
-        if (window.firebase && window.firebase.firestore) {
+    if (
+        window.firebase &&
+        typeof window.firebase.firestore === "function"
+    ) {
+        try {
+
+            const db = window.firebase.firestore();
+
+            const docId = String(
+                d.id || d.designNo || d.name
+            ).trim();
+
+            if (!docId) {
+                console.warn(
+                    "⚠️ Firebase document ID missing."
+                );
+                return true;
+            }
+
+            /* Weave collection */
+            await db
+                .collection("weaves")
+                .doc(docId)
+                .set(d, { merge: true });
+
+            /* Design master collection */
             try {
-                let db = window.firebase.firestore();
-                let docId = d.id || name;
-                await db.collection("weaves").doc(String(docId)).set(d, {merge:true});
-                try { await db.collection("design_masters_data").doc(String(docId)).set(d, {merge:true}); } catch(e){} 
-            } catch (err) {}
+                await db
+                    .collection("design_masters_data")
+                    .doc(docId)
+                    .set(d, { merge: true });
+            } catch (e2) {
+                console.warn(
+                    "⚠️ design_masters_data cloud save failed:",
+                    e2
+                );
+            }
+
+            console.log(
+                "☁️ FIREBASE CLOUD SAVE SUCCESS:",
+                name
+            );
+
+            return true;
+
+        } catch (cloudErr) {
+
+            /*
+             * IMPORTANT:
+             * Local data already saved.
+             * Cloud failure must NOT delete/rollback local data.
+             */
+
+            console.error(
+                "⚠️ FIREBASE CLOUD SAVE FAILED:",
+                cloudErr
+            );
+
+            console.warn(
+                "📱 Local copy is safe. Cloud save can be retried later."
+            );
+
+            return true;
         }
+
+    } else {
+
+        console.warn(
+            "☁️ Firebase not available. Local save only."
+        );
+
+        return true;
     }
+}
+
+
+/* =========================================================
+   SAVE DENTING + DRAWING
+   LOCAL FIRST → CLOUD SECOND
+========================================================= */
+
+async function saveDentingDrawingData() {
+
+    const dentStr =
+        document.getElementById("dentingPatternInput").value.trim();
+
+    const drawStr =
+        document.getElementById("drawingPatternInput").value.trim();
+
+    /* -----------------------------------------------------
+       STEP 1 — ALWAYS SAVE LOCAL
+    ----------------------------------------------------- */
+
+    try {
+
+        localStorage.setItem(
+            "saved_denting_pattern",
+            dentStr
+        );
+
+        localStorage.setItem(
+            "saved_drawing_pattern",
+            drawStr
+        );
+
+        console.log("✅ Denting/Drawing LOCAL SAVE SUCCESS");
+
+    } catch (err) {
+
+        console.error(
+            "❌ Denting/Drawing local save failed:",
+            err
+        );
+
+        alert("❌ Local save failed!");
+        return;
+    }
+
+    /* -----------------------------------------------------
+       STEP 2 — UPDATE SELECTED DESIGN
+    ----------------------------------------------------- */
+
+    const sel =
+        document.getElementById("designSelect").value;
+
+    if (sel !== "" && allCloudDesigns[sel]) {
+
+        const d = allCloudDesigns[sel];
+
+        d.dentingPattern = dentStr;
+        d.drawingPattern = drawStr;
+
+        /*
+         * updateDesignStorage()
+         * → Local save first
+         * → Firebase save second
+         */
+
+        await updateDesignStorage(d);
+
+    } else {
+
+        /*
+         * No design selected.
+         * Local save already completed.
+         */
+
+        console.log(
+            "ℹ️ No design selected. Saved locally only."
+        );
+    }
+
+    alert(
+        "✅ Denting & Drawing Saved Successfully!\n\n" +
+        "📱 Local: Saved\n" +
+        "☁️ Cloud: Save attempted"
+    );
+}
+
+
+/* =========================================================
+   SAVE GRAPH
+   LOCAL FIRST → CLOUD SECOND
+========================================================= */
+
+async function saveGraphDataOnly() {
+
+    const pickStr =
+        document.getElementById("pickPatternInput").value.trim();
+
+    const warpGStr =
+        document.getElementById("warpGraphPatternInput").value.trim();
+
+    const wType =
+        document.getElementById("weaveType").value;
+
+    const matrix =
+        JSON.parse(
+            JSON.stringify(weavePatterns.custom)
+        );
+
+    /* -----------------------------------------------------
+       STEP 1 — ALWAYS SAVE LOCAL
+    ----------------------------------------------------- */
+
+    try {
+
+        localStorage.setItem(
+            "saved_pick_pattern",
+            pickStr
+        );
+
+        localStorage.setItem(
+            "saved_warp_graph_pattern",
+            warpGStr
+        );
+
+        console.log("✅ Graph LOCAL SAVE SUCCESS");
+
+    } catch (err) {
+
+        console.error(
+            "❌ Graph local save failed:",
+            err
+        );
+
+        alert("❌ Local graph save failed!");
+        return;
+    }
+
+    /* -----------------------------------------------------
+       STEP 2 — UPDATE SELECTED DESIGN
+    ----------------------------------------------------- */
+
+    const sel =
+        document.getElementById("designSelect").value;
+
+    if (sel !== "" && allCloudDesigns[sel]) {
+
+        const d = allCloudDesigns[sel];
+
+        d.pickPattern = pickStr;
+        d.warpGraphPattern = warpGStr;
+        d.type = wType;
+        d.customMatrix = matrix;
+
+        /*
+         * Local first → Firebase second
+         */
+
+        await updateDesignStorage(d);
+
+    } else {
+
+        console.log(
+            "ℹ️ No design selected. Graph saved locally only."
+        );
+    }
+
+    alert(
+        "✅ Weave Graph Saved Successfully!\n\n" +
+        "📱 Local: Saved\n" +
+        "☁️ Cloud: Save attempted"
+    );
+}
 
     function copyCol(c) {
         copiedColData = weavePatterns.custom.map(row => row[c]);
