@@ -861,7 +861,7 @@ let weavePatterns = {
 };
 
 /* =========================================================
-   COLOUR TRANSLATION MAP (கலர் பெயர்கள் - config.js / உங்களது தரவு முறைப்படி)
+   COLOUR TRANSLATION MAP
 ========================================================= */
 const COLOR_TRANSLATIONS = {
     'gold': 'கோல்டு',
@@ -914,7 +914,6 @@ function getLocalizedColorName(engName) {
     let clean = engName.trim();
     let lower = clean.toLowerCase();
     
-    // First check config/master data if available
     let tamil = "";
     if (typeof texfriendColourMaster !== 'undefined') {
         for (let cat of texfriendColourMaster) {
@@ -926,20 +925,11 @@ function getLocalizedColorName(engName) {
         }
     }
     
-    // Fallback to direct map
-    if (!tamil) {
-        tamil = COLOR_TRANSLATIONS[lower] || "";
-    }
-
-    if (tamil) {
-        return `${clean} (${tamil})`;
-    }
+    if (!tamil) tamil = COLOR_TRANSLATIONS[lower] || "";
+    if (tamil) return `${clean} (${tamil})`;
     return clean;
 }
 
-/* =========================================================
-   PATTERN EXPANSION HELPER
-========================================================= */
 function expandPattern(str) {
     if(!str) return [];
     let s = String(str).toLowerCase().replace(/\s+/g, '');
@@ -964,9 +954,6 @@ function expandPattern(str) {
     return res;
 }
 
-/* =========================================================
-   HELPERS
-========================================================= */
 const $ = id => document.getElementById(id);
 
 function safeJSON(key, fallback=null) {
@@ -1046,6 +1033,9 @@ function pickRicherArray(arr1, arr2) {
     return arr1.length >= arr2.length ? arr1 : arr2;
 }
 
+/* 
+ * 🛠️ FIX 1: Overwrite பிரச்சனை வராமல் type, customMatrix மற்றும் பேட்டர்ன்களை சரியாக Merge செய்யும் Function 
+ */
 function mergeDesigns(items) {
     let map = new Map();
     (items||[]).filter(Boolean).forEach(rawD => {
@@ -1053,17 +1043,28 @@ function mergeDesigns(items) {
         let n = cleanDesignName(designName(d)); 
         if(!n || n==="unnamed") return;
         let old = map.get(n); 
-        if(!old) map.set(n, d);
-        else map.set(n, { 
-            ...old, ...d, 
-            warpLines: pickRicherArray(old.warpLines, d.warpLines),
-            weftLines: pickRicherArray(old.weftLines, d.weftLines),
-            warpRanges: pickRicherArray(old.warpRanges, d.warpRanges),
-            weftRanges: pickRicherArray(old.weftRanges, d.weftRanges),
-            customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix, 
-            dentingPattern: d.dentingPattern || old.dentingPattern, 
-            drawingPattern: d.drawingPattern || old.drawingPattern 
-        });
+        
+        if(!old) {
+            map.set(n, d);
+        } else {
+            // Type & Matrix Merge Logic: பழைய Plain Weave-ஐ விட புதிய Custom/Twill விபரங்களுக்கு முன்னுரிமை
+            let mergedType = (d.type && d.type !== "plain") ? d.type : (old.type && old.type !== "plain" ? old.type : (d.type || old.type));
+            let mergedMatrix = d.customMatrix?.length ? d.customMatrix : old.customMatrix;
+
+            map.set(n, { 
+                ...old, ...d, 
+                warpLines: pickRicherArray(old.warpLines, d.warpLines),
+                weftLines: pickRicherArray(old.weftLines, d.weftLines),
+                warpRanges: pickRicherArray(old.warpRanges, d.warpRanges),
+                weftRanges: pickRicherArray(old.weftRanges, d.weftRanges),
+                customMatrix: mergedMatrix,
+                type: mergedType,
+                dentingPattern: d.dentingPattern || old.dentingPattern, 
+                drawingPattern: d.drawingPattern || old.drawingPattern,
+                pickPattern: d.pickPattern || old.pickPattern,
+                warpGraphPattern: d.warpGraphPattern || old.warpGraphPattern
+            });
+        }
     });
     return [...map.values()];
 }
@@ -1195,31 +1196,54 @@ function populateDesignSelect(auto = true) {
     }
 }
 
+/* 
+ * 🛠️ FIX 2: Denting Editor-ல் Save செய்யப்பட்ட `local_edits_cache`-ஐ 3D Weave-ம் எடுத்துப் பயன்படுத்தும் படி மாற்றுதல் 
+ */
 async function importFromFirebase(manual = false) {
     try {
         setStatus(manual ? "🔄 Local + Cloud refresh..." : "⚡ Loading designs...");
         let local = []; 
-        ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "weft_entry_data", "warping_data"].forEach(k => { 
+        
+        // Priority order (least to most important overrides)
+        ["warping_data", "warp_entry_data", "weft_entry_data", "weave_designs", "weave_designs_cache", "design_masters_data"].forEach(k => { 
             let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a); 
         });
+        
         allCloudDesigns = mergeDesigns(local); 
+
+        // Apply Local Edits Cache (Graph, Denting, Drawing updates)
+        let localEdits = safeJSON("local_edits_cache", {});
+        allCloudDesigns = allCloudDesigns.map(d => {
+            let n = cleanDesignName(designName(d));
+            let editKey = Object.keys(localEdits).find(k => cleanDesignName(k) === n);
+            if (editKey) {
+                return { ...d, ...localEdits[editKey] };
+            }
+            return d;
+        });
+
         populateDesignSelect(true);
         setStatus(allCloudDesigns.length ? "💾 Local designs ready" : "ℹ️ Design இல்லை");
     } catch(e) {}
 }
 
+/* 
+ * 🛠️ FIX 3: Matrix Data & Weave Type ஆகியவற்றை சரியாக ஸ்கிரீனில் லோட் செய்தல் 
+ */
 function loadSelectedDesign() {
     let s = $("designSelect");
     if(!s) return;
     let i = parseInt(s.value);
+    
     if(isNaN(i) || !allCloudDesigns[i]) {
         let foundIdx = allCloudDesigns.findIndex(d => cleanDesignName(designName(d)) === cleanDesignName(s.value) || designName(d) === s.value);
         if(foundIdx >= 0) { i = foundIdx; s.value = i; } else { return; }
     }
     activeDesignObj = clone(allCloudDesigns[i]);
+    
     let dName = designName(activeDesignObj);
     localStorage.setItem("weave_last_design_name", dName);
-    $("activeDesignText").textContent = "Active Design: " + dName;
+    if($("activeDesignText")) $("activeDesignText").textContent = "Active Design: " + dName;
     
     if($("dentingPatternInput")) $("dentingPatternInput").value = activeDesignObj.dentingPattern || "2";
     if($("drawingPatternInput")) $("drawingPatternInput").value = activeDesignObj.drawingPattern || "1,2,3,4";
@@ -1227,9 +1251,30 @@ function loadSelectedDesign() {
     let w = activeDesignObj.warpLines || activeDesignObj.warp || []; 
     let f = activeDesignObj.weftLines || activeDesignObj.weft || [];
     renderUIWithData(w, f);
-    let type = activeDesignObj.type || "plain";
-    if(activeDesignObj.customMatrix?.length) { weavePatterns.custom = clone(activeDesignObj.customMatrix); if(activeDesignObj.type === "custom") type = "custom"; }
-    if(!weavePatterns[type]) type = "plain"; $("weaveType").value = type;
+    
+    let type = activeDesignObj.type ? String(activeDesignObj.type).trim().toLowerCase() : "";
+    if(!type || !document.querySelector(`#weaveType option[value="${type}"]`)) {
+        if(activeDesignObj.customMatrix && activeDesignObj.customMatrix.length === 2) {
+            type = "plain";
+        } else if (activeDesignObj.customMatrix) {
+            type = "custom";
+        } else {
+            type = "plain";
+        }
+    }
+    
+    $("weaveType").value = type;
+
+    if(activeDesignObj.customMatrix && Array.isArray(activeDesignObj.customMatrix) && activeDesignObj.customMatrix.length > 0) {
+        weavePatterns.custom = JSON.parse(JSON.stringify(activeDesignObj.customMatrix));
+    } else if(type === "plain") {
+        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.plain));
+    } else if(type === "twill") {
+        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.twill));
+    } else {
+        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.plain));
+    }
+    
     onWeaveChange(false);
 }
 
