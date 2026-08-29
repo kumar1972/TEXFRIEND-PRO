@@ -2485,6 +2485,39 @@ window.addEventListener("load", async () => {
     populateDesignSelect(true);
     await importFromFirebase(false);
 });
+// ===== GRAPH SIZE FIX - PASTE THIS =====
+document.getElementById('printGraphScale')?.addEventListener('change', function() {
+    let val = this.value; // small, medium, large
+    let size = "8mm";
+    if(val === "small") size = "2mm";
+    if(val === "medium") size = "3mm";
+    if(val === "large") size = "5mm";
+
+    // Weave graph table cells size ah maathu
+    document.querySelectorAll('.print-graph-table td').forEach(td => {
+        if(!td.classList.contains('graph-axis')) {
+            td.style.width = size;
+            td.style.height = size;
+            td.style.minWidth = size;
+        }
+    });
+    
+    console.log("Graph size changed to:", val, size);
+});
+
+document.getElementById('printOrientation')?.addEventListener('change', function() {
+    // Orientation change pannalum re-build pannu
+    if(typeof printDesign === 'function') {
+        // print content ah refresh pannu
+        setTimeout(() => {
+            let modal = document.getElementById('printModalBox');
+            if(modal && modal.style.display !== 'none') {
+                printDesign();
+            }
+        }, 100);
+    }
+});
+// ===== FIX MUDINJATHU =====
 </script>
 
 </body>
