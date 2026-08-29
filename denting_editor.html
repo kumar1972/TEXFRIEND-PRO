@@ -221,7 +221,8 @@
                     <button onclick="addRowTop()">➕ Row</button>
                     <button onclick="removeLastRow()">➖ Row</button>
                     <button onclick="removeLastCol()">➖ Col</button>
-                    <button onclick="triggerGraphScan()" style="background:#217eaf; border-color:#38bdf8;">📸 Scan Graph</button>
+                    <button onclick="copyFullGraph()" style="background:#f59e0b; border-color:#b45309; color:#000;">📋 Copy Graph</button>
+                    <button onclick="pasteFullGraph()" style="background:#10b981; border-color:#059669; color:#fff;">📋 Paste Graph</button>
                 </div>
                 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; background:#0a1410; padding:10px; border-radius:8px; border:1px solid #1a2f24;">
@@ -708,30 +709,54 @@
     function removeLastRow() { removeRow(weavePatterns.custom.length-1); }
     function removeLastCol() { removeCol((weavePatterns.custom[0]?.length||1)-1); }
 
-    function triggerGraphScan() {
-        let inp = document.createElement("input"); inp.type="file"; inp.accept="image/*";
-        inp.onchange = e => { let f = e.target.files[0]; if(!f) return; let rd = new FileReader(); rd.onload = x => { let im = new Image(); im.onload = () => processGraphImage(im); im.src = x.target.result; }; rd.readAsDataURL(f); }; inp.click();
-    }
-    function processGraphImage(img) {
-        let r_str = prompt("எத்தனை வரிசைகள் (Picks/Rows) உள்ளன? (உதாரணம்: 4)", "4"); if(!r_str) return; 
-        let c_str = prompt("எத்தனை நெடுக்கைகள் (Ends/Cols) உள்ளன? (உதாரணம்: 4)", "4"); if(!c_str) return;
-        let rows = parseInt(r_str); let cols = parseInt(c_str); if(!rows || !cols || isNaN(rows) || isNaN(cols)) { alert("தவறான உள்ளீடு!"); return; }
-        let c = document.createElement("canvas"); let x = c.getContext("2d"); c.width = img.width; c.height = img.height; x.drawImage(img,0,0);
-        let cellW = c.width/cols; let cellH = c.height/rows; let cellAverages = []; let rawMatrix = [];
-        for(let r=0; r<rows; r++) {
-            let rowData = [];
-            for(let k=0; k<cols; k++) {
-                let startX = Math.floor(k*cellW + cellW*0.25); let startY = Math.floor(r*cellH + cellH*0.25);
-                let w = Math.floor(cellW*0.5)||1; let h = Math.floor(cellH*0.5)||1; let imgData = x.getImageData(startX, startY, w, h).data;
-                let sum = 0; for(let i=0; i<imgData.length; i+=4) sum += 0.299*imgData[i] + 0.587*imgData[i+1] + 0.114*imgData[i+2];
-                let avg = sum/(w*h); rowData.push(avg); cellAverages.push(avg);
-            }
-            rawMatrix.push(rowData);
+    /* =====================================
+       NEW: COPY / PASTE GRAPH FUNCTIONALITY
+       ===================================== */
+    function copyFullGraph() {
+        let m = weavePatterns.custom;
+        if(!m || !m.length) { 
+            alert("காப்பி செய்ய Graph ஏதும் இல்லை!"); 
+            return; 
         }
-        let threshold = (Math.min(...cellAverages) + Math.max(...cellAverages))/2; let nw = [];
-        for(let r=0; r<rows; r++) { let finalRow = []; for(let k=0; k<cols; k++) finalRow.push(rawMatrix[r][k]<threshold ? 1 : 0); nw.push(finalRow); }
-        weavePatterns.custom = nw; document.getElementById("weaveType").value = "custom"; onWeaveChange(); 
-        alert("✅ புகைப்படம் வெற்றிகரமாக Graph-ஆக மாற்றப்பட்டது!");
+        
+        let dataToCopy = {
+            matrix: m,
+            pickPattern: document.getElementById("pickPatternInput")?.value || "",
+            warpPattern: document.getElementById("warpGraphPatternInput")?.value || ""
+        };
+        
+        localStorage.setItem("copied_full_graph", JSON.stringify(dataToCopy));
+        alert("✅ முழு Graph காப்பி (Copy) செய்யப்பட்டது!\n\nவேறு டிசைனைத் தேர்ந்தெடுத்து Paste பட்டனை அழுத்தவும்.");
+    }
+
+    function pasteFullGraph() {
+        let saved = localStorage.getItem("copied_full_graph");
+        if(!saved) { 
+            alert("⚠️ முதலில் ஒரு Graph-ஐ காப்பி (Copy) செய்யவும்!"); 
+            return; 
+        }
+        
+        try {
+            let data = JSON.parse(saved);
+            if(data.matrix && Array.isArray(data.matrix)) {
+                weavePatterns.custom = JSON.parse(JSON.stringify(data.matrix));
+                document.getElementById("weaveType").value = "custom";
+                
+                if(document.getElementById("pickPatternInput")) {
+                    document.getElementById("pickPatternInput").value = data.pickPattern || "";
+                }
+                if(document.getElementById("warpGraphPatternInput")) {
+                    document.getElementById("warpGraphPatternInput").value = data.warpPattern || "";
+                }
+                
+                buildGridEditor();
+                
+                alert("✅ Graph வெற்றிகரமாக Paste செய்யப்பட்டது!\n\nமாற்றங்களைச் சேமிக்க 'Save Graph' பட்டனை அழுத்தவும்.");
+            }
+        } catch(e) {
+            console.error(e);
+            alert("⚠️ Graph Paste செய்வதில் பிழை!");
+        }
     }
 
     function getPrintBracketMap(str, isCol=false) {
