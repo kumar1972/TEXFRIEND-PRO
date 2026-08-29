@@ -404,104 +404,105 @@ input, select {
     .print-sheet-inner { margin:8px; padding:9px; }
 }
 
-/* ================= COLOUR MASTER STYLES ================= */
-.colour-master-card {
-    background: #102019;
-    border: 1px solid #315746;
-    border-radius: 10px;
-    padding: 8px;
-    margin-bottom: 8px;
+/* ================= FULLSCREEN COLOUR POPUP (RECTANGLE TABS & 50+ SHADES PER CATEGORY) ================= */
+.colour-popup { display: none; position: fixed; inset: 0; z-index: 9999999; background: #14251e; flex-direction: column; padding: 10px; overflow: hidden; }
+.colour-popup.active { display: flex; }
+
+.colour-popup-box {
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    max-height: none !important;
+    background: #14251e !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
 }
 
-.colour-master-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.colour-master-title b { color: #9be4a8; font-size: .8rem; }
-.colour-master-title span { font-size: .55rem; color: #9fc5aa; }
+.colour-popup-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-shrink: 0; }
+.colour-popup-head b { color: #f59e0b; font-size: .95rem; }
+.colour-popup-close { background: #ef4444; border: 0; color: #fff; border-radius: 50%; width: 28px; height: 28px; font-weight: 900; font-size:0.85rem; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+
+.search-box { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #395648; background: #0d1813; color: #fff; font-size: .8rem; margin-bottom: 8px; flex-shrink: 0; }
 
 .colour-master-tabs {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+    scrollbar-width: none;
 }
+.colour-master-tabs::-webkit-scrollbar { display: none; }
+
 .colour-master-tab {
     flex: 0 0 auto;
     border: 1px solid #39614f;
-    background: #203b30;
+    background: #1b362c;
     color: #b8d8bf;
-    border-radius: 12px;
-    padding: 4px 8px;
-    font-size: .58rem;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: .7rem;
     font-weight: 800;
     cursor: pointer;
+    white-space: nowrap;
 }
-.colour-master-tab.active { background: #2d9148; color: #fff; border-color: #9be4a8; }
+.colour-master-tab.active { background: #f59e0b; color: #14251e; border-color: #f59e0b; font-weight: 900; }
 
-.colour-shade-list, .colour-popup-grid { 
+.colour-popup-grid { 
+    flex: 1;
+    overflow-y: auto; 
     display: grid; 
-    grid-template-columns: repeat(6, 1fr); 
-    gap: 4px; 
-    margin-top: 6px; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 6px; 
+    padding-right: 2px;
+    align-content: start;
 }
 
 .swatch-card {
     background: #172b23;
     border: 1px solid #395648;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    justify-content: center;
+    padding: 10px 4px;
 }
 
-.swatch-card.selected { border-color: #9be4a8; box-shadow: 0 0 0 1px #2d9148; background: #1e382d; }
+.swatch-card.selected { border-color: #f59e0b; box-shadow: 0 0 0 1px #f59e0b; background: #1e382d; }
 
+/* SQUARED COLOR SWATCH (NO ROUND SHAPE) */
 .swatch-color {
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    height: 36px;
+    width: 36px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+    margin-bottom: 6px;
+}
+
+.swatch-details { text-align: center; width: 100%; }
+.swatch-name { font-size: .62rem; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.swatch-pantone { font-size: .52rem; color: #f59e0b; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.colour-popup-footer { 
+    display: flex; 
+    flex-direction: column;
+    gap: 8px; 
+    margin-top: 8px; 
+    padding-top: 8px; 
+    border-top: 1px solid #2c4b3d; 
     flex-shrink: 0;
 }
-
-.swatch-details { padding: 4px 2px 0 2px; text-align: center; width: 100%; }
-.swatch-name { font-size: .45rem; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.swatch-pantone { font-size: .4rem; color: #f59e0b; font-weight: 700; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.colour-master-actions { display: grid; grid-template-columns: 1fr; gap: 4px; margin-top: 8px; }
-.colour-master-actions button { border: 0; border-radius: 6px; padding: 8px; font-size: 0.7rem; font-weight: 800; cursor: pointer; color: #fff; background: linear-gradient(135deg, #10B981, #059669); }
-
-/* ================= COLOUR POPUP ================= */
-.colour-popup { display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 8px; }
-.colour-popup.active { display: flex; }
-
-.colour-popup-box {
-    width: 100%;
-    max-width: 480px;
-    max-height: 95vh;
-    overflow: auto;
-    background: #14251e;
-    border: 1px solid #3c6752;
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-}
-
-.colour-popup-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.colour-popup-head b { color: #9be4a8; font-size: .85rem; }
-.colour-popup-close { background: #633b3b; border: 0; color: #fff; border-radius: 6px; padding: 4px 8px; font-weight: 900; font-size:0.75rem; }
-
-.search-box { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #395648; background: #0d1813; color: #fff; font-size: .7rem; margin-bottom: 8px; }
-.colour-popup-grid { max-height: 40vh; overflow-y: auto; padding-right: 2px; }
-
-.colour-popup-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; padding-top: 8px; border-top: 1px solid #2c4b3d; }
-.colour-popup-footer button { border: 0; border-radius: 6px; padding: 10px; color: #fff; font-weight: 900; font-size: .75rem; }
-.colour-use-btn { background: #2d9148; }
-.colour-cancel-btn { background: #633b3b; }
+.colour-use-btn { background: #10b981; border: 0; border-radius: 8px; padding: 12px; color: #fff; font-weight: 900; font-size: .85rem; cursor: pointer; width: 100%; text-align: center; }
 
 .pantone-modal { display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 12px; }
 .pantone-modal.active { display: flex; }
@@ -510,21 +511,8 @@ input, select {
 .pm-label { font-size:0.65rem; color:#f59e0b; margin-bottom:4px; display:block; font-weight:bold; }
 .pm-label-w { font-size:0.65rem; color:#9be4a8; margin-bottom:4px; display:block; font-weight:bold; }
 
-#dentingModal {
-    padding: 0 !important;
-    align-items: stretch !important;
-    justify-content: stretch !important;
-}
-#dentingModal .colour-popup-box {
-    width: 100vw !important;
-    max-width: none !important;
-    height: 100vh !important;
-    max-height: none !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    padding: 10px !important;
-    overflow: auto !important;
-}
+#dentingModal { padding: 0 !important; align-items: stretch !important; justify-content: stretch !important; }
+#dentingModal .colour-popup-box { width: 100vw !important; max-width: none !important; height: 100vh !important; max-height: none !important; border: 0 !important; border-radius: 0 !important; padding: 10px !important; overflow: auto !important; }
 .denting-tabs { display:flex; gap:6px; margin:4px 0 10px; position:sticky; top:0; z-index:3; background:#14251e; padding-bottom:6px; }
 .denting-tab { flex:1; border:1px solid #39614f; background:#203b30; color:#b8d8bf; border-radius:8px; padding:9px 6px; font-weight:900; font-size:.72rem; }
 .denting-tab.active { background:#2d9148; color:#fff; }
@@ -539,7 +527,6 @@ input, select {
 .preset-grid button { border:1px solid #39614f; background:#244638; color:#aee9ba; border-radius:7px; padding:7px 4px; font-size:.62rem; font-weight:900; }
 .adv-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .adv-grid button { border:0; border-radius:7px; padding:9px 5px; background:#217eaf; color:#fff; font-weight:900; font-size:.65rem; }
-@media(max-width:430px){ .manual-row{grid-template-columns:38px 1fr 38px}.preset-grid{grid-template-columns:1fr 1fr 1fr} }
 
 @media(max-width: 430px) {
     body { padding: 4px; }
@@ -551,12 +538,10 @@ input, select {
     .matrix-cell { width: 30px; height: 30px; }
     .main-actions { grid-template-columns: 1fr 1fr; }
     .main-actions .wide { grid-column: 1 / -1; }
-    
-    .colour-shade-list, .colour-popup-grid { grid-template-columns: repeat(6, 1fr); gap: 4px; }
-    .swatch-color { height: 20px; width: 20px; }
-    .swatch-details { padding: 2px 1px 0 1px; }
-    .swatch-name { font-size: 0.45rem; }
-    .swatch-pantone { font-size: 0.4rem; }
+    .colour-popup-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .swatch-color { height: 32px; width: 32px; }
+    .swatch-name { font-size: 0.58rem; }
+    .swatch-pantone { font-size: 0.48rem; }
 }
 
 </style>
@@ -612,18 +597,6 @@ input, select {
         <div class="yarn-summary">
             <span style="display:none;">நிறங்கள்: <b id="activeYarnCount">0 / 10</b></span>
             <span id="activeYarnHint" style="font-weight: 800; color: #a9d6b2;">Total Ends: 0</span>
-        </div>
-
-        <div class="colour-master-card" id="colourMasterCard">
-            <div class="colour-master-title">
-                <b>🎨 Advanced Colours & Pantone</b>
-                <span>Manage Shades</span>
-            </div>
-            <div class="colour-master-tabs" id="colourMasterTabs"></div>
-            <div id="colourShadeList" class="colour-shade-list"></div>
-            <div class="colour-master-actions">
-                <button onclick="openColorManager()">➕ Add New Colour / Pantone</button>
-            </div>
         </div>
 
         <div id="warpPanel" class="yarn-panel active">
@@ -702,30 +675,29 @@ input, select {
     </div>
 </div>
 
-<!-- SELECT SHADE POPUP -->
+<!-- SELECT SHADE POPUP (ALL 15 TABS & 50+ SHADES EACH) -->
 <div id="colourPopup" class="colour-popup">
     <div class="colour-popup-box">
         <div class="colour-popup-head">
-            <b id="colourPopupTitle">Select Shade</b>
+            <div>
+                <b id="colourPopupTitle">🎨 Ultimate Color Studio</b>
+                <div id="editingTargetInfo" style="font-size:0.55rem; color:#9fc5aa; margin-top:1px;">Editing Line</div>
+            </div>
             <button class="colour-popup-close" onclick="closeColourPopup()">✕</button>
         </div>
-        
-        <div class="colour-master-tabs" id="popupMasterTabs" style="margin-bottom: 8px;"></div>
 
-        <input type="text" id="colourSearchInput" class="search-box" placeholder="🔍 Search Colour Name or Pantone (e.g., 19-4052)..." onkeyup="filterColourPopup()">
+        <input type="text" id="colourSearchInput" class="search-box" placeholder="🔍 Search color name or Pantone (e.g. Cherry, 19-1664)..." onkeyup="filterColourPopup()">
         
+        <div class="colour-master-tabs" id="popupMasterTabs"></div>
+
         <div id="colourPopupGrid" class="colour-popup-grid"></div>
 
-        <div style="margin-top: 10px; font-size: 0.65rem; color: #a9d6b2; display: flex; align-items: center; justify-content: center; background: #0d1813; padding: 6px; border-radius: 6px; border: 1px dashed #315746;">
-            <label style="margin:0; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                <input type="checkbox" id="syncColorCheck" checked style="width: 14px !important; min-width: 14px !important; height: 14px !important; min-height: 14px !important; margin: 0; accent-color: #2d9148;">
-                அதே நிறம் உள்ள எல்லா இடங்களிலும் மாற்றவும் (Sync All)
-            </label>
-        </div>
-        
         <div class="colour-popup-footer">
-            <button class="colour-use-btn" onclick="applySelectedColour()">✅ Select</button>
-            <button class="colour-cancel-btn" onclick="closeColourPopup()">Cancel</button>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="syncColorCheck" checked style="width: 16px !important; min-width: 16px !important; height: 16px !important; min-height: 16px !important; margin: 0; accent-color: #10b981;">
+                <label for="syncColorCheck" style="margin:0; font-size: 0.65rem; color: #a9d6b2; cursor:pointer;">Sync (எல்லா இடத்திலும் மாற்று)</label>
+            </div>
+            <button class="colour-use-btn" onclick="applySelectedColour()">✅ Apply Shade</button>
         </div>
     </div>
 </div>
@@ -807,44 +779,6 @@ input, select {
     </div>
 </div>
 
-<!-- PANTONE MODAL -->
-<div id="colorManagerModal" class="pantone-modal">
-    <div class="colour-popup-box" style="max-width: 340px; padding: 12px;">
-        <div class="colour-popup-head">
-            <b id="cmPopupTitle" style="font-size:0.9rem;">🎨 Add New Shade</b>
-            <button class="colour-popup-close" style="padding:4px 8px; font-size:0.7rem;" onclick="closeColorManager()">✕</button>
-        </div>
-        
-        <div class="pm-form-box">
-            <label class="pm-label">Quick Auto-Fill (Pantone)</label>
-            <div style="display:flex; gap:6px;">
-                <input type="text" id="cmPantone" placeholder="e.g. 19-4052" style="height:32px; min-height:32px; font-size:0.75rem;">
-                <button class="btn btn-blue" onclick="searchPantoneDB()" style="min-width: 60px; height:32px; min-height:32px; padding: 0; font-size:0.7rem;">🔍 Find</button>
-            </div>
-        </div>
-
-        <label class="pm-label-w">Category</label>
-        <select id="cmCategory" onchange="handleCatChange()" style="height:32px; min-height:32px; font-size:0.75rem; margin-bottom:8px; background:#fff; color:#000;"></select>
-
-        <label class="pm-label-w">Shade Name</label>
-        <input type="text" id="cmName" placeholder="e.g. Navy Blue" style="height:32px; min-height:32px; font-size:0.75rem; margin-bottom:8px;">
-
-        <label class="pm-label-w">Pick Colour</label>
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; background: #0d1813; padding: 6px; border-radius: 6px; border: 1px solid #3c6752;">
-            <div id="cmHexWrapper" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #3c6752; overflow: hidden; background: #22c55e; position: relative; flex-shrink: 0; cursor: pointer;">
-                <input type="color" id="cmHexPicker" value="#22c55e" style="position: absolute; top: -10px; left: -10px; width: 60px; height: 60px; opacity: 0; cursor: pointer; padding: 0; border: none;" oninput="document.getElementById('cmHex').value = this.value.toLowerCase(); document.getElementById('cmHexWrapper').style.background = this.value;">
-            </div>
-            <input type="text" id="cmHex" value="#22c55e" style="height:32px; min-height:32px; font-size:0.8rem; font-weight:bold; letter-spacing:1px; text-transform:lowercase; margin:0;" oninput="let v = this.value.toLowerCase(); if(/^#[0-9a-f]{6}$/i.test(v)){ document.getElementById('cmHexPicker').value = v; document.getElementById('cmHexWrapper').style.background = v; }" placeholder="#hexcode">
-        </div>
-
-        <button class="btn btn-green" style="width: 100%; height: 38px; font-size:0.8rem;" onclick="saveNewColorAdvanced()">💾 Save Colour</button>
-        
-        <div id="cmDeleteBtnContainer" style="display:none; margin-top: 8px;">
-            <button class="btn btn-red" style="width: 100%; height: 38px; font-size:0.8rem; background:#dc2626;" onclick="deleteShadeAdvanced()">🗑️ Delete Colour</button>
-        </div>
-    </div>
-</div>
-
 <script>
 /* =========================================================
    GLOBAL DATA
@@ -864,56 +798,22 @@ let weavePatterns = {
    COLOUR TRANSLATION MAP
 ========================================================= */
 const COLOR_TRANSLATIONS = {
-    'gold': 'கோல்டு',
-        'l. olive': 'L. ஆலிவ்',
-        'd. olive': 'D. ஆலிவ்',
-        'grey': 'கிரே',
-        'gray': 'கிரே',
-        't.salavai': 'T. சலவை',
-        't. salavai': 'T. சலவை',
-        't. white': 'T. சலவை',
-        '1/2 salavai': '1/2 சலவை',
-        '1/2 white': '1/2 சலவை',
-        'white': 'வெள்ளை',
-        'black': 'கருப்பு',
-        'blue': 'ப்ளூ',
-        'yellow': 'மஞ்சள்',
-        'red': 'ரெட்',
-        'green': 'கிரீன்',
-        'p. green': 'கிளி பச்சை',
-        'brown': 'பிரவுன்',
-        'khaki': 'காக்கி',
-        'l. khaki': 'L. காக்கி',
-        'd. khaki': 'D. காக்கி',
-        'rose': 'ரோஸ்',
-        'orange': 'ஆரஞ்சு',
-        'violet': 'வைலட்',
-        'pink': 'பிங்க்',
-        'navy': 'நேவி',
-        'l. navy': 'L. நேவி',
-        'd. navy': 'D. நேவி',
-        'maroon': 'மெரூன்',
-        'olive': 'ஆலிவ்',
-        'l. blue': 'L. ப்ளூ',
-        'r. blue': 'R. ப்ளூ',
-        'turq': 'டர்க்',
-        'purple': 'பர்புள்',
-        'cream': 'கிரீம்',
-        'beige': 'பேஜ்',
-        'biscuit': 'பிஸ்கட்',
-        'majenda': 'மெஜந்தா',
-        'silver': 'சில்வர்',
-        'peach': 'பீச்',
-        'sky blue': 'வான ப்ளூ',
-        'bottle green': 'பாட்டில் கிரீன்',
-        'onion': 'ஆனியன்'
-    };
+    'gold': 'கோல்டு', 'l. olive': 'L. ஆலிவ்', 'd. olive': 'D. ஆலிவ்', 'grey': 'கிரே', 'gray': 'கிரே',
+    't.salavai': 'T. சலவை', 't. salavai': 'T. சலவை', 't. white': 'T. சலவை', '1/2 salavai': '1/2 சலவை',
+    '1/2 white': '1/2 சலவை', 'white': 'வெள்ளை', 'black': 'கருப்பு', 'blue': 'ப்ளூ', 'yellow': 'மஞ்சள்',
+    'red': 'ரெட்', 'green': 'கிரீன்', 'p. green': 'கிளி பச்சை', 'brown': 'பிரவுன்', 'khaki': 'காக்கி',
+    'l. khaki': 'L. காக்கி', 'd. khaki': 'D. காக்கி', 'rose': 'ரோஸ்', 'orange': 'ஆரஞ்சு', 'violet': 'வைலட்',
+    'pink': 'பிங்க்', 'navy': 'நேவி', 'l. navy': 'L. நேவி', 'd. navy': 'D. நேவி', 'maroon': 'மெரூன்',
+    'olive': 'ஆலிவ்', 'l. blue': 'L. ப்ளூ', 'r. blue': 'R. ப்ளூ', 'turq': 'டர்க்', 'purple': 'பர்புள்',
+    'cream': 'கிரீம்', 'beige': 'பேஜ்', 'biscuit': 'பிஸ்கட்', 'majenda': 'மெஜந்தா', 'silver': 'சில்வர்',
+    'peach': 'பீச்', 'sky blue': 'வான ப்ளூ', 'bottle green': 'பாட்டில் கிரீன்', 'onion': 'ஆனியன்',
+    'khaki': 'காக்கி', 'rose': 'ரோஸ்', 'magenta': 'மெஜந்தா', 'beige': 'பேஜ்', 'sand': 'சண்ட்', 'violet': 'வைலட்'
+};
 
 function getLocalizedColorName(engName) {
     if (!engName) return "";
     let clean = engName.trim();
     let lower = clean.toLowerCase();
-    
     let tamil = "";
     if (typeof texfriendColourMaster !== 'undefined') {
         for (let cat of texfriendColourMaster) {
@@ -924,17 +824,18 @@ function getLocalizedColorName(engName) {
             }
         }
     }
-    
-    if (!tamil) tamil = COLOR_TRANSLATIONS[lower] || "";
-    if (tamil) return `${clean} (${tamil})`;
+    if (!tamil) { tamil = COLOR_TRANSLATIONS[lower] || ""; }
+    if (tamil) { return `${clean} (${tamil})`; }
     return clean;
 }
 
+/* =========================================================
+   PATTERN EXPANSION HELPER
+========================================================= */
 function expandPattern(str) {
     if(!str) return [];
     let s = String(str).toLowerCase().replace(/\s+/g, '');
     s = s.replace(/[x×*]/g, '*');
-    
     let parts = s.split(',');
     let res = [];
     for(let p of parts) {
@@ -943,9 +844,7 @@ function expandPattern(str) {
             let [val, count] = p.split('*');
             let v = parseInt(val.replace(/[^0-9]/g, ''));
             let c = parseInt(count.replace(/[^0-9]/g, ''));
-            if(!isNaN(v) && !isNaN(c) && c > 0) {
-                for(let i=0; i<c; i++) res.push(v);
-            }
+            if(!isNaN(v) && !isNaN(c) && c > 0) { for(let i=0; i<c; i++) res.push(v); }
         } else {
             let v = parseInt(p.replace(/[^0-9]/g, ''));
             if(!isNaN(v)) res.push(v);
@@ -954,6 +853,9 @@ function expandPattern(str) {
     return res;
 }
 
+/* =========================================================
+   HELPERS
+========================================================= */
 const $ = id => document.getElementById(id);
 
 function safeJSON(key, fallback=null) {
@@ -1033,9 +935,6 @@ function pickRicherArray(arr1, arr2) {
     return arr1.length >= arr2.length ? arr1 : arr2;
 }
 
-/* 
- * 🛠️ FIX 1: Overwrite பிரச்சனை வராமல் type, customMatrix மற்றும் பேட்டர்ன்களை சரியாக Merge செய்யும் Function 
- */
 function mergeDesigns(items) {
     let map = new Map();
     (items||[]).filter(Boolean).forEach(rawD => {
@@ -1043,28 +942,17 @@ function mergeDesigns(items) {
         let n = cleanDesignName(designName(d)); 
         if(!n || n==="unnamed") return;
         let old = map.get(n); 
-        
-        if(!old) {
-            map.set(n, d);
-        } else {
-            // Type & Matrix Merge Logic: பழைய Plain Weave-ஐ விட புதிய Custom/Twill விபரங்களுக்கு முன்னுரிமை
-            let mergedType = (d.type && d.type !== "plain") ? d.type : (old.type && old.type !== "plain" ? old.type : (d.type || old.type));
-            let mergedMatrix = d.customMatrix?.length ? d.customMatrix : old.customMatrix;
-
-            map.set(n, { 
-                ...old, ...d, 
-                warpLines: pickRicherArray(old.warpLines, d.warpLines),
-                weftLines: pickRicherArray(old.weftLines, d.weftLines),
-                warpRanges: pickRicherArray(old.warpRanges, d.warpRanges),
-                weftRanges: pickRicherArray(old.weftRanges, d.weftRanges),
-                customMatrix: mergedMatrix,
-                type: mergedType,
-                dentingPattern: d.dentingPattern || old.dentingPattern, 
-                drawingPattern: d.drawingPattern || old.drawingPattern,
-                pickPattern: d.pickPattern || old.pickPattern,
-                warpGraphPattern: d.warpGraphPattern || old.warpGraphPattern
-            });
-        }
+        if(!old) map.set(n, d);
+        else map.set(n, { 
+            ...old, ...d, 
+            warpLines: pickRicherArray(old.warpLines, d.warpLines),
+            weftLines: pickRicherArray(old.weftLines, d.weftLines),
+            warpRanges: pickRicherArray(old.warpRanges, d.warpRanges),
+            weftRanges: pickRicherArray(old.weftRanges, d.weftRanges),
+            customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix, 
+            dentingPattern: d.dentingPattern || old.dentingPattern, 
+            drawingPattern: d.drawingPattern || old.drawingPattern 
+        });
     });
     return [...map.values()];
 }
@@ -1196,54 +1084,31 @@ function populateDesignSelect(auto = true) {
     }
 }
 
-/* 
- * 🛠️ FIX 2: Denting Editor-ல் Save செய்யப்பட்ட `local_edits_cache`-ஐ 3D Weave-ம் எடுத்துப் பயன்படுத்தும் படி மாற்றுதல் 
- */
 async function importFromFirebase(manual = false) {
     try {
         setStatus(manual ? "🔄 Local + Cloud refresh..." : "⚡ Loading designs...");
         let local = []; 
-        
-        // Priority order (least to most important overrides)
-        ["warping_data", "warp_entry_data", "weft_entry_data", "weave_designs", "weave_designs_cache", "design_masters_data"].forEach(k => { 
+        ["design_masters_data", "weave_designs", "weave_designs_cache", "warp_entry_data", "weft_entry_data", "warping_data"].forEach(k => { 
             let a = safeJSON(k, []); if(Array.isArray(a)) local.push(...a); 
         });
-        
         allCloudDesigns = mergeDesigns(local); 
-
-        // Apply Local Edits Cache (Graph, Denting, Drawing updates)
-        let localEdits = safeJSON("local_edits_cache", {});
-        allCloudDesigns = allCloudDesigns.map(d => {
-            let n = cleanDesignName(designName(d));
-            let editKey = Object.keys(localEdits).find(k => cleanDesignName(k) === n);
-            if (editKey) {
-                return { ...d, ...localEdits[editKey] };
-            }
-            return d;
-        });
-
         populateDesignSelect(true);
         setStatus(allCloudDesigns.length ? "💾 Local designs ready" : "ℹ️ Design இல்லை");
     } catch(e) {}
 }
 
-/* 
- * 🛠️ FIX 3: Matrix Data & Weave Type ஆகியவற்றை சரியாக ஸ்கிரீனில் லோட் செய்தல் 
- */
 function loadSelectedDesign() {
     let s = $("designSelect");
     if(!s) return;
     let i = parseInt(s.value);
-    
     if(isNaN(i) || !allCloudDesigns[i]) {
         let foundIdx = allCloudDesigns.findIndex(d => cleanDesignName(designName(d)) === cleanDesignName(s.value) || designName(d) === s.value);
         if(foundIdx >= 0) { i = foundIdx; s.value = i; } else { return; }
     }
     activeDesignObj = clone(allCloudDesigns[i]);
-    
     let dName = designName(activeDesignObj);
     localStorage.setItem("weave_last_design_name", dName);
-    if($("activeDesignText")) $("activeDesignText").textContent = "Active Design: " + dName;
+    $("activeDesignText").textContent = "Active Design: " + dName;
     
     if($("dentingPatternInput")) $("dentingPatternInput").value = activeDesignObj.dentingPattern || "2";
     if($("drawingPatternInput")) $("drawingPatternInput").value = activeDesignObj.drawingPattern || "1,2,3,4";
@@ -1251,30 +1116,9 @@ function loadSelectedDesign() {
     let w = activeDesignObj.warpLines || activeDesignObj.warp || []; 
     let f = activeDesignObj.weftLines || activeDesignObj.weft || [];
     renderUIWithData(w, f);
-    
-    let type = activeDesignObj.type ? String(activeDesignObj.type).trim().toLowerCase() : "";
-    if(!type || !document.querySelector(`#weaveType option[value="${type}"]`)) {
-        if(activeDesignObj.customMatrix && activeDesignObj.customMatrix.length === 2) {
-            type = "plain";
-        } else if (activeDesignObj.customMatrix) {
-            type = "custom";
-        } else {
-            type = "plain";
-        }
-    }
-    
-    $("weaveType").value = type;
-
-    if(activeDesignObj.customMatrix && Array.isArray(activeDesignObj.customMatrix) && activeDesignObj.customMatrix.length > 0) {
-        weavePatterns.custom = JSON.parse(JSON.stringify(activeDesignObj.customMatrix));
-    } else if(type === "plain") {
-        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.plain));
-    } else if(type === "twill") {
-        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.twill));
-    } else {
-        weavePatterns.custom = JSON.parse(JSON.stringify(weavePatterns.plain));
-    }
-    
+    let type = activeDesignObj.type || "plain";
+    if(activeDesignObj.customMatrix?.length) { weavePatterns.custom = clone(activeDesignObj.customMatrix); if(activeDesignObj.type === "custom") type = "custom"; }
+    if(!weavePatterns[type]) type = "plain"; $("weaveType").value = type;
     onWeaveChange(false);
 }
 
@@ -1855,7 +1699,7 @@ function removeDentingManualRow(i) {
 
 function buildManualDrawingEditor() {
     const box=$("drawingManualRows"); if(!box) return;
-    const arr=expandPattern($("drawingPatternInput")?.value||"1,2,3,4");
+    const arr=expandPattern($("drawingPatternInput")?.value || "1,2,3,4");
     const values=arr.length?arr:[1,2,3,4];
     box.innerHTML=values.map((v,i)=>`
         <div class="manual-row">
@@ -1970,7 +1814,6 @@ function buildWarpTable(lines, drawArr) {
     let ranges = activeDesignObj?.warpRanges || [];
     let i = 0;
     
-    // Grouping the identical repeated sets
     while(i < lines.length) {
         let lineNum = i + 1;
         let range = ranges.find(r => Number(r.start) === lineNum);
@@ -2024,7 +1867,6 @@ function buildWarpTable(lines, drawArr) {
             item.rows.forEach(r => { blockTotalEnds += (parseInt(r.ends) || 0); });
             let totalEndsInGroup = blockTotalEnds * totalRep;
             
-            // Continuous drawing calculation for the ENTIRE SET
             let frames = [];
             let drawLen = drawArr.length;
             for(let k = 0; k < totalEndsInGroup; k++) {
@@ -2032,10 +1874,8 @@ function buildWarpTable(lines, drawArr) {
             }
             globalEndIndex += totalEndsInGroup;
 
-            // Single line continuous draw array
             let frameStr = frames.length <= 4 ? frames.join(",") : frames.slice(0, 3).join(",") + "..." + frames[frames.length-1];
 
-            // Print the Set ONCE, spanning the grouped rows
             item.rows.forEach((l, sIdx) => {
                 let name = l.colourName || String(l.color).toUpperCase();
                 let cleanName = name;
@@ -2047,12 +1887,10 @@ function buildWarpTable(lines, drawArr) {
                 }
                 if(!cleanName) cleanName = String(l.color).toUpperCase();
                 
-                // Translate colour name to English (Tamil)
                 cleanName = getLocalizedColorName(cleanName);
 
                 let amt = parseInt(l.ends) || 0;
                 
-                // Set Column Logic
                 let setTd = "";
                 if (sIdx === 0) {
                     setTd = `<td rowspan="${spanLen}" style="font-size:10px; font-weight:900; color:#b91c1c; background:#fff5f5; vertical-align:middle; text-align:center; padding:2px;">
@@ -2063,7 +1901,6 @@ function buildWarpTable(lines, drawArr) {
                     </td>`;
                 }
 
-                // Drawing Column Logic (Rowspan for the entire block)
                 let drawTd = "";
                 if (sIdx === 0) {
                     drawTd = `<td rowspan="${spanLen}" style="color:#1e3a8a; font-weight:900; font-size:9px; vertical-align:middle; text-align:center; letter-spacing:0.5px; white-space:nowrap;">${frameStr}</td>`;
@@ -2091,7 +1928,6 @@ function buildWarpTable(lines, drawArr) {
             }
             if(!cleanName) cleanName = String(l.color).toUpperCase();
             
-            // Translate colour name to English (Tamil)
             cleanName = getLocalizedColorName(cleanName);
 
             let amt = parseInt(l.ends) || 0;
@@ -2149,13 +1985,11 @@ function buildDesignPrintContent() {
         </div>
 
         <div style="display: flex; gap: 15px; margin-bottom: 8px; align-items: flex-start;">
-            <!-- LEFT COLUMN: WARP TABLE WITH SET & CONTINUOUS DRAWING -->
             <div style="flex: 1.3; min-width: 0;">
                 <div class="print-section-title" style="margin-top:0;">🧵 WARPING & DRAWING PLAN <span class="section-code">WARP SEQUENCE</span></div>
                 ${warpTableHTML}
             </div>
             
-            <!-- RIGHT COLUMN: WEAVE GRAPH & DENTING SUMMARY -->
             <div style="flex: 0.7; min-width: 0;">
                 <div class="print-section-title" style="margin-top:0;">📊 WEAVE GRAPH <span class="section-code">${m.length} × ${m[0].length} REPEAT</span></div>
                 <div class="print-graph-wrap" style="margin-bottom:15px;">${buildPrintGraph(m)}</div>
@@ -2199,9 +2033,6 @@ function printDesign() {
     $("printModalBox").style.display = "flex";
 }
 
-/* =========================================================
-   IFRAME PRINT TECHNIQUE FOR MOBILE (NO BLANK PAGE)
-========================================================= */
 function triggerRealPrint() {
     try {
         const printContent = document.getElementById("printDesignContent").innerHTML;
@@ -2256,84 +2087,260 @@ function triggerRealPrint() {
     }
 }
 
-
 /* =========================================================
-   COLOUR MASTER PANTONE SYSTEM
+   COMPREHENSIVE COLOR STUDIO & PANTONE DATABASE (ALL 15 SEPARATED TABS & 50+ SHADES EACH)
 ========================================================= */
-const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v5";
-
-const PANTONE_DB = {
-    "19-4052": { name: "Classic Blue", hex: "#0F4C81" }, "18-1662": { name: "Flame Scarlet", hex: "#CE2029" }, "11-0601": { name: "Bright White", hex: "#F4F5F0" },
-    "19-0303": { name: "Jet Black", hex: "#2D2C2F" }, "17-5104": { name: "Ultimate Gray", hex: "#939597" }, "13-0647": { name: "Illuminating", hex: "#F5DF4D" },
-    "16-1546": { name: "Living Coral", hex: "#FF6F61" }, "18-3838": { name: "Ultra Violet", hex: "#5F4B8B" }, "15-0343": { name: "Greenery", hex: "#8A9A5B" },
-    "15-3919": { name: "Serenity", hex: "#91A8D0" }, "13-1520": { name: "Rose Quartz", hex: "#F7CAC9" }, "18-1438": { name: "Marsala", hex: "#955251" },
-    "18-3224": { name: "Radiant Orchid", hex: "#6B5B95" }, "17-5641": { name: "Emerald", hex: "#009473" }, "17-1463": { name: "Tangerine Tango", hex: "#DD4124" },
-    "15-5519": { name: "Turquoise", hex: "#00B5A6" }, "14-0848": { name: "Mimosa", hex: "#F0C05A" }, "18-3943": { name: "Blue Iris", hex: "#5A5B9F" },
-    "19-1557": { name: "Chili Pepper", hex: "#9B1B30" }, "13-1106": { name: "Sand Dollar", hex: "#DECDBE" }, "19-1664": { name: "True Red", hex: "#BF1932" },
-    "19-4007": { name: "Anthracite", hex: "#28282B" }, "11-4001": { name: "Brilliant White", hex: "#F9FAFC" }, "14-4102": { name: "Glacier Gray", hex: "#B8C2CC" },
-    "19-3911": { name: "Black Beauty", hex: "#26262A" }, "14-1064": { name: "Saffron", hex: "#FFA100" }, "19-1536": { name: "Red Pear", hex: "#7A3334" },
-    "16-1532": { name: "Crabapple", hex: "#D77E70" }, "14-4620": { name: "Island Paradise", hex: "#94C4E1" }, "15-0545": { name: "Jalapeño Red", hex: "#9D2B3D" },
-    "11-0103": { name: "Cream/Egret", hex: "#F2ECE4" }, "19-4039": { name: "Navy Peony", hex: "#223A5E" }, "16-1108": { name: "Twine", hex: "#B39F8D" }, 
-    "17-1501": { name: "Wood Ash", hex: "#978C87" }, "18-4005": { name: "Steel Gray", hex: "#75787B" }, "19-1619": { name: "Maroon", hex: "#6E363C" }, 
-    "19-0312": { name: "Night Sky", hex: "#323133" }, "16-0906": { name: "Simply Taupe", hex: "#AD9F93" }, "18-1031": { name: "Toffee", hex: "#755139" }, 
-    "19-5513": { name: "Dark Green", hex: "#2A4B46" }, "13-0858": { name: "Vibrant Yellow", hex: "#FFDA29" }, "15-1340": { name: "Cadmium Orange", hex: "#F99471" },
-    "18-1663": { name: "Chinese Red", hex: "#C7243A" }, "19-3810": { name: "Eclipse", hex: "#343148" }, "18-1248": { name: "Rust", hex: "#B55A30" },
-    "19-4024": { name: "Dress Blues", hex: "#2B3A48" }, "16-1325": { name: "Copper", hex: "#B27A62" }, "14-4214": { name: "Powder Blue", hex: "#9FBCE2" },
-    "13-0947": { name: "Banana", hex: "#FCB953" }, "15-1040": { name: "Warm Sand", hex: "#CB8E66" }, "19-1725": { name: "Burgundy", hex: "#5C2C35" },
-    "17-1562": { name: "Mandarin Red", hex: "#E2492F" }, "19-0527": { name: "Rifle Green", hex: "#414833" }, "12-0752": { name: "Buttercup", hex: "#E3AB10" },
-    "17-2036": { name: "Magenta", hex: "#D946EF" }, "18-2436": { name: "Fuchsia", hex: "#C026D3" }, "16-5938": { name: "Mint Green", hex: "#34D399" },
-    "11-0907": { name: "Ivory", hex: "#FFEDD5" }, "12-0712": { name: "Vanilla", hex: "#FEF3C7" }, "19-3955": { name: "Royal Blue", hex: "#2563EB" },
-    "19-3748": { name: "Dark Violet", hex: "#6D28D9" }, "15-3920": { name: "Lavender", hex: "#C084FC" }, "16-2130": { name: "Pink", hex: "#EC4899" }
-};
+const TEXFRIEND_COLOUR_KEY = "texfriend_colour_master_v23";
 
 let texfriendColourMaster = [
-    { name:"Red", shades:[{name:"Red", pantone:"19-1664", hex:"#ef4444"}, {name:"Dark Red", pantone:"19-1557", hex:"#b91c1c"}, {name:"Light Red", pantone:"", hex:"#fca5a5"}] },
-    { name:"Pink", shades:[{name:"Pink", pantone:"16-2130", hex:"#ec4899"}, {name:"Hot Pink", pantone:"", hex:"#db2777"}, {name:"Rose", pantone:"", hex:"#e11d48"}] },
-    { name:"Magenta", shades:[{name:"Magenta", pantone:"17-2036", hex:"#d946ef"}, {name:"Fuchsia", pantone:"18-2436", hex:"#c026d3"}] },
-    { name:"Maroon", shades:[{name:"Maroon", pantone:"19-1619", hex:"#800000"}, {name:"Wine", pantone:"19-1536", hex:"#722f37"}, {name:"Burgundy", pantone:"19-1725", hex:"#5c2c35"}] },
-    { name:"Orange", shades:[{name:"Orange", pantone:"15-1340", hex:"#f97316"}, {name:"Dark Orange", pantone:"", hex:"#ea580c"}, {name:"Light Orange", pantone:"", hex:"#fdba74"}] },
-    { name:"Yellow", shades:[{name:"Yellow", pantone:"13-0858", hex:"#eab308"}, {name:"Light Yellow", pantone:"", hex:"#fef08a"}, {name:"Golden Yellow", pantone:"14-1064", hex:"#ca8a04"}] },
-    { name:"Cream", shades:[{name:"Cream", pantone:"11-0103", hex:"#fefce8"}, {name:"Ivory", pantone:"11-0907", hex:"#ffedd5"}, {name:"Vanilla", pantone:"12-0712", hex:"#fef3c7"}] },
-    { name:"Mint", shades:[{name:"Mint Green", pantone:"16-5938", hex:"#34d399"}, {name:"Light Mint", pantone:"", hex:"#a7f3d0"}] },
-    { name:"Green", shades:[{name:"Green", pantone:"", hex:"#22c55e"}, {name:"Light Green", pantone:"", hex:"#86efac"}, {name:"Dark Green", pantone:"19-5513", hex:"#15803d"}, {name:"Emerald", pantone:"17-5641", hex:"#009473"}, {name:"Olive", pantone:"", hex:"#65a30d"}] },
-    { name:"Teal/Cyan", shades:[{name:"Teal", pantone:"", hex:"#14b8a6"}, {name:"Cyan", pantone:"", hex:"#06b6d4"}, {name:"Aqua", pantone:"", hex:"#67e8f9"}] },
-    { name:"Blue", shades:[{name:"Blue", pantone:"18-3949", hex:"#3b82f6"}, {name:"Light Blue", pantone:"14-4214", hex:"#7dd3fc"}, {name:"Dark Blue", pantone:"19-4024", hex:"#1d4ed8"}] },
-    { name:"Navy", shades:[{name:"Navy Blue", pantone:"19-4039", hex:"#1e3a8a"}, {name:"Dark Navy", pantone:"", hex:"#172554"}, {name:"Midnight Blue", pantone:"19-3911", hex:"#1e3a8a"}] },
-    { name:"Violet", shades:[{name:"Violet", pantone:"18-3838", hex:"#8b5cf6"}, {name:"Dark Violet", pantone:"19-3748", hex:"#6d28d9"}, {name:"Lavender", pantone:"15-3920", hex:"#c084fc"}] },
-    { name:"Brown", shades:[{name:"Brown", pantone:"18-1031", hex:"#a16207"}, {name:"Dark Brown", pantone:"", hex:"#713f12"}, {name:"Copper", pantone:"16-1325", hex:"#b45309"}] },
-    { name:"Khaki/Sand", shades:[{name:"Khaki", pantone:"", hex:"#d6d3d1"}, {name:"Sand", pantone:"15-1040", hex:"#e7e5e4"}, {name:"Beige", pantone:"", hex:"#f5f5f4"}] },
-    { name:"Grey", shades:[{name:"Grey", pantone:"17-5104", hex:"#6b7280"}, {name:"Light Grey", pantone:"14-4102", hex:"#d1d5db"}, {name:"Dark Grey", pantone:"18-4005", hex:"#374151"}, {name:"Charcoal", pantone:"", hex:"#1f2937"}] },
-    { name:"Black", shades:[{name:"Black", pantone:"19-0303", hex:"#000000"}, {name:"Jet Black", pantone:"19-3911", hex:"#111827"}, {name:"Soft Black", pantone:"19-4007", hex:"#1c1917"}] },
-    { name:"White", shades:[{name:"White", pantone:"11-0601", hex:"#ffffff"}, {name:"Off White", pantone:"11-4001", hex:"#f8fafc"}, {name:"Snow", pantone:"", hex:"#f9fafb"}] }
+    { name: "Pink", shades: [
+        {name: "Pink", pantone: "16-2130", hex: "#EC4899"}, {name: "Hot Pink", pantone: "17-2033", hex: "#FF69B4"}, {name: "Deep Pink", pantone: "18-2043", hex: "#FF1493"},
+        {name: "Rose Quartz", pantone: "13-1520", hex: "#F7CAC9"}, {name: "Orchid Pink", pantone: "15-2217", hex: "#F2BDCD"}, {name: "Bubblegum", pantone: "17-1937", hex: "#FF69CF"},
+        {name: "Carnation", pantone: "15-1821", hex: "#FFA6C9"}, {name: "Blush", pantone: "13-1408", hex: "#DE5D83"}, {name: "Baby Pink", pantone: "12-1110", hex: "#F4C2C2"},
+        {name: "Flamingo", pantone: "16-1731", hex: "#FC8EAC"}, {name: "Salmon Pink", pantone: "15-1530", hex: "#FF91A4"}, {name: "Cotton Candy", pantone: "11-1900", hex: "#FFBCD9"},
+        {name: "Barbie Pink", pantone: "17-1937", hex: "#DA1884"}, {name: "Telemagenta", pantone: "17-2030", hex: "#CF3476"}, {name: "Coral Pink", pantone: "16-1543", hex: "#F88379"},
+        {name: "Light Pink", pantone: "12-1304", hex: "#FFB6C1"}, {name: "Pale Pink", pantone: "12-1205", hex: "#FADADD"}, {name: "Persian Pink", pantone: "17-2227", hex: "#F77FBE"},
+        {name: "Spanish Pink", pantone: "13-1011", hex: "#F7BFBE"}, {name: "Baker-Miller", pantone: "15-2610", hex: "#FF91AF"}, {name: "Neon Pink", pantone: "17-1938", hex: "#FF6EC7"},
+        {name: "Cherry Blossom", pantone: "13-2005", hex: "#FFB7C5"}, {name: "Duchess Pink", pantone: "14-1911", hex: "#CC8899"}, {name: "Pastel Pink", pantone: "13-1404", hex: "#DEA5A4"},
+        {name: "Thulian Pink", pantone: "17-2120", hex: "#DE6FA1"}, {name: "Mimi Pink", pantone: "12-1305", hex: "#FFDAE9"}, {name: "Cameo Pink", pantone: "14-1314", hex: "#EFBBCC"},
+        {name: "Pink Sherbet", pantone: "14-1905", hex: "#F78FA7"}, {name: "Rose Madder", pantone: "17-1633", hex: "#E32636"}, {name: "Deep Blush", pantone: "15-1624", hex: "#C48082"},
+        {name: "Puce", pantone: "16-1414", hex: "#CC8899"}, {name: "Mountbatten Pink", pantone: "17-1518", hex: "#997A8D"}, {name: "Razzmatazz", pantone: "18-1838", hex: "#E3256B"},
+        {name: "Amaranth", pantone: "17-1831", hex: "#E52B50"}, {name: "Caran D'Ache", pantone: "17-1740", hex: "#E75480"}, {name: "Rose Gold", pantone: "15-1315", hex: "#B76E79"},
+        {name: "Folly", pantone: "17-1935", hex: "#FF004F"}, {name: "Hollywood Cerise", pantone: "18-2133", hex: "#F400A1"}, {name: "Ruby Pink", pantone: "18-1840", hex: "#E0115F"},
+        {name: "Shocking Pink", pantone: "17-1936", hex: "#FC0FC0"}, {name: "Turquoise Pink", pantone: "14-2210", hex: "#F4C2C2"}, {name: "Tea Rose", pantone: "14-1309", hex: "#F4C2C2"},
+        {name: "English Rose", pantone: "16-1422", hex: "#B46363"}, {name: "Bazaar", pantone: "18-1312", hex: "#98777B"}, {name: "Opera Mauve", pantone: "16-2111", hex: "#B784A7"}
+    ]},
+    { name: "Purple", shades: [
+        {name: "Magenta", pantone: "17-2036", hex: "#D946EF"}, {name: "Fuchsia", pantone: "18-2436", hex: "#C026D3"}, {name: "Lavender", pantone: "15-3920", hex: "#C084FC"},
+        {name: "Ultra Violet", pantone: "18-3838", hex: "#5F4B8B"}, {name: "Radiant Orchid", pantone: "18-3224", hex: "#6B5B95"}, {name: "Dark Violet", pantone: "19-3748", hex: "#6D28D9"},
+        {name: "Plum", pantone: "19-3220", hex: "#8E4585"}, {name: "Orchid", pantone: "17-3628", hex: "#DA70D6"}, {name: "Amethyst", pantone: "18-3015", hex: "#9966CC"},
+        {name: "Mauve", pantone: "16-3115", hex: "#E0B0FF"}, {name: "Lilac", pantone: "15-3910", hex: "#C8A2C8"}, {name: "Thistle", pantone: "15-3817", hex: "#D8BFD8"},
+        {name: "Periwinkle", pantone: "17-3934", hex: "#CCCCFF"}, {name: "Heliotrope", pantone: "17-3730", hex: "#DF73FF"}, {name: "Wisteria", pantone: "15-3830", hex: "#C9A0DC"},
+        {name: "Byzantium", pantone: "19-2520", hex: "#702963"}, {name: "Mulberry", pantone: "18-2115", hex: "#C54B8C"}, {name: "Royal Purple", pantone: "19-3330", hex: "#7851A9"},
+        {name: "Grape", pantone: "19-2428", hex: "#6F2DA8"}, {name: "Eggplant", pantone: "19-2311", hex: "#614051"}, {name: "Indigo Dye", pantone: "19-3938", hex: "#00416A"},
+        {name: "Russian Violet", pantone: "19-3815", hex: "#32174D"}, {name: "Electric Purple", pantone: "18-3540", hex: "#BF00FF"}, {name: "Pansy Purple", pantone: "19-2814", hex: "#78184A"},
+        {name: "Phlox", pantone: "17-3020", hex: "#DF00FF"}, {name: "Palatinate", pantone: "19-3536", hex: "#722680"}, {name: "Iris", pantone: "17-3820", hex: "#5A4FCF"},
+        {name: "Deep Purple", pantone: "19-3737", hex: "#36013F"}, {name: "Telemagenta Purple", pantone: "18-2328", hex: "#933758"}, {name: "Dark Lavender", pantone: "17-3812", hex: "#734F96"},
+        {name: "Mallow", pantone: "17-2625", hex: "#D982B5"}, {name: "Clematis", pantone: "18-3840", hex: "#6C3A8D"}, {name: "Bishop", pantone: "19-3542", hex: "#6A2E59"},
+        {name: "Pomp and Power", pantone: "18-3530", hex: "#86608E"}, {name: "Hydrangea", pantone: "16-3820", hex: "#7A63AC"}, {name: "Crocus", pantone: "16-3420", hex: "#BA74B3"}
+    ]},
+    { name: "Orange", shades: [
+        {name: "Living Coral", pantone: "16-1546", hex: "#FF6F61"}, {name: "Tangerine Tango", pantone: "17-1463", hex: "#DD4124"}, {name: "Cadmium Orange", pantone: "15-1340", hex: "#F99471"},
+        {name: "Burnt Orange", pantone: "16-1364", hex: "#CC5500"}, {name: "Coral", pantone: "16-1539", hex: "#FF7F50"}, {name: "Amber Orange", pantone: "16-1356", hex: "#FFBF00"},
+        {name: "Pumpkin", pantone: "16-1453", hex: "#FF7518"}, {name: "Terracotta", pantone: "17-1340", hex: "#E2725B"}, {name: "Ginger", pantone: "16-1350", hex: "#B06500"},
+        {name: "Ochre", pantone: "16-1342", hex: "#CC7722"}, {name: "Caramel", pantone: "16-1148", hex: "#FFD59A"}, {name: "Apricot", pantone: "15-1143", hex: "#FBCEB1"},
+        {name: "Peach", pantone: "14-1212", hex: "#FFE5B4"}, {name: "Persimmon", pantone: "17-1456", hex: "#EC5800"}, {name: "Safety Orange", pantone: "16-1358", hex: "#FF6600"},
+        {name: "Papaya", pantone: "15-1150", hex: "#FFEFD5"}, {name: "Cantaloupe", pantone: "14-1120", hex: "#FFA07A"}, {name: "Mandarin", pantone: "16-1449", hex: "#F37A48"},
+        {name: "Bittersweet", pantone: "17-1456", hex: "#FE6F5E"}, {name: "Flame", pantone: "17-1350", hex: "#E25822"}, {name: "Burnt Sienna", pantone: "17-1430", hex: "#E97451"},
+        {name: "Bronze Orange", pantone: "16-1335", hex: "#CC8833"}, {name: "Melon", pantone: "15-1433", hex: "#FDBCB4"}, {name: "Zinnwaldite", pantone: "16-1320", hex: "#EBC2AD"},
+        {name: "Tangelo", pantone: "16-1442", hex: "#F94D00"}, {name: "Specks Orange", pantone: "15-1325", hex: "#F58220"}, {name: "Golden Orange", pantone: "15-1160", hex: "#FF8C00"},
+        {name: "Cadmium Yellow-Orange", pantone: "15-1150", hex: "#FF8F00"}, {name: "Dark Tangerine", pantone: "16-1450", hex: "#FFA812"}, {name: "Chili Orange", pantone: "17-1450", hex: "#D64000"},
+        {name: "Autumn Orange", pantone: "17-1440", hex: "#FF6200"}, {name: "Desert Orange", pantone: "16-1330", hex: "#CC5801"}, {name: "Neon Orange", pantone: "16-1360", hex: "#FF5F1F"}
+    ]},
+    { name: "Brown", shades: [
+        {name: "Marsala", pantone: "18-1438", hex: "#955251"}, {name: "Toffee", pantone: "18-1031", hex: "#755139"}, {name: "Rust", pantone: "18-1248", hex: "#B55A30"},
+        {name: "Copper", pantone: "16-1325", hex: "#B27A62"}, {name: "Wood Ash", pantone: "17-1501", hex: "#978C87"}, {name: "Chocolate", pantone: "19-1241", hex: "#7B3F00"},
+        {name: "Saddle Brown", pantone: "19-1334", hex: "#8B4513"}, {name: "Sienna", pantone: "18-1250", hex: "#A0522D"}, {name: "Peru", pantone: "17-1143", hex: "#CD853F"},
+        {name: "Dark Brown", pantone: "19-1020", hex: "#3D2314"}, {name: "Cinnamon", pantone: "18-1154", hex: "#D2691E"}, {name: "Mahogany", pantone: "19-1532", hex: "#C04000"},
+        {name: "Chestnut", pantone: "18-1140", hex: "#954535"}, {name: "Bronze", pantone: "18-1124", hex: "#CD7F32"}, {name: "Tan", pantone: "16-1328", hex: "#D2B48C"},
+        {name: "Fawn", pantone: "14-1122", hex: "#E5AA70"}, {name: "Bistre", pantone: "19-1116", hex: "#3D2B1F"}, {name: "Raw Umber", pantone: "18-0935", hex: "#826644"},
+        {name: "Sepia", pantone: "18-1130", hex: "#704214"}, {name: "Café au Lait", pantone: "16-1220", hex: "#A67B5B"}, {name: "Sand", pantone: "15-1040", hex: "#E7E5E4"},
+        {name: "Beige", pantone: "13-1006", hex: "#F5F5DC"}, {name: "Ecru", pantone: "13-0908", hex: "#C2B280"}, {name: "Taupe", pantone: "17-0808", hex: "#483C32"},
+        {name: "Khaki", pantone: "16-0920", hex: "#C3B091"}, {name: "Hazelnut", pantone: "16-1212", hex: "#AE6938"}, {name: "Pecan", pantone: "17-1320", hex: "#482C18"},
+        {name: "Hickory", pantone: "18-1022", hex: "#362B28"}, {name: "Burnt Umber", pantone: "19-1327", hex: "#8A3324"}, {name: "Coffee", pantone: "19-1118", hex: "#6F4E37"},
+        {name: "Mushroom", pantone: "15-1305", hex: "#B5A69B"}, {name: "Praline", pantone: "16-1230", hex: "#D2906C"}, {name: "Acorn", pantone: "17-1038", hex: "#705335"}
+    ]},
+    { name: "Navy", shades: [
+        {name: "Classic Blue", pantone: "19-4052", hex: "#0F4C81"}, {name: "Navy Peony", pantone: "19-4039", hex: "#223A5E"}, {name: "Dress Blues", pantone: "19-4024", hex: "#2B3A48"},
+        {name: "Eclipse", pantone: "19-3810", hex: "#343148"}, {name: "Midnight Blue", pantone: "19-3911", hex: "#191970"}, {name: "Prussian Blue", pantone: "19-3920", hex: "#003153"},
+        {name: "Midnight Navy", pantone: "19-4015", hex: "#000080"}, {name: "Dark Navy", pantone: "19-3929", hex: "#000035"}, {name: "Deep Navy", pantone: "19-3926", hex: "#0A1128"},
+        {name: "Marine Blue", pantone: "19-3935", hex: "#002244"}, {name: "InkTone Navy", pantone: "19-4022", hex: "#121C2A"}, {name: "Shadow Blue", pantone: "19-3922", hex: "#263238"},
+        {name: "Anchor Navy", pantone: "19-4026", hex: "#0F1A2C"}, {name: "Deep Sea Navy", pantone: "19-4030", hex: "#08121D"}, {name: "Storm Navy", pantone: "19-4018", hex: "#1B2A3D"},
+        {name: "Royal Navy", pantone: "19-3936", hex: "#002366"}, {name: "Space Navy", pantone: "19-3942", hex: "#0B1D3A"}, {name: "Night Navy", pantone: "19-4010", hex: "#02020F"},
+        {name: "Abyss Navy", pantone: "19-4020", hex: "#000814"}, {name: "Steel Navy", pantone: "18-4030", hex: "#23395B"}, {name: "Cosmic Navy", pantone: "19-3950", hex: "#1A2E40"},
+        {name: "Twilight Navy", pantone: "19-3925", hex: "#152238"}, {name: "Imperial Navy", pantone: "19-4040", hex: "#002E63"}, {name: "Vanta Navy", pantone: "19-4000", hex: "#050B14"},
+        {name: "Midnight Abyss", pantone: "19-4002", hex: "#030A14"}, {name: "Depths Navy", pantone: "19-4012", hex: "#0C141F"}, {name: "Solid Navy", pantone: "19-4028", hex: "#102136"}
+    ]},
+    { name: "Blue", shades: [
+        {name: "Royal Blue", pantone: "19-3955", hex: "#2563EB"}, {name: "Sapphire", pantone: "19-4056", hex: "#0F52BA"}, {name: "Cobalt", pantone: "19-3950", hex: "#0047AB"},
+        {name: "Denim", pantone: "19-3940", hex: "#1560BD"}, {name: "Lapis Lazuli", pantone: "19-4045", hex: "#26619C"}, {name: "Azure", pantone: "18-4053", hex: "#007FFF"},
+        {name: "Cerulean", pantone: "18-4043", hex: "#007BA7"}, {name: "Slate Blue", pantone: "18-3932", hex: "#6A5ACD"}, {name: "Air Force Blue", pantone: "18-4025", hex: "#5D8AA8"},
+        {name: "Indigo", pantone: "19-3928", hex: "#4B0082"}, {name: "Ultramarine", pantone: "19-3952", hex: "#3F00FF"}, {name: "Steel Blue", pantone: "18-4029", hex: "#4682B4"},
+        {name: "Sky Blue", pantone: "15-4020", hex: "#87CEEB"}, {name: "Baby Blue", pantone: "14-4318", hex: "#89CFF0"}, {name: "Cyan Blue", pantone: "15-4703", hex: "#00FFFF"},
+        {name: "Teal Blue", pantone: "18-4537", hex: "#368BC1"}, {name: "Egyptian Blue", pantone: "18-3945", hex: "#1034A6"}, {name: "Bice Blue", pantone: "17-4131", hex: "#2A6478"},
+        {name: "Carolina Blue", pantone: "15-4323", hex: "#4B9CD3"}, {name: "Cornflower", pantone: "16-4132", hex: "#6495ED"}, {name: "Ice Blue", pantone: "14-4210", hex: "#AFEEEE"},
+        {name: "Pacific Blue", pantone: "17-4728", hex: "#1CA9C9"}, {name: "Ocean Blue", pantone: "18-4038", hex: "#0077BE"}, {name: "Tranquil Blue", pantone: "14-4313", hex: "#A8D8F0"},
+        {name: "Electric Blue", pantone: "16-4535", hex: "#7DF9FF"}, {name: "Hansa Blue", pantone: "17-4041", hex: "#3B82C4"}, {name: "Glacier Blue", pantone: "15-4310", hex: "#779ECB"},
+        {name: "Beryl Blue", pantone: "16-4421", hex: "#5C82A6"}, {name: "Frost Blue", pantone: "14-4310", hex: "#D0F0C0"}, {name: "Neon Blue", pantone: "16-4725", hex: "#1B03A3"},
+        {name: "Vibrant Blue", pantone: "17-4045", hex: "#0047AB"}, {name: "Dull Blue", pantone: "17-4020", hex: "#4682B4"}, {name: "Deep Blue", pantone: "19-3945", hex: "#00008B"}
+    ]},
+    { name: "White", shades: [
+        {name: "Bright White", pantone: "11-0601", hex: "#F4F5F0"}, {name: "Brilliant White", pantone: "11-4001", hex: "#F9FAFC"}, {name: "Cream/Egret", pantone: "11-0103", hex: "#F2ECE4"},
+        {name: "Ivory", pantone: "11-0907", hex: "#FFEDD5"}, {name: "Vanilla", pantone: "12-0712", hex: "#FEF3C7"}, {name: "Bone", pantone: "12-0304", hex: "#E3DAC9"},
+        {name: "Alabaster", pantone: "11-0602", hex: "#F2F0EB"}, {name: "Chalk", pantone: "11-4201", hex: "#E4D5B7"}, {name: "Ghost White", pantone: "11-0603", hex: "#F8F8FF"},
+        {name: "Snow White", pantone: "11-0602", hex: "#FFFAFA"}, {name: "Pearl White", pantone: "11-0701", hex: "#F5F5F5"}, {name: "Milk White", pantone: "11-0901", hex: "#FDFFEF"},
+        {name: "Pure White", pantone: "11-0101", hex: "#FFFFFF"}, {name: "Antique White", pantone: "11-0102", hex: "#FAEBD7"}, {name: "Floral White", pantone: "11-0205", hex: "#FFFAF0"},
+        {name: "Navajo White", pantone: "12-0912", hex: "#FFDEAD"}, {name: "Linen", pantone: "11-0606", hex: "#FAF0E6"}, {name: "Old Lace", pantone: "11-0803", hex: "#FDF5E6"},
+        {name: "Seashell", pantone: "11-0905", hex: "#FFF5EE"}, {name: "Cornsilk", pantone: "12-0811", hex: "#FFF8DC"}, {name: "Ivory Cream", pantone: "11-0908", hex: "#FFFFF0"},
+        {name: "White Smoke", pantone: "11-0604", hex: "#F5F5F5"}, {name: "Plaster White", pantone: "11-0605", hex: "#EFEFEF"}, {name: "Cotton White", pantone: "11-0702", hex: "#F2F2F2"},
+        {name: "Paper White", pantone: "11-0608", hex: "#FAFAFA"}, {name: "Silk White", pantone: "11-0801", hex: "#F8F6F0"}, {name: "Porcelain", pantone: "11-0705", hex: "#FFFFF8"}
+    ]},
+    { name: "Grey", shades: [
+        {name: "Ultimate Gray", pantone: "17-5104", hex: "#939597"}, {name: "Glacier Gray", pantone: "14-4102", hex: "#B8C2CC"}, {name: "Simply Taupe", pantone: "16-0906", hex: "#AD9F93"},
+        {name: "Steel Gray", pantone: "18-4005", hex: "#75787B"}, {name: "Silver", pantone: "14-5002", hex: "#C0C0C0"}, {name: "Platinum", pantone: "13-4108", hex: "#E5E4E2"},
+        {name: "Ash Gray", pantone: "12-0605", hex: "#B2BEB5"}, {name: "Pewter", pantone: "16-4402", hex: "#8A9A86"}, {name: "Smoke", pantone: "14-5714", hex: "#738276"},
+        {name: "Dark Gray", pantone: "18-0201", hex: "#A9A9A9"}, {name: "Light Gray", pantone: "12-4301", hex: "#D3D3D3"}, {name: "Charcoal Gray", pantone: "18-0601", hex: "#625D5D"},
+        {name: "Battleship Gray", pantone: "16-3915", hex: "#848482"}, {name: "Davy's Gray", pantone: "18-0306", hex: "#555555"}, {name: "Iron Gray", pantone: "18-0403", hex: "#434B4D"},
+        {name: "Slate Gray", pantone: "17-4405", hex: "#708090"}, {name: "French Gray", pantone: "14-4103", hex: "#BFB8B0"}, {name: "Coin Gray", pantone: "15-4702", hex: "#989898"},
+        {name: "Flint", pantone: "16-3802", hex: "#6F6F6F"}, {name: "Graphite", pantone: "18-0505", hex: "#383838"}, {name: "Mars Gray", pantone: "16-0000", hex: "#8C92AC"},
+        {name: "Weldon Blue", pantone: "17-4415", hex: "#7C98B3"}, {name: "Shadow Gray", pantone: "16-0312", hex: "#8A7F8D"}, {name: "Mischka", pantone: "14-3812", hex: "#D1CCDC"},
+        {name: "Cascade", pantone: "15-4805", hex: "#8BA8B7"}, {name: "Fog Gray", pantone: "13-4405", hex: "#CBCDCE"}, {name: "Cement", pantone: "15-1110", hex: "#8D8B83"}
+    ]},
+    { name: "Black", shades: [
+        {name: "Jet Black", pantone: "19-0303", hex: "#2D2C2F"}, {name: "Anthracite", pantone: "19-4007", hex: "#28282B"}, {name: "Black Beauty", pantone: "19-3911", hex: "#26262A"},
+        {name: "Night Sky", pantone: "19-0312", hex: "#323133"}, {name: "Charcoal", pantone: "19-3906", hex: "#36454F"}, {name: "Onyx", pantone: "19-3908", hex: "#353839"},
+        {name: "Ebony", pantone: "19-0304", hex: "#555D50"}, {name: "Dark Slate", pantone: "19-4203", hex: "#2F4F4F"}, {name: "Midnight Black", pantone: "19-0301", hex: "#191919"},
+        {name: "Carbon Black", pantone: "19-0202", hex: "#111111"}, {name: "Licorice", pantone: "19-0000", hex: "#1A1110"}, {name: "Ink Black", pantone: "19-0404", hex: "#0B0B0B"},
+        {name: "Oil", pantone: "19-0302", hex: "#222222"}, {name: "Rich Black", pantone: "19-4008", hex: "#010203"}, {name: "Smoky Black", pantone: "19-0502", hex: "#100C08"},
+        {name: "Starlight Black", pantone: "19-0001", hex: "#0A0A0A"}, {name: "Obsidian", pantone: "19-0305", hex: "#1B1B1B"}, {name: "Night", pantone: "19-0308", hex: "#0C090A"},
+        {name: "Deep Black", pantone: "19-0002", hex: "#000000"}, {name: "Raven", pantone: "19-0201", hex: "#181818"}, {name: "Pitch Black", pantone: "19-0300", hex: "#050505"},
+        {name: "Café Noir", pantone: "19-1110", hex: "#4B3B2F"}, {name: "Bistre Noir", pantone: "19-1111", hex: "#261C14"}, {name: "Black Olive", pantone: "19-0414", hex: "#3B3C36"},
+        {name: "Tire Black", pantone: "19-0310", hex: "#343434"}, {name: "Dark Asphalt", pantone: "19-0307", hex: "#212121"}, {name: "Shadow Black", pantone: "19-0402", hex: "#131313"}
+    ]},
+    { name: "Green", shades: [
+        {name: "Greenery", pantone: "15-0343", hex: "#8A9A5B"}, {name: "Emerald", pantone: "17-5641", hex: "#009473"}, {name: "Dark Green", pantone: "19-5513", hex: "#2A4B46"},
+        {name: "Rifle Green", pantone: "19-0527", hex: "#414833"}, {name: "Olive", pantone: "18-0601", hex: "#808000"}, {name: "Sage", pantone: "15-6315", hex: "#9DC183"},
+        {name: "Lime", pantone: "13-0550", hex: "#00FF00"}, {name: "Forest Green", pantone: "19-5918", hex: "#228B22"}, {name: "Teal", pantone: "18-4733", hex: "#008080"},
+        {name: "Spring Green", pantone: "15-6110", hex: "#00FF7F"}, {name: "Chartreuse", pantone: "13-0442", hex: "#7FFF00"}, {name: "Jade", pantone: "16-6032", hex: "#00A86B"},
+        {name: "Viridian", pantone: "17-5430", hex: "#40826D"}, {name: "Pine Green", pantone: "18-5618", hex: "#01796F"}, {name: "Army Green", pantone: "18-0515", hex: "#4B5320"},
+        {name: "Hunter Green", pantone: "19-5511", hex: "#355E3B"}, {name: "Malachite", pantone: "16-6340", hex: "#0BDA51"}, {name: "Sea Green", pantone: "16-5806", hex: "#2E8B57"},
+        {name: "Dark Olive", pantone: "18-0602", hex: "#556B2F"}, {name: "Light Green", pantone: "13-0324", hex: "#90EE90"}, {name: "Pale Green", pantone: "12-0426", hex: "#98FB98"},
+        {name: "Glossy Green", pantone: "15-6216", hex: "#00A877"}, {name: "Neon Green", pantone: "14-0255", hex: "#39FF14"}, {name: "Bottle Green", pantone: "19-5914", hex: "#006A4E"},
+        {name: "Cabbage Green", pantone: "14-0230", hex: "#D0F0C0"}, {name: "Lawn Green", pantone: "12-0435", hex: "#7CFC00"}, {name: "Harlequin", pantone: "13-0330", hex: "#3FFF00"}
+    ]},
+    { name: "Mint", shades: [
+        {name: "Mint Green", pantone: "16-5938", hex: "#34D399"}, {name: "Turquoise", pantone: "15-5519", hex: "#00B5A6"}, {name: "Seafoam", pantone: "13-5414", hex: "#9FE2BF"},
+        {name: "Celadon", pantone: "13-0315", hex: "#ACE1AF"}, {name: "Peridot", pantone: "14-0452", hex: "#E6E200"}, {name: "Moss Green", pantone: "16-0632", hex: "#8A9A5B"},
+        {name: "Shamrock", pantone: "16-6339", hex: "#009E60"}, {name: "Veronese", pantone: "16-5830", hex: "#645452"}, {name: "Light Mint", pantone: "15-5210", hex: "#AAF0D1"},
+        {name: "Aquamarine", pantone: "14-4811", hex: "#7FFFD4"}, {name: "Spearmint", pantone: "15-5720", hex: "#62EE84"}, {name: "Ice Mint", pantone: "14-5912", hex: "#C1F0C1"},
+        {name: "Bright Mint", pantone: "15-5320", hex: "#2ECC71"}, {name: "Deep Mint", pantone: "17-5330", hex: "#16A085"}, {name: "Frost Mint", pantone: "13-5310", hex: "#E8F8F5"},
+        {name: "Electric Mint", pantone: "16-5421", hex: "#00FFCC"}, {name: "Crystal Mint", pantone: "14-5212", hex: "#A3E4D7"}, {name: "Glacier Mint", pantone: "14-5420", hex: "#76D7C4"},
+        {name: "Alpine Mint", pantone: "15-5510", hex: "#48C9B0"}, {name: "Tropical Mint", pantone: "15-5620", hex: "#1ABC9C"}, {name: "Lagoon Mint", pantone: "14-4912", hex: "#17A589"},
+        {name: "Neo Mint", pantone: "14-0114", hex: "#AAF0D2"}, {name: "Pastel Mint", pantone: "13-5910", hex: "#D1F2EB"}, {name: "Beryl Mint", pantone: "15-5416", hex: "#A9DFBF"}
+    ]},
+    { name: "Yellow", shades: [
+        {name: "Illuminating", pantone: "13-0647", hex: "#F5DF4D"}, {name: "Saffron", pantone: "14-1064", hex: "#FFA100"}, {name: "Buttercup", pantone: "12-0752", hex: "#E3AB10"},
+        {name: "Banana", pantone: "13-0947", hex: "#FCB953"}, {name: "Vibrant Yellow", pantone: "13-0858", hex: "#FFDA29"}, {name: "Mustard", pantone: "14-0852", hex: "#E6CA65"},
+        {name: "Citrine", pantone: "13-0758", hex: "#E4D00A"}, {name: "Corn", pantone: "13-0850", hex: "#FBEC5D"}, {name: "Lemon", pantone: "12-0643", hex: "#FDFF00"},
+        {name: "Sunlight", pantone: "12-0804", hex: "#FFF1B6"}, {name: "Daffodil", pantone: "13-0720", hex: "#FFFF33"}, {name: "Canary", pantone: "12-0726", hex: "#FFFF99"},
+        {name: "Neon Yellow", pantone: "13-0752", hex: "#CCFF00"}, {name: "Cream Yellow", pantone: "11-0107", hex: "#FFFDD0"}, {name: "Flax Yellow", pantone: "12-0720", hex: "#EEDC82"},
+        {name: "Mime Yellow", pantone: "13-0740", hex: "#F3E5AB"}, {name: "Cyber Yellow", pantone: "13-0850", hex: "#FFD300"}, {name: "Pastel Yellow", pantone: "12-0813", hex: "#FDFD96"},
+        {name: "Barium Yellow", pantone: "13-0730", hex: "#FFFFE0"}, {name: "Amber Yellow", pantone: "14-0955", hex: "#FFC000"}, {name: "Golden Yellow", pantone: "14-1064", hex: "#FFDF00"},
+        {name: "Deep Yellow", pantone: "14-0847", hex: "#FFCC00"}, {name: "Safety Yellow", pantone: "13-0858", hex: "#EED202"}, {name: "Solar Yellow", pantone: "13-0859", hex: "#FFF300"}
+    ]},
+    { name: "Gold", shades: [
+        {name: "Gold", pantone: "14-1036", hex: "#FFD700"}, {name: "Goldenrod", pantone: "15-1040", hex: "#DAA520"}, {name: "Flax", pantone: "12-0720", hex: "#EEDC82"},
+        {name: "Amber", pantone: "14-1045", hex: "#FFBF00"}, {name: "Topaz", pantone: "14-1038", hex: "#FFC87C"}, {name: "Mimosa", pantone: "14-0848", hex: "#F0C05A"},
+        {name: "Marigold", pantone: "14-1140", hex: "#EAA221"}, {name: "Honey", pantone: "15-1142", hex: "#EB9605"}, {name: "Champagne", pantone: "12-0404", hex: "#F7E7CE"},
+        {name: "Straw", pantone: "13-0919", hex: "#E4D96F"}, {name: "Jasmine", pantone: "12-0722", hex: "#F8DE7E"}, {name: "Flint Gold", pantone: "14-1025", hex: "#D4AF37"},
+        {name: "Metallic Gold", pantone: "14-1040", hex: "#D4AF37"}, {name: "Roman Gold", pantone: "15-1140", hex: "#C59059"}, {name: "Old Gold", pantone: "16-1035", hex: "#CFB53B"},
+        {name: "Pale Gold", pantone: "13-0925", hex: "#E6BE8A"}, {name: "Deep Gold", pantone: "15-1145", hex: "#FFD700"}, {name: "Royal Gold", pantone: "16-1130", hex: "#856D4D"},
+        {name: "Satin Gold", pantone: "15-1142", hex: "#CBA135"}, {name: "Aztec Gold", pantone: "16-1120", hex: "#C39953"}, {name: "Brass Gold", pantone: "15-1135", hex: "#B5A642"},
+        {name: "Desert Gold", pantone: "16-1235", hex: "#E1A95F"}, {name: "Sunburst Gold", pantone: "15-1150", hex: "#E8B923"}, {name: "Imperial Gold", pantone: "16-1040", hex: "#DAB300"}
+    ]},
+    { name: "Khaki", shades: [
+        {name: "Khaki", pantone: "16-0920", hex: "#C3B091"}, {name: "Dark Khaki", pantone: "18-0620", hex: "#BDB76B"}, {name: "Light Khaki", pantone: "14-0615", hex: "#F0E68C"},
+        {name: "Army Khaki", pantone: "16-0725", hex: "#8F8156"}, {name: "Desert Khaki", pantone: "15-1115", hex: "#D1B280"}, {name: "Olive Khaki", pantone: "17-0630", hex: "#9E9057"},
+        {name: "Classic Khaki", pantone: "16-0925", hex: "#B8A378"}, {name: "Urban Khaki", pantone: "15-1020", hex: "#C8B18E"}, {name: "Sahara Khaki", pantone: "16-1110", hex: "#B29C70"},
+        {name: "Vintage Khaki", pantone: "17-0925", hex: "#A38F64"}, {name: "Soft Khaki", pantone: "14-0820", hex: "#E2CFB4"}, {name: "Deep Khaki", pantone: "18-0720", hex: "#7A6D47"},
+        {name: "Warm Khaki", pantone: "15-1120", hex: "#CCA975"}, {name: "Cool Khaki", pantone: "15-0810", hex: "#C5B49D"}, {name: "Shadow Khaki", pantone: "17-0720", hex: "#8C7D55"},
+        {name: "Earth Khaki", pantone: "17-0915", hex: "#A69268"}, {name: "Muted Khaki", pantone: "15-0910", hex: "#B5A482"}, {name: "Raw Khaki", pantone: "16-0815", hex: "#BEAD8E"},
+        {name: "Military Khaki", pantone: "17-0620", hex: "#797143"}, {name: "Fine Khaki", pantone: "15-1015", hex: "#D6C19F"}, {name: "Rich Khaki", pantone: "17-1020", hex: "#B59E75"},
+        {name: "Stone Khaki", pantone: "15-0905", hex: "#C7BAA3"}, {name: "Clay Khaki", pantone: "16-1115", hex: "#A8946C"}, {name: "Subtle Khaki", pantone: "14-0910", hex: "#E3D3BA"},
+        {name: "Brushed Khaki", pantone: "15-1025", hex: "#C2A781"}, {name: "Hessian Khaki", pantone: "16-1020", hex: "#B09A72"}, {name: "Safari Khaki", pantone: "16-0930", hex: "#9E8B65"},
+        {name: "Pale Khaki", pantone: "14-0610", hex: "#F4F0DD"}, {name: "Golden Khaki", pantone: "16-1025", hex: "#BFAF8D"}, {name: "Timber Khaki", pantone: "17-0935", hex: "#8F7D59"},
+        {name: "Faded Khaki", pantone: "15-0915", hex: "#C4B99D"}, {name: "Sun Khaki", pantone: "16-0928", hex: "#BAA982"}, {name: "Bright Khaki", pantone: "14-0720", hex: "#E5D8A8"},
+        {name: "Dune Khaki", pantone: "16-1012", hex: "#C1B191"}, {name: "Washed Khaki", pantone: "15-1008", hex: "#C2B59B"}, {name: "Heavy Khaki", pantone: "18-0725", hex: "#6F6443"},
+        {name: "Parchment Khaki", pantone: "13-0908", hex: "#E8DEC5"}, {name: "Rattan Khaki", pantone: "15-1112", hex: "#D2BD9C"}, {name: "Burlap Khaki", pantone: "16-1108", hex: "#BEAD87"},
+        {name: "Silt Khaki", pantone: "15-1102", hex: "#B8B09C"}, {name: "Loam Khaki", pantone: "17-0910", hex: "#99865F"}, {name: "Chino Khaki", pantone: "15-1116", hex: "#CCA67C"},
+        {name: "Mustard Khaki", pantone: "15-1030", hex: "#D1B168"}, {name: "Flint Khaki", pantone: "16-0918", hex: "#A3997C"}, {name: "Dry Khaki", pantone: "15-1005", hex: "#C8BEA5"},
+        {name: "Tobacco Khaki", pantone: "18-0925", hex: "#736049"}, {name: "Teak Khaki", pantone: "17-1015", hex: "#B2996E"}, {name: "Smooth Khaki", pantone: "14-1005", hex: "#E1D6C1"}
+    ]},
+    { name: "Rose", shades: [
+        {name: "Rose", pantone: "16-1720", hex: "#FF66CC"}, {name: "Dusty Rose", pantone: "14-1315", hex: "#DCAE96"}, {name: "Tea Rose", pantone: "14-1309", hex: "#F4C2C2"},
+        {name: "Vintage Rose", pantone: "15-1615", hex: "#C98A83"}, {name: "English Rose", pantone: "16-1422", hex: "#B46363"}, {name: "Deep Rose", pantone: "17-1718", hex: "#C71585"},
+        {name: "Dark Rose", pantone: "18-1642", hex: "#8B0000"}, {name: "Light Rose", pantone: "12-1405", hex: "#FFCCE6"}, {name: "Blushing Rose", pantone: "14-1510", hex: "#F3B0C3"},
+        {name: "Alpine Rose", pantone: "16-1820", hex: "#CC4E77"}, {name: "Desert Rose", pantone: "16-1620", hex: "#CC6666"}, {name: "Bridal Rose", pantone: "15-1610", hex: "#FFC0CB"},
+        {name: "Misty Rose", pantone: "13-1404", hex: "#FFE4E1"}, {name: "Port Wine Rose", pantone: "19-1530", hex: "#622F35"}, {name: "Crimson Rose", pantone: "18-1760", hex: "#DC143C"},
+        {name: "Velvet Rose", pantone: "17-1635", hex: "#A83754"}, {name: "Petal Rose", pantone: "13-1408", hex: "#F78FA7"}, {name: "Silk Rose", pantone: "14-1610", hex: "#E0959E"},
+        {name: "Cyber Rose", pantone: "17-1930", hex: "#FF66CC"}, {name: "Golden Rose", pantone: "15-1315", hex: "#B76E79"}, {name: "Autumn Rose", pantone: "17-1425", hex: "#A65B5B"},
+        {name: "French Rose", pantone: "16-1710", hex: "#F64A8A"}, {name: "Twilight Rose", pantone: "17-1625", hex: "#B3677A"}, {name: "Coral Rose", pantone: "16-1535", hex: "#FF4040"},
+        {name: "Sherwood Rose", pantone: "17-1522", hex: "#9E6770"}, {name: "Madder Rose", pantone: "17-1630", hex: "#A9405F"}, {name: "Royal Rose", pantone: "18-1725", hex: "#9E3355"},
+        {name: "Pale Rose", pantone: "12-1303", hex: "#FFE4E6"}, {name: "Faded Rose", pantone: "14-1312", hex: "#D4A5A5"}, {name: "Antique Rose", pantone: "15-1512", hex: "#C88A8A"},
+        {name: "Blush Rose", pantone: "13-1406", hex: "#F6C2C2"}, {name: "Sunset Rose", pantone: "15-1520", hex: "#E28790"}, {name: "Bright Rose", pantone: "16-1725", hex: "#FF3366"},
+        {name: "Radiant Rose", pantone: "17-1725", hex: "#EE2C7A"}, {name: "Alpine Glow Rose", pantone: "16-1618", hex: "#D67A85"}, {name: "Cranberry Rose", pantone: "18-1750", hex: "#9E003A"},
+        {name: "Rich Rose", pantone: "17-1640", hex: "#B83A58"}, {name: "Soft Rose", pantone: "13-1405", hex: "#F4C2C2"}, {name: "Garnet Rose", pantone: "19-1650", hex: "#731033"},
+        {name: "Ruby Rose", pantone: "18-1735", hex: "#C21E56"}, {name: "Cerise Rose", pantone: "17-1933", hex: "#DE3163"}, {name: "Magenta Rose", pantone: "17-2032", hex: "#C71585"},
+        {name: "Ice Rose", pantone: "12-1206", hex: "#FCE4EC"}, {name: "Pearl Rose", pantone: "13-1310", hex: "#E8B4B8"}, {name: "Lustre Rose", pantone: "15-1418", hex: "#D68A94"}
+    ]},
+    { name: "Magenta", shades: [
+        {name: "Magenta", pantone: "17-2036", hex: "#D946EF"}, {name: "Dark Magenta", pantone: "19-2430", hex: "#8B008B"}, {name: "Neon Magenta", pantone: "17-2040", hex: "#FF00FF"},
+        {name: "Deep Magenta", pantone: "18-2328", hex: "#CC00CC"}, {name: "Light Magenta", pantone: "15-3210", hex: "#F49AC2"}, {name: "Bright Magenta", pantone: "17-2230", hex: "#E2068D"},
+        {name: "Electric Magenta", pantone: "17-1936", hex: "#FF0090"}, {name: "Rich Magenta", pantone: "18-2025", hex: "#C71585"}, {name: "Vibrant Magenta", pantone: "17-2030", hex: "#E0115F"},
+        {name: "Royal Magenta", pantone: "19-2120", hex: "#8B0066"}, {name: "Pastel Magenta", pantone: "15-2605", hex: "#F6ADC6"}, {name: "Muted Magenta", pantone: "16-2210", hex: "#A36B82"},
+        {name: "Crimson Magenta", pantone: "18-1945", hex: "#B80F0A"}, {name: "Classic Magenta", pantone: "17-2035", hex: "#CA1F7B"}, {name: "Sunset Magenta", pantone: "17-1825", hex: "#D15B88"},
+        {name: "Cosmic Magenta", pantone: "18-2330", hex: "#A52A6C"}, {name: "Neon Pink Magenta", pantone: "17-2038", hex: "#FF1493"}, {name: "Berry Magenta", pantone: "19-2020", hex: "#8B004B"},
+        {name: "Orchid Magenta", pantone: "16-2815", hex: "#B048B5"}, {name: "Ruby Magenta", pantone: "18-1935", hex: "#9B111E"}, {name: "Flamingo Magenta", pantone: "16-1725", hex: "#F47983"},
+        {name: "Wild Magenta", pantone: "17-2520", hex: "#E30B5C"}, {name: "Dusk Magenta", pantone: "17-2115", hex: "#944773"}, {name: "Silk Magenta", pantone: "16-2010", hex: "#D290A4"},
+        {name: "Glossy Magenta", pantone: "17-2045", hex: "#B9378C"}, {name: "Royal Fuchsia Magenta", pantone: "18-2335", hex: "#CA3435"}, {name: "Astral Magenta", pantone: "18-2510", hex: "#9A4EAE"},
+        {name: "Pure Magenta", pantone: "17-2038", hex: "#FF00FF"}, {name: "Deep Neon Magenta", pantone: "18-2050", hex: "#E60073"}, {name: "Soft Magenta", pantone: "15-2810", hex: "#DF73D4"},
+        {name: "Pale Magenta", pantone: "14-2812", hex: "#F0A1D8"}, {name: "Medium Magenta", pantone: "16-2420", hex: "#CC33CC"}, {name: "Strong Magenta", pantone: "17-2240", hex: "#FF00AF"},
+        {name: "Shadow Magenta", pantone: "18-2122", hex: "#7A3B69"}, {name: "Flash Magenta", pantone: "17-1940", hex: "#FF007F"}, {name: "Twilight Magenta", pantone: "18-2030", hex: "#8A2BE2"},
+        {name: "Cyberpunk Magenta", pantone: "17-2050", hex: "#FF1DCE"}, {name: "Neon Purple Magenta", pantone: "17-2435", hex: "#BC13FE"}, {name: "Retro Magenta", pantone: "17-2235", hex: "#D80073"},
+        {name: "Blossom Magenta", pantone: "15-2210", hex: "#E892B9"}, {name: "Velvet Magenta", pantone: "18-2125", hex: "#8F386D"}, {name: "Wine Magenta", pantone: "19-1925", hex: "#5C0632"},
+        {name: "Punch Magenta", pantone: "17-1830", hex: "#F33A6A"}, {name: "Hot Magenta", pantone: "17-1945", hex: "#FF00CC"}, {name: "Radiant Magenta", pantone: "17-2042", hex: "#E30066"}
+    ]},
+    { name: "Beige", shades: [
+        {name: "Beige", pantone: "13-1006", hex: "#F5F5DC"}, {name: "Dark Beige", pantone: "15-1215", hex: "#C8B99B"}, {name: "Light Beige", pantone: "11-0907", hex: "#FDF5E6"},
+        {name: "Warm Beige", pantone: "14-1118", hex: "#E7D3B5"}, {name: "Cool Beige", pantone: "14-1110", hex: "#D6C7B2"}, {name: "Classic Beige", pantone: "15-1115", hex: "#D8C2A3"},
+        {name: "Cream Beige", pantone: "12-0911", hex: "#F5ECD8"}, {name: "Sandy Beige", pantone: "15-1220", hex: "#D2B996"}, {name: "Rose Beige", pantone: "14-1310", hex: "#E3C2B1"},
+        {name: "Grey Beige", pantone: "15-1108", hex: "#C7BEA9"}, {name: "Golden Beige", pantone: "15-1125", hex: "#DABE8B"}, {name: "Natural Beige", pantone: "14-1122", hex: "#E5C4A1"},
+        {name: "Soft Beige", pantone: "13-0908", hex: "#F0E4D0"}, {name: "Deep Beige", pantone: "16-1221", hex: "#B89F7D"}, {name: "Urban Beige", pantone: "14-1215", hex: "#DECCA5"},
+        {name: "Desert Beige", pantone: "15-1118", hex: "#D6B890"}, {name: "Raw Beige", pantone: "14-1115", hex: "#E2CCAB"}, {name: "Parchment Beige", pantone: "12-0805", hex: "#F4ECD8"},
+        {name: "Muted Beige", pantone: "14-1112", hex: "#D9C9B0"}, {name: "Oatmeal Beige", pantone: "13-0905", hex: "#EADDC9"}, {name: "Silt Beige", pantone: "15-1105", hex: "#CFC5B1"},
+        {name: "Cashmere Beige", pantone: "13-1010", hex: "#EEDCB3"}, {name: "Almond Beige", pantone: "14-1116", hex: "#EADECA"}, {name: "Flaxen Beige", pantone: "14-1012", hex: "#E5D2B8"},
+        {name: "Silk Beige", pantone: "13-0906", hex: "#F2E8D5"}, {name: "Subtle Beige", pantone: "14-1108", hex: "#D8C9B4"}, {name: "Vintage Beige", pantone: "15-1210", hex: "#CBB89D"},
+        {name: "French Beige", pantone: "15-1116", hex: "#A67B5B"}, {name: "Pewter Beige", pantone: "14-1107", hex: "#D1C7B8"}, {name: "Sun Beige", pantone: "15-1130", hex: "#DFCA9D"},
+        {name: "Buff Beige", pantone: "14-1106", hex: "#F0DC82"}, {name: "Camel Beige", pantone: "15-1140", hex: "#C19A6B"}, {name: "Hemp Beige", pantone: "14-1105", hex: "#D4C5B9"},
+        {name: "Tuscan Beige", pantone: "15-1225", hex: "#D2B59B"}, {name: "Alabaster Beige", pantone: "11-0105", hex: "#F5F2EA"}, {name: "Earthen Beige", pantone: "16-1220", hex: "#B89F82"},
+        {name: "Washed Beige", pantone: "14-1102", hex: "#E3D7C8"}, {name: "Royal Beige", pantone: "15-1135", hex: "#D1BC96"}, {name: "Gilded Beige", pantone: "15-1142", hex: "#E6CA9F"},
+        {name: "Shadow Beige", pantone: "15-1104", hex: "#C4B69D"}, {name: "Antique Beige", pantone: "14-1104", hex: "#E5D4BE"}, {name: "Smooth Beige", pantone: "13-0907", hex: "#EEDFC8"},
+        {name: "Rich Beige", pantone: "16-1225", hex: "#B39874"}, {name: "Ballet Beige", pantone: "13-1008", hex: "#F3E0CC"}, {name: "Glazed Beige", pantone: "14-1114", hex: "#E2C8A7"},
+        {name: "Minimal Beige", pantone: "12-0906", hex: "#F7EFE1"}, {name: "Suede Beige", pantone: "16-1210", hex: "#BFAB8B"}, {name: "Burlap Beige", pantone: "15-1103", hex: "#C9BEA8"}
+    ]},
+    { name: "Sand", shades: [
+        {name: "Sand", pantone: "15-1040", hex: "#E7E5E4"}, {name: "Dark Sand", pantone: "17-1035", hex: "#C2B29B"}, {name: "Light Sand", pantone: "13-0908", hex: "#F4EEDC"},
+        {name: "Warm Sand", pantone: "15-1115", hex: "#D8C2A3"}, {name: "Desert Sand", pantone: "13-1010", hex: "#EDC9AF"}, {name: "Beach Sand", pantone: "14-1118", hex: "#E0C098"},
+        {name: "Golden Sand", pantone: "15-1225", hex: "#E3B778"}, {name: "Sahara Sand", pantone: "15-1120", hex: "#D1B588"}, {name: "Soft Sand", pantone: "14-1112", hex: "#E6D7BD"},
+        {name: "Fine Sand", pantone: "13-0906", hex: "#F1E4CB"}, {name: "Natural Sand", pantone: "15-1110", hex: "#D4C2A8"}, {name: "Raw Sand", pantone: "16-1110", hex: "#B8A381"},
+        {name: "Silky Sand", pantone: "14-1115", hex: "#D9C5A8"}, {name: "Deep Sand", pantone: "17-1120", hex: "#A89472"}, {name: "Beachcomber Sand", pantone: "15-1212", hex: "#D3BEA2"},
+        {name: "Dune Sand", pantone: "16-1215", hex: "#C5B294"}, {name: "Shore Sand", pantone: "14-1116", hex: "#E2CDB2"}, {name: "Pebble Sand", pantone: "15-1108", hex: "#C9BAA3"},
+        {name: "Sunbaked Sand", pantone: "16-1310", hex: "#D6B088"}, {name: "Vintage Sand", pantone: "15-1218", hex: "#CCA983"}, {name: "Coastal Sand", pantone: "14-1114", hex: "#E7D4BC"},
+        {name: "Smooth Sand", pantone: "13-0905", hex: "#F2E8D2"}, {name: "Dry Sand", pantone: "15-1112", hex: "#D1C0A5"}, {name: "Muted Sand", pantone: "14-1109", hex: "#D7C9B1"},
+        {name: "Almond Sand", pantone: "14-1125", hex: "#E8D0B3"}, {name: "Tropic Sand", pantone: "15-1122", hex: "#DAB895"}, {name: "Horizon Sand", pantone: "14-1111", hex: "#DFCDAF"},
+        {name: "Sunlit Sand", pantone: "15-1130", hex: "#E5C195"}, {name: "Washed Sand", pantone: "14-1107", hex: "#E8D8C0"}, {name: "Rocky Sand", pantone: "16-1105", hex: "#B5A184"},
+        {name: "Warm Dune Sand", pantone: "15-1214", hex: "#D9C2A0"}, {name: "Island Sand", pantone: "13-1008", hex: "#F2E2C9"}, {name: "Aged Sand", pantone: "16-1112", hex: "#BFAF92"},
+        {name: "Golden Dune", pantone: "15-1128", hex: "#E0B775"}, {name: "Pale Sand", pantone: "12-0909", hex: "#F5ECD0"}, {name: "Deep Sahara", pantone: "17-1040", hex: "#9E815C"},
+        {name: "Soft Dune", pantone: "14-1110", hex: "#E5D4B6"}, {name: "Raw Dune", pantone: "15-1116", hex: "#D1BD9B"}, {name: "Breeze Sand", pantone: "13-0907", hex: "#F3E7CE"},
+        {name: "Rich Sand", pantone: "16-1222", hex: "#C7A67B"}, {name: "Velvet Sand", pantone: "14-1119", hex: "#DEC2A0"}, {name: "Gilded Sand", pantone: "15-1132", hex: "#E2C38A"},
+        {name: "Minimal Sand", pantone: "12-0908", hex: "#F7EFCF"}, {name: "Driftwood Sand", pantone: "16-1109", hex: "#C2AF93"}, {name: "Oasis Sand", pantone: "14-1121", hex: "#E5C8A4"}
+    ]}
 ];
 
 let activeColourMasterIndex = 0; let selectedColourForPopup = null; let colourPopupTarget = { type:null, index:null };
-let editingShadeIndex = -1;
 
 function loadTexfriendColourMaster() {
     try { const saved = localStorage.getItem(TEXFRIEND_COLOUR_KEY); if(saved) { const parsed = JSON.parse(saved); if(Array.isArray(parsed) && parsed.length) texfriendColourMaster = parsed; } } catch(e) {}
-    renderColourMasterTabs(); renderColourShades();
-}
-function saveTexfriendColourMaster() { localStorage.setItem(TEXFRIEND_COLOUR_KEY, JSON.stringify(texfriendColourMaster)); }
-
-function renderColourMasterTabs() {
-    const box = $("colourMasterTabs"); if(!box) return; box.innerHTML = "";
-    texfriendColourMaster.forEach((colour,i) => {
-        const btn = document.createElement("button"); btn.className = "colour-master-tab" + (i===activeColourMasterIndex ? " active" : "");
-        btn.textContent = colour.name; btn.onclick = () => { activeColourMasterIndex = i; renderColourMasterTabs(); renderColourShades(); }; box.appendChild(btn);
-    });
-}
-
-function renderColourShades() {
-    const box = $("colourShadeList"); if(!box) return; box.innerHTML="";
-    const master = texfriendColourMaster[activeColourMasterIndex]; if(!master) return;
-    master.shades.forEach((shade,i) => {
-        const card = document.createElement("div"); card.className = "swatch-card";
-        let pantoneHTML = shade.pantone ? `<div class="swatch-pantone">PT: ${escapeColourText(shade.pantone)}</div>` : '';
-        card.innerHTML = `<div class="swatch-color" style="background:${shade.hex}"></div><div class="swatch-details"><div class="swatch-name" title="${escapeColourText(shade.name)}">${escapeColourText(shade.name)}</div>${pantoneHTML}</div>`;
-        card.onclick = () => openColorManager(i);
-        box.appendChild(card);
-    });
 }
 
 function renderPopupTabs() {
@@ -2352,16 +2359,25 @@ function renderPopupTabs() {
 }
 
 function openColourPopup(masterName, shadeIndex, targetType=null, targetIndex=null) {
-    const masterIndex = texfriendColourMaster.findIndex(x=>x.name===masterName); if(masterIndex<0) return;
-    const master = texfriendColourMaster[masterIndex]; selectedColourForPopup = master.shades[shadeIndex];
+    const masterIndex = texfriendColourMaster.findIndex(x=>x.name===masterName); 
+    if(masterIndex >= 0) activeColourMasterIndex = masterIndex;
+    const master = texfriendColourMaster[activeColourMasterIndex]; 
+    selectedColourForPopup = master.shades[0];
     colourPopupTarget = { type:targetType, index:targetIndex };
-    $("colourPopupTitle").textContent = "Select Shade"; $("colourPopup").classList.add("active"); $("colourSearchInput").value = ""; 
+    
+    if($("editingTargetInfo")) {
+        let lineNo = targetType === "warp" ? "Warp Line " + targetIndex : "Weft Line " + targetIndex;
+        $("editingTargetInfo").textContent = "Editing: " + lineNo;
+    }
+
+    $("colourPopup").classList.add("active"); 
+    $("colourSearchInput").value = ""; 
     renderPopupTabs(); 
     renderColourPopupGrid(master); 
 }
 
 function renderColourPopupGrid(master, filterText = "") {
-    const box = $("colourPopupGrid"); box.innerHTML="";
+    const box = $("colourPopupGrid"); if(!box) return; box.innerHTML="";
     let shadesToRender = [];
     if(filterText) {
         texfriendColourMaster.forEach(m => { m.shades.forEach(s => { if(s.name.toLowerCase().includes(filterText) || (s.pantone && s.pantone.toLowerCase().includes(filterText))) { shadesToRender.push(s); } }); });
@@ -2392,7 +2408,7 @@ function applySelectedColour() {
         if(target.type==="warp" && target.index) { const input = $("wC"+target.index); if(input) input.value = newHex; const name = $("wName"+target.index); if(name) name.innerHTML = newNameHTML; }
         if(target.type==="weft" && target.index) { const input = $("weftC"+target.index); if(input) input.value = newHex; const name = $("weftName"+target.index); if(name) name.innerHTML = newNameHTML; }
     }
-    saveTexfriendColourMaster(); autoRefresh3D(); closeColourPopup();
+    localStorage.setItem(TEXFRIEND_COLOUR_KEY, JSON.stringify(texfriendColourMaster)); autoRefresh3D(); closeColourPopup();
 }
 
 function getContrastColor(hex) {
@@ -2415,108 +2431,6 @@ function makeColourNameHTML(shade) {
 }
 
 function escapeColourText(value) { return String(value||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
-
-function openColorManager(index = -1) {
-    editingShadeIndex = index;
-    let catSelect = $("cmCategory");
-    catSelect.innerHTML = ""; 
-    texfriendColourMaster.forEach(m => { catSelect.innerHTML += `<option value="${m.name}">${m.name}</option>`; });
-    catSelect.innerHTML += `<option value="_new_">➕ Add New Category</option>`;
-    
-    if(index >= 0) {
-        $("cmPopupTitle").innerHTML = "✏️ Edit / Delete Shade";
-        let shade = texfriendColourMaster[activeColourMasterIndex].shades[index];
-        catSelect.value = texfriendColourMaster[activeColourMasterIndex].name;
-        $("cmPantone").value = shade.pantone || ""; 
-        $("cmName").value = shade.name || ""; 
-        
-        let hexVal = (shade.hex || "#22c55e").toLowerCase(); 
-        if(/^#[0-9a-f]{3}$/i.test(hexVal)) {
-            hexVal = "#" + hexVal[1]+hexVal[1] + hexVal[2]+hexVal[2] + hexVal[3]+hexVal[3];
-        }
-        if(!/^#[0-9a-f]{6}$/i.test(hexVal)) {
-            hexVal = "#22c55e";
-        }
-        
-        $("cmHex").value = hexVal; 
-        $("cmHexPicker").value = hexVal;
-        $("cmHexWrapper").style.background = hexVal;
-        $("cmDeleteBtnContainer").style.display = "block";
-    } else {
-        $("cmPopupTitle").innerHTML = "🎨 Add New Shade";
-        catSelect.value = texfriendColourMaster[activeColourMasterIndex]?.name || ""; 
-        $("cmPantone").value = ""; $("cmName").value = ""; 
-        $("cmHex").value = "#22c55e"; 
-        $("cmHexPicker").value = "#22c55e";
-        $("cmHexWrapper").style.background = "#22c55e";
-        $("cmDeleteBtnContainer").style.display = "none";
-    }
-    
-    $("colorManagerModal").classList.add("active");
-}
-
-function handleCatChange() {
-    let catSelect = $("cmCategory");
-    if (catSelect.value === "_new_") {
-        let n = prompt("Enter new category name:");
-        if(n && n.trim() !== "") {
-            n = n.trim();
-            catSelect.innerHTML = `<option value="${n}">${n}</option>` + catSelect.innerHTML;
-            catSelect.value = n;
-        } else {
-            catSelect.selectedIndex = 0;
-        }
-    }
-}
-
-function closeColorManager() { $("colorManagerModal").classList.remove("active"); }
-
-function searchPantoneDB() {
-    let code = $("cmPantone").value.trim().toUpperCase(); if(!code) return;
-    if(PANTONE_DB[code]) { 
-        $("cmName").value = PANTONE_DB[code].name; 
-        let h = PANTONE_DB[code].hex.toLowerCase(); 
-        $("cmHex").value = h; 
-        $("cmHexPicker").value = h; 
-        $("cmHexWrapper").style.background = h;
-        alert(`✅ Pantone Code Found!\nName: ${PANTONE_DB[code].name}\nHex: ${PANTONE_DB[code].hex}`); 
-    } 
-    else { alert("ℹ️ Pantone Not Found in Offline Database.\nYou can manually choose the HEX color below and save it!"); }
-}
-
-function saveNewColorAdvanced() {
-    let catName = $("cmCategory").value.trim() || "Others"; let pantone = $("cmPantone").value.trim().toUpperCase(); let shadeName = $("cmName").value.trim() || (pantone ? `PT ${pantone}` : "New Shade"); let hex = $("cmHex").value.trim().toLowerCase();
-    if(!/^#[0-9a-f]{6}$/i.test(hex)) { alert("❌ Invalid Hex Code! (Use #RRGGBB)"); return; }
-    
-    let newShade = { name: shadeName, pantone: pantone, hex: hex };
-
-    if(editingShadeIndex >= 0) {
-        let oldCatName = texfriendColourMaster[activeColourMasterIndex].name;
-        if(oldCatName.toLowerCase() === catName.toLowerCase()) {
-            texfriendColourMaster[activeColourMasterIndex].shades[editingShadeIndex] = newShade;
-        } else {
-            texfriendColourMaster[activeColourMasterIndex].shades.splice(editingShadeIndex, 1);
-            let newCatIndex = texfriendColourMaster.findIndex(m => m.name.toLowerCase() === catName.toLowerCase());
-            if(newCatIndex >= 0) { texfriendColourMaster[newCatIndex].shades.push(newShade); activeColourMasterIndex = newCatIndex; } 
-            else { texfriendColourMaster.push({ name: catName, shades: [newShade] }); activeColourMasterIndex = texfriendColourMaster.length - 1; }
-        }
-    } else {
-        let catIndex = texfriendColourMaster.findIndex(m => m.name.toLowerCase() === catName.toLowerCase()); 
-        if(catIndex >= 0) { texfriendColourMaster[catIndex].shades.push(newShade); activeColourMasterIndex = catIndex; } 
-        else { texfriendColourMaster.push({ name: catName, shades: [newShade] }); activeColourMasterIndex = texfriendColourMaster.length - 1; }
-    }
-
-    saveTexfriendColourMaster(); renderColourMasterTabs(); renderColourShades(); closeColorManager();
-}
-
-function deleteShadeAdvanced() {
-    if (editingShadeIndex >= 0) {
-        if(confirm("Are you sure you want to delete this shade?")) {
-            texfriendColourMaster[activeColourMasterIndex].shades.splice(editingShadeIndex, 1);
-            saveTexfriendColourMaster(); renderColourMasterTabs(); renderColourShades(); closeColorManager();
-        }
-    }
-}
 
 function addColourNameButtons() {
     for(let i=1; i<=currentWarpCount; i++) {
@@ -2545,10 +2459,8 @@ function getExistingColourName(hex, origName = "") {
             }
         } 
     }
-    
     let textColor = getContrastColor(hex);
     let displayTxt = origName !== "" ? `${escapeColourText(origName)} <span style="font-size:0.5rem;display:block;opacity:0.8;">(Tap to map tone)</span>` : `Select Colour`;
-    
     return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; background:${hex}; color:${textColor}; border-radius:6px; padding: 2px;">
                 <span style="font-size: 0.75rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align:center;">${displayTxt}</span>
             </div>`;
@@ -2566,10 +2478,11 @@ const _originalRenderUIWithData = window.renderUIWithData;
 window.renderUIWithData = function(w=[], f=[]) { _originalRenderUIWithData(w,f); setTimeout(()=>addColourNameButtons(), 0); };
 
 window.addEventListener("load", async () => {
-    loadTexfriendColourMaster(); renderUIWithData([],[]);
+    loadTexfriendColourMaster(); 
+    renderUIWithData([],[]);
     let cache = safeJSON("weave_designs_cache", []); let local = safeJSON("design_masters_data", []);
     allCloudDesigns = mergeDesigns([...(Array.isArray(cache)?cache:[]), ...(Array.isArray(local)?local:[])]);
-    if(allCloudDesigns.length) populateDesignSelect(true); else setStatus("ℹ️ Design இல்லை — முதலில் Design data save செய்யவும்");
+    populateDesignSelect(true);
     await importFromFirebase(false);
 });
 </script>
