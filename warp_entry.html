@@ -32,7 +32,15 @@
         flex-direction: column;
         align-items: center;
     }
+.main-card.sskr-hidden .header-grid,
+.main-card.sskr-hidden .row-grid {
+    grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 1fr 65px;
+}
 
+.main-card.sskr-hidden .header-grid > div:nth-child(5),
+.main-card.sskr-hidden .row-grid .inp-sskr {
+    display: none;
+}
     .main-card {
         width: 100%;
         max-width: 900px;
@@ -296,9 +304,64 @@
         box-shadow: 0 6px 12px rgba(139, 92, 246, 0.35);
     }
 
+    /* 🟢 SSKR Settings Button 🟢 */
+    .btn-sskr-settings {
+        background: linear-gradient(135deg, #06B6D4, #0E7490);
+        color: white;
+        border: none;
+        padding: 9px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 11px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(6, 182, 212, 0.25);
+        white-space: nowrap;
+        transition: all 0.2s;
+        margin-top: 6px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .btn-sskr-settings:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(6, 182, 212, 0.35);
+    }
+
+    .sskr-row {
+        display: grid;
+        grid-template-columns: 32px 1.4fr 1.4fr 1fr;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .sskr-row input[type="number"] {
+        text-align: center;
+        background: #FFFEF7;
+        border: 1px solid #8B5CF6;
+        color: #6D28D9;
+        font-weight: 700;
+    }
+
+    .sskr-row-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+        color: #1E2B23;
+        background: #F8FAF8;
+        padding: 8px 4px;
+        border-radius: 6px;
+        border: 1px solid #D1DED1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* 🟢 SSKR % சேர்க்கப்பட்ட Grid அளவுகள் 🟢 */
     .header-grid {
         display: grid;
-        grid-template-columns: 25px 1fr 1fr 0.9fr 1fr 65px;
+        grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 0.8fr 1fr 65px;
         gap: 4px;
         padding: 5px 0;
         font-size: 9px;
@@ -310,7 +373,7 @@
 
     .row-grid {
         display: grid;
-        grid-template-columns: 25px 1fr 1fr 0.9fr 1fr 65px;
+        grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 0.8fr 1fr 65px;
         gap: 4px;
         margin-bottom: 8px;
         align-items: center;
@@ -652,7 +715,6 @@
         font-weight: bold;
     }
 
-    /* 🟢 STRICT PRINT STYLES TO FIX DUPLICATE PAGE PRINTING 🟢 */
     @media print {
         @page {
             size: A4 portrait;
@@ -670,15 +732,13 @@
             display: block !important;
         }
 
-        /* Prevents extra blank/duplicate pages by totally hiding main document flow */
         body > * {
             display: none !important;
         }
 
-        /* Bring back ONLY the preview modal as relative layout */
         #previewModal {
             display: block !important;
-            position: relative !important; /* Changed from fixed to fix duplication */
+            position: relative !important;
             inset: auto !important;
             width: 100% !important;
             height: auto !important;
@@ -773,13 +833,24 @@
             <div class="form-group">
                 <label>Fabric Type</label>
                 <!-- 🟢 Editable Input with Datalist 🟢 -->
-                <input type="text" id="infoType" list="fabricTypeList" value="Plain" placeholder="Select or Type">
-                <datalist id="fabricTypeList">
-                    <option value="Plain"></option>
-                    <option value="Twill"></option>
-                    <option value="Dobby"></option>
-                    <option value="Seersucker"></option>
-                </datalist>
+                <select id="infoType" onchange="toggleSskrSettingsBtn()" style="width:100%; padding:12px; border:1px solid #e2c275; border-radius:10px; background:#FFFEF7; font-weight:700; color:#7a3d0a;">
+    <option value="Plain stripe">Plain stripe</option>
+    <option value="Plain check">Plain check</option>
+    <option value="Dobby stripe">Dobby stripe</option>
+    <option value="Dobby check">Dobby check</option>
+    <option value="Seersucker stripe">Seersucker  stripe</option>
+    <option value="Seersucker checks">Seersucker check</option>
+    <option value="Twill Checks">Twill Checks</option>
+    <option value="Twill Stripes">Twill Stripes</option>
+</select>
+
+                <!-- 🟢 SSKR % Settings Tab Button - Fabric Type "Seersucker" select ஆனா தான் தெரியும் 🟢 -->
+                <button type="button"
+                        id="sskrSettingsBtn"
+                        class="btn-sskr-settings"
+                        onclick="openSskrSettingsModal()">
+                    🌊 SSKR % Settings
+                </button>
             </div>
 
         </div>
@@ -860,13 +931,15 @@
 
         <div style="overflow-x:auto;">
 
-            <div style="min-width:480px;">
+            <div style="min-width:540px;">
 
+                <!-- 🟢 SSKR % Header சேர்க்கப்பட்டுள்ளது 🟢 -->
                 <div class="header-grid">
                     <div>#</div>
                     <div>Count</div>
                     <div>Colour</div>
                     <div>Beam</div>
+                    <div>SSKR %</div>
                     <div>Ends</div>
                     <div>Action</div>
                 </div>
@@ -1013,6 +1086,33 @@
 </div>
 
 
+<!-- 🟢 SSKR % SETTINGS MODAL (Fabric Type = Seersucker ஆனா தான் open ஆகும்) 🟢 -->
+
+<div id="sskrModal"
+     class="overlay-modal">
+
+    <div class="modal-content"
+         style="max-width:600px;height:85vh;margin:auto;border-radius:16px;">
+
+        <div class="modal-header">
+
+            <h3>🌊 SSKR % Settings</h3>
+
+            <button class="close-btn"
+                    onclick="closeModal('sskrModal')">
+                Close ✕
+            </button>
+
+        </div>
+
+        <div class="modal-body" id="sskrModalBody">
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- FULLSCREEN IMAGE -->
 
 <div id="fullscreenModal"
@@ -1034,8 +1134,6 @@
 <script>
 
 let currentBaseSpecs = {};
-
-
 /* ============================================================
    SAFE STORAGE
 ============================================================ */
@@ -1071,8 +1169,6 @@ function getLocalObject(key) {
         ? data
         : {};
 }
-
-
 /* ============================================================
    PERMISSION
 ============================================================ */
@@ -1101,8 +1197,6 @@ function checkUserPermission() {
 
     return true;
 }
-
-
 /* ============================================================
    INITIAL LOAD
 ============================================================ */
@@ -1120,9 +1214,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     loadDesignDropdown();
+    toggleSskrSettingsBtn();
 });
-
-
 /* ============================================================
    MODALS
 ============================================================ */
@@ -1139,8 +1232,6 @@ function openModal(modalId) {
         modal.classList.add('show');
     }, 10);
 }
-
-
 function closeModal(modalId) {
 
     const modal = document.getElementById(modalId);
@@ -1153,7 +1244,131 @@ function closeModal(modalId) {
         modal.style.display = 'none';
     }, 300);
 }
+/* ============================================================
+   🟢 SSKR % SETTINGS TAB / MODAL 🟢
+============================================================ */
+function toggleSskrSettingsBtn() {
 
+    const typeElement =
+        document.getElementById('infoType');
+
+    const btn =
+        document.getElementById('sskrSettingsBtn');
+
+    const mainCard =
+        document.querySelector('.main-card');
+
+    if (!typeElement || !btn) return;
+
+    const val =
+        (typeElement.value || '').toLowerCase();
+
+    const isSeersucker =
+        val.indexOf('seersucker') !== -1;
+
+    if (isSeersucker) {
+        btn.style.display = 'inline-flex';
+    } else {
+        btn.style.display = 'none';
+    }
+
+    if (mainCard) {
+        if (isSeersucker) {
+            mainCard.classList.remove('sskr-hidden');
+        } else {
+            mainCard.classList.add('sskr-hidden');
+        }
+    }
+}
+
+let sskrGroupsCache = [];
+
+
+function openSskrSettingsModal() {
+
+    const body =
+        document.getElementById('sskrModalBody');
+
+    if (!body) return;
+
+    const allRows =
+        Array.from(
+            document.querySelectorAll('.line-item')
+        );
+const topBeamRows =
+        allRows.filter(function (row) {
+            const beamElement = row.querySelector('.inp-beam');
+            return (
+                beamElement &&
+                (beamElement.value === 'Top Beam' || beamElement.value === 'Seer sucker')
+            );
+        });
+
+    if (topBeamRows.length === 0) {
+        body.innerHTML = '<p style="text-align:center;color:#D97706;padding:25px;font-size:12px;font-weight:600;">"Top Beam" வகையில் எந்த Line-மும் இல்லை.<br>முதலில் Warp Thread Pattern பிரிவில் Beam Column-ல் "Top Beam" select பண்ணுங்க.</p>';
+        openModal('sskrModal');
+        return;
+    }
+
+    const groups = {};
+
+    topBeamRows.forEach(function (row) {
+        const countElement = row.querySelector('.inp-count');
+        const colorElement = row.querySelector('.inp-color');
+        const sskrElement = row.querySelector('.inp-sskr');
+
+        const countVal = (countElement && countElement.value.trim()) || '-';
+        const colorVal = (colorElement && colorElement.value.trim()) || '';
+        const sskrVal = sskrElement ? sskrElement.value : '';
+
+        if (!groups[countVal]) {
+            groups[countVal] = { colors: [], sskr: sskrVal, lineCount: 0 };
+        }
+        if (colorVal) groups[countVal].colors.push(colorVal);
+        if (sskrVal) groups[countVal].sskr = sskrVal;
+        groups[countVal].lineCount++;
+    });
+
+    sskrGroupsCache = Object.keys(groups);
+
+    let html = '<div style="font-size:10px;color:#0E7490;font-weight:600;margin-bottom:12px;background:#ECFEFF;border:1px dashed #06B6D4;padding:8px 10px;border-radius:8px;">"Top Beam" வகை Line-கள் Count வாரியா Group ஆகி காட்டப்படுகிறது. ஒரு % type பண்ணா, அந்த Count-க்குள் வரும் எல்லா Line-களுக்கும் ஒரே சமயம் apply ஆகும்.</div>';
+
+    html += '<div class="sskr-row" style="font-size:9px;font-weight:700;color:#2F4F38;text-transform:uppercase;"><div style="text-align:center;">#</div><div style="text-align:center;">Count</div><div style="text-align:center;">Colours (Lines)</div><div style="text-align:center;">SSKR %</div></div>';
+
+    sskrGroupsCache.forEach(function (countKey, idx) {
+        const g = groups[countKey];
+        const colorsText = g.colors.length > 0 ? (g.colors.join(', ') + ' (' + g.lineCount + ' lines)') : (g.lineCount + ' lines');
+
+        html += '<div class="sskr-row">'
+            + '<div class="line-no">' + (idx + 1) + '</div>'
+            + '<div class="sskr-row-label">' + escapeHtmlText(countKey) + '</div>'
+            + '<div class="sskr-row-label" style="font-size:9px;">' + escapeHtmlText(colorsText) + '</div>'
+            + '<input type="number" value="' + escapeHtmlAttribute(g.sskr) + '" placeholder="%" oninput="syncSskrGroup(' + idx + ', this.value)">'
+            + '</div>';
+    });
+
+    body.innerHTML = html;
+    openModal('sskrModal');
+}
+
+
+function syncSskrGroup(idx, val) {
+
+    const countKey = sskrGroupsCache[idx];
+    if (countKey === undefined) return;
+
+  document.querySelectorAll('.line-item').forEach(function (row) {
+        const beamElement = row.querySelector('.inp-beam');
+        if (!beamElement || (beamElement.value !== 'Top Beam' && beamElement.value !== 'Seer sucker')) return;
+        const countElement = row.querySelector('.inp-count');
+        const countVal = (countElement && countElement.value.trim()) || '-';
+
+        if (countVal === countKey) {
+            const sskrElement = row.querySelector('.inp-sskr');
+            if (sskrElement) sskrElement.value = val;
+        }
+    });
+}
 
 /* ============================================================
    FULLSCREEN IMAGE
@@ -1191,8 +1406,6 @@ window.closeFullscreenImage = function () {
         img.src = '';
     }
 };
-
-
 /* ============================================================
    DESIGN NAME CLEAN
 ============================================================ */
@@ -1206,8 +1419,6 @@ function cleanDesignName(str) {
             .toLowerCase()
         : '';
 }
-
-
 /* ============================================================
    BITMAP
 ============================================================ */
@@ -1294,8 +1505,6 @@ function loadBitmapImage() {
         }
     }
 }
-
-
 /* ============================================================
    DESIGN DROPDOWN (UPGRADED TO SELECT DROPDOWN)
 ============================================================ */
@@ -1364,8 +1573,6 @@ function loadDesignDropdown() {
         loadBitmapImage();
     }
 }
-
-
 /* ============================================================
    ON LOOM WIDTH
 ============================================================ */
@@ -1416,8 +1623,6 @@ function calculateOnloomWidth() {
             baseWidth.toFixed(2);
     }
 }
-
-
 /* ============================================================
    LOAD DESIGN DATA
 ============================================================ */
@@ -1483,6 +1688,7 @@ function loadDesignData() {
         currentBaseSpecs = {};
         loadDefaultRow();
         refreshBulkColorDropdown();
+        toggleSskrSettingsBtn();
         return;
     }
 
@@ -1622,6 +1828,7 @@ function loadDesignData() {
                 l.count || '',
                 l.color || '',
                 l.beam || 'Ground',
+                l.seer || '', // 🟢 SSKR மதிப்பை load செய்கிறோம்
                 l.ends || ''
             );
         });
@@ -1652,6 +1859,7 @@ function loadDesignData() {
 
     updateLineNumbers();
     refreshBulkColorDropdown();
+    toggleSskrSettingsBtn();
 }
 
 
@@ -1977,17 +2185,17 @@ function applyBulkColorChange() {
 
 
 /* ============================================================
-   ADD WARP LINE (🟢 ENHANCED AUTO-FILL FOR COUNT 🟢)
+   ADD WARP LINE (🟢 ENHANCED AUTO-FILL FOR COUNT & SSKR % 🟢)
 ============================================================ */
 
 function addWarpLine(
     count = '',
     color = '',
     beam = 'Ground',
+    sskr = '',
     ends = '',
     insertAfterElem = null
 ) {
-    // 🟢 NEW: Auto-fill the count from General Specs by default, but it remains editable! 🟢
     if (!count) {
         const c1 = document.getElementById('infoCount1');
         if (c1 && c1.value) {
@@ -2042,13 +2250,12 @@ function addWarpLine(
             onkeydown="
                 if(event.key==='Enter'){
                     event.preventDefault();
-                    this.value =
-                        (this.value === 'Ground')
-                        ? 'Top Beam'
-                        : 'Ground';
+                    if(this.value === 'Ground') this.value = 'Top Beam';
+                    else if(this.value === 'Top Beam') this.value = 'Seer sucker';
+                    else this.value = 'Ground';
 
-                    let en=this.parentElement.querySelector('.inp-ends');
-                    if(en) en.focus();
+                    let sk=this.parentElement.querySelector('.inp-sskr');
+                    if(sk) sk.focus();
                 }
             "
         >
@@ -2061,7 +2268,26 @@ function addWarpLine(
                 ${beam === 'Top Beam' ? 'selected' : ''}>
                 Top Beam
             </option>
+
+            <option value="Seer sucker"
+                ${beam === 'Seer sucker' ? 'selected' : ''}>
+                Seer sucker
+            </option>
         </select>
+
+        <input
+            type="number"
+            class="inp-sskr"
+            placeholder="%"
+            value="${escapeHtmlAttribute(sskr)}"
+            onkeydown="
+                if(event.key==='Enter'){
+                    event.preventDefault();
+                    let en=this.parentElement.querySelector('.inp-ends');
+                    if(en) en.focus();
+                }
+            "
+        >
 
         <input
             type="number"
@@ -2076,6 +2302,7 @@ function addWarpLine(
                         '',
                         '',
                         'Ground',
+                        '',
                         '',
                         this.parentElement
                     );
@@ -2101,6 +2328,7 @@ function addWarpLine(
                         '',
                         '',
                         'Ground',
+                        '',
                         '',
                         this.parentElement.parentElement
                     );
@@ -2449,7 +2677,7 @@ async function quickCompleteToggle() {
 
 
 /* ============================================================
-   SAVE WARP DESIGN
+   SAVE WARP DESIGN (🟢 ENHANCED SSKR % 🟢)
 ============================================================ */
 
 window.saveWarpDesign = async function () {
@@ -2594,6 +2822,11 @@ window.saveWarpDesign = async function () {
                 row.querySelector(
                     '.inp-beam'
                 );
+                
+            const sskrElement =
+                row.querySelector(
+                    '.inp-sskr'
+                );
 
             const endsElement =
                 row.querySelector(
@@ -2605,6 +2838,7 @@ window.saveWarpDesign = async function () {
                 !countElement ||
                 !colorElement ||
                 !beamElement ||
+                !sskrElement ||
                 !endsElement
             ) {
                 return;
@@ -2621,6 +2855,9 @@ window.saveWarpDesign = async function () {
 
             const beam =
                 beamElement.value;
+                
+            const sskr =
+                parseInt(sskrElement.value) || 0;
 
 
             const ends =
@@ -2638,6 +2875,7 @@ window.saveWarpDesign = async function () {
                     count: count,
                     color: color,
                     beam: beam,
+                    seer: sskr, // 🟢 Saved in Object
                     ends: ends
 
                 });
@@ -3240,7 +3478,6 @@ function editDesignPattern(dNo) {
 
     if (!select) return;
 
-    // 🟢 Handled gracefully for the input list 🟢
     select.value = dNo;
 
     loadDesignData();
@@ -3254,7 +3491,7 @@ function editDesignPattern(dNo) {
 
 
 /* ============================================================
-   PREVIEW
+   PREVIEW (DYNAMIC BEAM HEADER FIX)
 ============================================================ */
 
 function previewPattern() {
@@ -3299,6 +3536,13 @@ function previewPattern() {
                 row.querySelector(
                     '.inp-beam'
                 ).value;
+                
+            const sskrElement = 
+                row.querySelector(
+                    '.inp-sskr'
+                );
+                
+            const sskr = sskrElement ? (parseInt(sskrElement.value) || 0) : 0;
 
 
             const ends =
@@ -3320,6 +3564,7 @@ function previewPattern() {
                     count: count,
                     color: color,
                     beam: beam,
+                    seer: sskr, // 🟢 Saved in Object
                     ends: ends
 
                 });
@@ -3604,8 +3849,8 @@ function previewPattern() {
 
 
                     if (
-                        warpLines[j].beam ===
-                        'Top Beam'
+                        warpLines[j].beam === 'Top Beam' || 
+                        warpLines[j].beam === 'Seer sucker'
                     ) {
 
                         blockTopEnds +=
@@ -3684,25 +3929,36 @@ function previewPattern() {
             blockLines.forEach(
                 function (item, index) {
 
-                    const endsDisplay =
-                        item.beam === 'Top Beam'
-
-                            ? `<span style="
+                    let endsDisplay = '';
+                    if (item.beam === 'Seer sucker') {
+                        endsDisplay = `<span style="
+                                display:inline-block;
+                                padding-left:15px;
+                                color:#8B5CF6;
+                                font-weight:bold;
+                              "
+                              title="SSKR">
+                                ${item.ends}
+                              </span>`;
+                    } else if (item.beam === 'Top Beam') {
+                        endsDisplay = `<span style="
                                 display:inline-block;
                                 padding-left:15px;
                                 color:#D97706;
                               "
-                              title="Top Beam">
+                              title="Dobby">
                                 ${item.ends}
-                              </span>`
-
-                            : `<span style="
+                              </span>`;
+                    } else {
+                        endsDisplay = `<span style="
                                 display:inline-block;
                                 padding-right:15px;
                                 color:#2F4F38;
-                              ">
+                              "
+                              title="Bottom">
                                 ${item.ends}
                               </span>`;
+                    }
 
 
                     const colorTamil =
@@ -3815,8 +4071,8 @@ function previewPattern() {
 
 
             if (
-                item.beam ===
-                'Top Beam'
+                item.beam === 'Top Beam' || 
+                item.beam === 'Seer sucker'
             ) {
 
                 topTotal +=
@@ -3855,26 +4111,36 @@ function previewPattern() {
             });
 
 
-            const endsDisplay =
-                item.beam === 'Top Beam'
-
-                    ? `<span style="
+            let endsDisplay = '';
+            if (item.beam === 'Seer sucker') {
+                endsDisplay = `<span style="
+                        display:inline-block;
+                        padding-left:15px;
+                        color:#8B5CF6;
+                        font-weight:bold;
+                      "
+                      title="SSKR">
+                        ${item.ends}
+                      </span>`;
+            } else if (item.beam === 'Top Beam') {
+                endsDisplay = `<span style="
                         display:inline-block;
                         padding-left:15px;
                         color:#D97706;
                       "
-                      title="Top Beam">
+                      title="Dobby">
                         ${item.ends}
-                      </span>`
-
-                    : `<span style="
+                      </span>`;
+            } else {
+                endsDisplay = `<span style="
                         display:inline-block;
                         padding-right:15px;
                         color:#2F4F38;
-                      ">
+                      "
+                      title="Bottom">
                         ${item.ends}
                       </span>`;
-
+            }
 
             const colorTamil =
                 typeof translateColorToTamil === 'function'
@@ -3948,6 +4214,23 @@ function previewPattern() {
         groundTotal +
         topTotal;
 
+    let hasGround = false;
+    let hasTop = false;
+    let hasSskr = false;
+
+    warpLines.forEach(function (wl) {
+        if (wl.beam === 'Ground') hasGround = true;
+        if (wl.beam === 'Top Beam') hasTop = true;
+        if (wl.beam === 'Seer sucker') hasSskr = true;
+    });
+
+    let beamLabels = [];
+    if (hasGround) beamLabels.push("Bottom");
+    if (hasTop) beamLabels.push("Dobby");
+    if (hasSskr) beamLabels.push("SSKR");
+    
+    let dynamicBeamHeader = beamLabels.length > 0 ? beamLabels.join(" / ") : "Bottom";
+    let topLabelStr = hasSskr && !hasTop ? "SSKR" : (hasTop && !hasSskr ? "Dobby" : "Dobby/SSKR");
 
     const finalTotalDisplay =
         topTotal > 0
@@ -3955,14 +4238,14 @@ function previewPattern() {
             ? `<span style="color:#3F5A3E;">
                     ${groundTotal}
                     <span style="font-size:9px;">
-                        (Grnd)
+                        (Bottom)
                     </span>
                </span>
                +
                <span style="color:#D97706;">
                     ${topTotal}
                     <span style="font-size:9px;">
-                        (Top)
+                        (${topLabelStr})
                     </span>
                </span>
                =
@@ -4030,7 +4313,7 @@ function previewPattern() {
                     font-size:7px;
                     color:#4A554A;
                 ">
-                    Grnd|Top
+                    ${dynamicBeamHeader}
                 </span>
             </th>
 
@@ -4370,19 +4653,25 @@ function update3DPreviewData() {
     try {
         let colorInputs = document.querySelectorAll('.inp-color');
         let endsInputs = document.querySelectorAll('.inp-ends');
+        let beamInputs = document.querySelectorAll('.inp-beam');
+        let sskrInputs = document.querySelectorAll('.inp-sskr');
 
         let color1 = colorInputs.length > 0 ? colorInputs[0].value : "White";
         let ends1 = endsInputs.length > 0 ? endsInputs[0].value : "60";
+        let sskr1 = sskrInputs.length > 0 ? (parseInt(sskrInputs[0].value) || 0) : 0;
 
         let color2 = colorInputs.length > 1 ? colorInputs[1].value : "Blue";
         let ends2 = endsInputs.length > 1 ? endsInputs[1].value : "60";
+        let sskr2 = sskrInputs.length > 1 ? (parseInt(sskrInputs[1].value) || 0) : 0;
 
         let previewData = [{
             designNo: "🔴 Live Warp Entry Preview", 
             warpColor1: color1,
             warpEnds1: ends1,
+            warpSeer1: sskr1,
             warpColor2: color2,
             warpEnds2: ends2,
+            warpSeer2: sskr2,
             weftColor: "White" 
         }];
 
