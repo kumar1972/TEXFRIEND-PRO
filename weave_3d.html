@@ -642,7 +642,7 @@ input, select {
         </div>
     </div>
     <div id="fsContent" class="fs-content">
-        <canvas id="weaveCanvas" width="720" height="520"></canvas>
+        <canvas id="weaveCanvas" width="1080" height="720"></canvas>
         <div class="fs-hint">👆 Drag • 🤏 Pinch Zoom</div>
     </div>
 </div>
@@ -1455,8 +1455,8 @@ function draw3DWeave() {
         const singleWarpLen = singleWarp.length;
         const singleWeftLen = singleWeft.length;
 
-        const warp = [...singleWarp, ...singleWarp];
-        const weft = [...singleWeft, ...singleWeft];
+       const warp = [...singleWarp, ...singleWarp];
+       const weft = [...singleWeft, ...singleWeft];
 
         const realWarpLength = warp.length;
         const realWeftLength = weft.length;
