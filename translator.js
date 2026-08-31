@@ -26,6 +26,7 @@ function translateColorToTamil(colorName) {
         'black': 'கருப்பு',
         'blue': 'ப்ளூ',
         'yellow': 'மஞ்சள்',
+        'mint': 'மிண்ட்',
         '1/2 salavai': '1/2 சலவை',
         '1/2 white': '1/2 சலவை',
         't salavai': 'T. சலவை',
@@ -56,7 +57,7 @@ function translateColorToTamil(colorName) {
     let colorMap = {
         'grey': 'கிரே', 'gray': 'கிரே', 'red': 'ரெட்', 'green': 'கிரீன்',
         'blue': 'ப்ளூ', 'navy': 'நேவி', 'cream': 'கிரீம்', 'salavai': 'சலவை',
-        'yellow': 'மஞ்சள்', 'khaki': 'காக்கி'
+        'yellow': 'மஞ்சள்', 'khaki': 'காக்கி','mint': 'மிண்ட்',
     };
 
     for (let key in colorMap) {
