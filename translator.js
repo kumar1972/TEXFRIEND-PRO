@@ -56,7 +56,7 @@ function translateColorToTamil(colorName) {
     let colorMap = {
         'grey': 'கிரே', 'gray': 'கிரே', 'red': 'ரெட்', 'green': 'கிரீன்',
         'blue': 'ப்ளூ', 'navy': 'நேவி', 'cream': 'கிரீம்', 'salavai': 'சலவை',
-        'khaki': 'காக்கி'
+        'yellow': 'மஞ்சள்', 'khaki': 'காக்கி'
     };
 
     for (let key in colorMap) {
