@@ -326,7 +326,7 @@ input, select {
 .print-order-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(38px,1fr)); gap:3px; max-height:68px; overflow:hidden; }
 .print-order-item { border:1px solid #a8b7af; background:#fff; min-width:0; padding:3px 4px; text-align:center; font-size:8px; font-weight:900; border-radius:3px; line-height:1.05; }
 .print-order-item span { color:#65766d; font-size:6.5px !important; }
-.print-graph-wrap { text-align:center; margin-top:3px; padding:5px 0 2px; page-break-inside:avoid; break-inside:avoid; }
+.print-graph-wrap { text-align:center; margin-top:3px; padding:5px 0 2px; page-break-inside:avoid; break-inside:avoid; overflow-x:auto; max-width:100%; }
 .print-graph-table { border-collapse:collapse; margin:auto; color:#000; }
 .print-graph-table td { border:1px solid #3f4d46; width:8mm; height:8mm; min-width:8mm; text-align:center; vertical-align:middle; font-size:13px; font-weight:950; padding:0; background:#fff; }
 .print-graph-table .graph-axis { border:0; font-size:7px; color:#394740; width:auto; min-width:11px; height:auto; padding:2px; background:#fff; }
@@ -336,7 +336,11 @@ input, select {
 .print-summary-box b { display:block; color:#496158; font-size:6px; margin-bottom:2px; }
 .print-footer { display:flex; justify-content:space-between; gap:8px; border-top:1px solid #d1dad5; margin-top:7px; padding-top:5px; font-size:6.5px; color:#65736d; }
 
-/* WARP YARN TABLE CSS */
+/* FIX: PERFECT GRID LAYOUT FOR PRINT SHEET TO PREVENT OVERLAPPING */
+.print-page-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 15px; margin-bottom: 8px; align-items: start; width: 100%; }
+.print-col { min-width: 0; max-width: 100%; overflow-x: auto; }
+
+/* WARP YARN MAIN TABLE CSS */
 .yarn-table { width: 100%; border-collapse: collapse; margin-bottom: 5px; font-size: 8px; }
 .yarn-table th, .yarn-table td { border: 1px solid #9caea4; padding: 4px 2px; text-align: center; vertical-align: middle; page-break-inside: avoid; color: #111827 !important; }
 .yarn-table th { background: #eef2f0; font-weight: 900; color: #153c2c !important; }
@@ -350,6 +354,7 @@ input, select {
     .print-toolbar-actions select { max-width:82px; }
     .print-toolbar-actions button { padding:0 8px; }
     .print-sheet-inner { margin:8px; padding:9px; }
+    .print-page-grid { grid-template-columns: 1fr; } /* Stack on tiny mobile screens */
 }
 
 /* ================= FULLSCREEN COLOUR POPUP ================= */
@@ -395,21 +400,6 @@ input, select {
 .adv-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .adv-grid button { border:0; border-radius:7px; padding:9px 5px; background:#217eaf; color:#fff; font-weight:900; font-size:.65rem; }
 
-@media(max-width: 430px) {
-    body { padding: 4px; }
-    .header { padding: 8px; }
-    .card { padding: 8px; border-radius: 8px; }
-    .container { gap: 6px; }
-    .scroll-box { max-height: 250px; }
-    .matrix-grid-container { max-height: 400px; }
-    .matrix-cell { width: 30px; height: 30px; }
-    .main-actions { grid-template-columns: 1fr 1fr; }
-    .main-actions .wide { grid-column: 1 / -1; }
-    .colour-popup-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-    .swatch-color { height: 32px; width: 32px; }
-    .swatch-name { font-size: 0.58rem; }
-    .swatch-pantone { font-size: 0.48rem; }
-}
 </style>
 </head>
 <body>
@@ -702,8 +692,16 @@ function getShadeName(hex, orig) {
 ========================================================= */
 function expandPattern(str) {
     if(!str) return [];
-    let s = String(str).toLowerCase().replace(/\s+/g, '');
-    s = s.replace(/[x×*]/g, '*');
+    let s = String(str).toLowerCase().replace(/\s+/g, '').replace(/[x×X*]/g, '*'); 
+    let bracketRegex = /\(([^)]+)\)\*(\d+)/g;
+    let match;
+    while ((match = bracketRegex.exec(s)) !== null) {
+        let innerContent = match[1]; 
+        let multiplier = parseInt(match[2]);
+        let expandedStr = Array(multiplier).fill(innerContent).join(',');
+        s = s.replace(match[0], expandedStr);
+        bracketRegex.lastIndex = 0; 
+    }
     let parts = s.split(',');
     let res = [];
     for(let p of parts) {
@@ -797,7 +795,7 @@ function mergeDesigns(items) {
         if(!n || n==="unnamed") return;
         let old = map.get(n); 
         if(!old) map.set(n, d);
-        else map.set(n, { ...old, ...d, warpLines: pickRicherArray(old.warpLines, d.warpLines), weftLines: pickRicherArray(old.weftLines, d.weftLines), warpRanges: pickRicherArray(old.warpRanges, d.warpRanges), weftRanges: pickRicherArray(old.weftRanges, d.weftRanges), customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix, dentingPattern: d.dentingPattern || old.dentingPattern, drawingPattern: d.drawingPattern || old.drawingPattern });
+        else map.set(n, { ...old, ...d, warpLines: pickRicherArray(old.warpLines, d.warpLines), weftLines: pickRicherArray(old.weftLines, d.weftLines), warpRanges: pickRicherArray(old.warpRanges, d.warpRanges), weftRanges: pickRicherArray(old.weftRanges, d.weftRanges), customMatrix: d.customMatrix?.length ? d.customMatrix : old.customMatrix, dentingPattern: d.dentingPattern || old.dentingPattern, drawingPattern: d.drawingPattern || old.drawingPattern, dentingPatternFormula: d.dentingPatternFormula || old.dentingPatternFormula, drawingPatternFormula: d.drawingPatternFormula || old.drawingPatternFormula });
     });
     return [...map.values()];
 }
@@ -972,8 +970,8 @@ function loadSelectedDesign() {
         localStorage.setItem("weave_last_design_name", dName);
         if($("activeDesignText")) $("activeDesignText").textContent = "Active Design: " + dName;
         
-        if($("dentingPatternInput")) $("dentingPatternInput").value = activeDesignObj.dentingPattern || "2";
-        if($("drawingPatternInput")) $("drawingPatternInput").value = activeDesignObj.drawingPattern || "1,2,3,4";
+        if($("dentingPatternInput")) $("dentingPatternInput").value = activeDesignObj.dentingPatternFormula || activeDesignObj.dentingPattern || "2";
+        if($("drawingPatternInput")) $("drawingPatternInput").value = activeDesignObj.drawingPatternFormula || activeDesignObj.drawingPattern || "1,2,3,4";
 
         let rawWarp = activeDesignObj.warpLines || activeDesignObj.warp || [];
         let rawWeft = activeDesignObj.weftLines || activeDesignObj.weft || [];
@@ -1018,11 +1016,14 @@ function getCurrentData() {
 
     let dentP = $("dentingPatternInput")?.value || "2";
     let drawP = $("drawingPatternInput")?.value || "1,2,3,4";
+    let expandedDent = expandPattern(dentP).join(",");
+    let expandedDraw = expandPattern(drawP).join(",");
 
     return { 
         warpLines: w, weftLines: f, warpRanges: wRanges, weftRanges: fRanges, 
         customMatrix: clone(weavePatterns.custom), type: $("weaveType")?.value || "plain",
-        dentingPattern: dentP, drawingPattern: drawP
+        dentingPattern: expandedDent, drawingPattern: expandedDraw,
+        dentingPatternFormula: dentP, drawingPatternFormula: drawP
     };
 }
 
@@ -1087,15 +1088,56 @@ function removeLastCol() { removeCol((weavePatterns.custom[0]?.length||1)-1); }
 /* =========================================================
    CANVAS 3D RENDER ENGINE
 ========================================================= */
-function isWarpUp(r, c, type, draftArr) {
+function getSimulationPicks(mRows, str) {
+    let seq = [];
+    let rowB = getPrintBracketMap(str, false);
+    let hasBrackets = Object.keys(rowB.map).length > 0;
+
+    if (!hasBrackets) {
+        for(let i = 0; i < mRows; i++) seq.push(i);
+        return seq;
+    }
+
+    for(let r = mRows; r >= 1; r--) {
+        if (rowB.isTop[r]) {
+            let bot = r;
+            for(let b = r; b >= 1; b--) {
+                if (rowB.isBot[b]) { bot = b; break; }
+            }
+
+            let txt = rowB.map[r].text;
+            let repeats = parseInt(txt.replace(/[^0-9]/g, '')) || 1;
+
+            for(let i = 0; i < repeats; i++) {
+                for(let j = r; j >= bot; j--) {
+                    seq.push(mRows - j); 
+                }
+            }
+            r = bot; 
+        } else if (!rowB.skip[r]) {
+            seq.push(mRows - r); 
+        }
+    }
+    return seq;
+}
+
+function isWarpUp(r, c, type, draftArr, pickSeq) {
     let m = type === "custom" ? weavePatterns.custom : (weavePatterns[type] || weavePatterns.custom);
     if(!m || !m.length || !m[0]?.length) return true;
-    let rr = (m.length-1) - (r%m.length); 
+
+    let rr = 0;
+    if (pickSeq && pickSeq.length > 0) {
+        rr = pickSeq[pickSeq.length - 1 - (r % pickSeq.length)];
+    } else {
+        rr = (m.length-1) - (r % m.length);
+    }
+
     let frame = draftArr && draftArr.length > 0 ? draftArr[c % draftArr.length] : c + 1;
     let cc = (frame - 1) % m[0].length;
-    if(isNaN(cc) || cc < 0) cc = c % m[0].length; 
+    if(isNaN(cc) || cc < 0) cc = c % m[0].length;
     return m[rr][cc] === 1;
 }
+
 function rgb(hex) {
     hex = hex || "#fff"; 
     if(/^#[0-9a-f]{3}$/i.test(hex)) hex = "#" + hex[1]+hex[1] + hex[2]+hex[2] + hex[3]+hex[3];
@@ -1215,7 +1257,6 @@ function draw3DWeave() {
 
         const physW_mm = (realWarpLength / reed) * 25.4; const physH_mm = (realWeftLength / pick) * 25.4;
 
-        /* FIX: exact one-repeat dimensions used by the DATA BOX */
         const repeat_width_mm = (singleWarpLen / reed) * 25.4;
         const repeat_height_mm = (singleWeftLen / pick) * 25.4;
 
@@ -1245,12 +1286,22 @@ function draw3DWeave() {
 
         const type = $("weaveType")?.value || "plain"; const useGradient = dentWidthPx >= 1.4 && cellH >= 1.4;
 
+        let mRows = 2;
+        if(type === "custom" && weavePatterns.custom) mRows = weavePatterns.custom.length;
+        else if(weavePatterns[type]) mRows = weavePatterns[type].length;
+        
+        let storedFormula = activeDesignObj?.pickPattern || "";
+        const pickSeq = getSimulationPicks(mRows, storedFormula);
+
         for(let r=0; r<realWeftLength; r++) {
             const y = bottom - ((r + 1) * cellH); const weftColor = weft[r % weft.length];
             for(const wp of warpPositions) {
                 if(wp.x >= left + drawW) continue;
                 if(wp.isEmpty) { ctx.fillStyle = shade(weftColor, useGradient ? 0.90 : 0.85); ctx.fillRect(wp.x, y, Math.max(0.6, wp.w + 0.35), Math.max(0.6, cellH + 0.35)); continue; }
-                const up = isWarpUp(r, wp.colIndex, type, drawArr); const baseColor = up ? warp[wp.colIndex % warp.length] : weftColor;
+                
+                const up = isWarpUp(r, wp.colIndex, type, drawArr, pickSeq); 
+                
+                const baseColor = up ? warp[wp.colIndex % warp.length] : weftColor;
                 if(useGradient) { let g; if(up) { g = ctx.createLinearGradient(wp.x, y, wp.x + wp.w, y); } else { g = ctx.createLinearGradient(wp.x, y, wp.x, y + cellH); }
                     g.addColorStop(0, shade(baseColor, 0.45)); g.addColorStop(0.35, shade(baseColor, 1.08)); g.addColorStop(0.65, shade(baseColor, 1.20)); g.addColorStop(1, shade(baseColor, 0.45)); ctx.fillStyle = g;
                 } else { ctx.fillStyle = shade(baseColor, up ? 0.95 : 0.82); }
@@ -1573,6 +1624,33 @@ if(fsContent) {
 document.addEventListener("keydown", e => { if(e.key==="Escape" && $("fsModal")?.style.display==="flex") closeFullscreen(); });
 
 /* ================= PRINT MODULE ================= */
+function getPrintBracketMap(str, isCol=false) {
+    let map = {}; let skip = {}; let isTop = {}; let isBot = {};
+    if(!str) return {map, skip, isTop, isBot};
+    let s = str.toLowerCase().replace(/\s+/g, '').replace(/[x×X*]/g, '*');
+    let parts = s.split(',');
+    for(let p of parts) {
+        let match = /(?:\()?(\d+)-(\d+)(?:\))?\*(\d+)/.exec(p);
+        if(match) {
+            let top = Math.max(parseInt(match[1]), parseInt(match[2]));
+            let bot = Math.min(parseInt(match[1]), parseInt(match[2]));
+            let span = top - bot + 1;
+            let text = `× ${parseInt(match[3])} Set`;
+            
+            if(isCol) {
+                map[bot] = {span, text}; 
+                isBot[bot] = true; isTop[top] = true;
+                for(let i=bot+1; i<=top; i++) skip[i] = true;
+            } else {
+                map[top] = {span, text}; 
+                isTop[top] = true; isBot[bot] = true;
+                for(let i=top-1; i>=bot; i--) skip[i] = true;
+            }
+        }
+    }
+    return {map, skip, isTop, isBot};
+}
+
 function getPrintMatrix() {
     let type = $("weaveType")?.value || "plain";
     let m = type === "custom" ? weavePatterns.custom : weavePatterns[type];
@@ -1586,18 +1664,46 @@ function getPrintOrderArray(inputId, fallback) {
     return arr.length ? arr : expandPattern(fallback);
 }
 
-function buildPrintGraph(m) {
+function buildPrintGraph(m, pickStr) {
+    let rowB = getPrintBracketMap(pickStr, false);
     let html = '<table class="print-graph-table">';
+    
     for(let r=0; r<m.length; r++) {
-        html += `<tr><td class="graph-axis">${m.length-r}</td>`;
-        for(let c=0; c<m[r].length; c++) html += `<td>${m[r][c] ? "×" : ""}</td>`;
+        let rowNum = m.length - r;
+        html += `<tr><td class="graph-axis">${rowNum}</td>`;
+        
+        for(let c=0; c<m[r].length; c++) {
+            let bTop = rowB.isTop[rowNum] ? "2.5px solid #000" : "1px solid #3f4d46";
+            let bBot = rowB.isBot[rowNum] ? "2.5px solid #000" : "1px solid #3f4d46";
+            let borderStyle = `border-top:${bTop}; border-bottom:${bBot}; border-left:1px solid #3f4d46; border-right:1px solid #3f4d46;`;
+            
+            html += `<td style="${borderStyle}">${m[r][c] ? "×" : ""}</td>`;
+        }
+        
+        if(rowB.map[rowNum]) {
+            let span = rowB.map[rowNum].span;
+            let text = rowB.map[rowNum].text;
+            // min-height நீக்கப்பட்டு, span உயரத்திற்கு ஏற்ப துல்லியமாக SVG மற்றும் Text பொருந்தும் வகையில் மாற்றி அமைக்கப்பட்டுள்ளது
+            html += `<td rowspan="${span}" style="padding-left:4px; border:none; vertical-align:middle; text-align:left; white-space:nowrap; background:#fff !important;">
+                        <div style="display:inline-flex; align-items:center; height:100%;">
+                            <span style="font-size: calc(${span} * 16px); line-height: 1; font-weight: 200; color: #d32f2f; margin-right: 4px;">}</span>
+                            <span style="color:#d32f2f; font-weight:900; font-size:10px;">${text}</span>
+                        </div>
+                     </td>`;
+        } else if(!rowB.skip[rowNum]) {
+            html += `<td style="border:none; background:#fff !important;"></td>`;
+        }
+        
         html += "</tr>";
     }
+    
     html += '<tr><td class="graph-axis"></td>';
     for(let c=1; c<=m[0].length; c++) html += `<td class="graph-axis">${c}</td>`;
     html += "</tr></table>";
+    
     return html;
 }
+
 
 function buildWarpTable(lines, drawArr) {
     if(!lines || !lines.length) return "<div style='font-size:8px;text-align:center;padding:5px;border:1px solid #ccc;'>No Yarns</div>";
@@ -1760,7 +1866,7 @@ function buildCompactYarnEntryTable(title, rows, qtyKey, qtyLabel) {
     let html = `<div class="print-entry-mini">
         <div class="print-entry-mini-title">${title}</div>
         <table class="print-entry-mini-table">
-            <thead><tr><th>#</th><th>Shade</th><th>${qtyLabel}</th></tr></thead><tbody>`;
+            <thead><tr><th width="15%">#</th><th width="65%">Shade</th><th width="20%">${qtyLabel}</th></tr></thead><tbody>`;
     if(!active.length){
         html += `<tr><td colspan="3" style="text-align:center;color:#7a8881;">No entry</td></tr>`;
     } else {
@@ -1796,6 +1902,7 @@ function buildDesignPrintContent() {
     const dName = activeDesignObj ? designName(activeDesignObj) : ($("activeDesignText")?.textContent || "Design");
     const dentArr = getPrintOrderArray("dentingPatternInput", "2");
     const drawArr = getPrintOrderArray("drawingPatternInput", "1,2,3,4");
+    const pickStr = activeDesignObj?.pickPattern || "";
 
     let warpTotal = 0, weftTotal = 0;
     try { warpTotal = getWarpTotalEnds(); } catch(e) {}
@@ -1845,15 +1952,15 @@ function buildDesignPrintContent() {
             </div>
         </div>
 
-        <div style="display: flex; gap: 15px; margin-bottom: 8px; align-items: flex-start;">
-            <div style="flex: 1.3; min-width: 0;">
+        <div class="print-page-grid">
+            <div class="print-col">
                 <div class="print-section-title" style="margin-top:0;">🧵 WARPING & DRAWING PLAN <span class="section-code">WARP SEQUENCE</span></div>
                 ${warpTableHTML}
             </div>
             
-            <div style="flex: 0.7; min-width: 0;">
+            <div class="print-col">
                 <div class="print-section-title" style="margin-top:0;">📊 WEAVE GRAPH <span class="section-code">${m.length} × ${m[0].length} REPEAT</span></div>
-                <div class="print-graph-wrap" style="margin-bottom:15px;">${buildPrintGraph(m)}</div>
+                <div class="print-graph-wrap" style="margin-bottom:15px;">${buildPrintGraph(m, pickStr)}</div>
                 
                 <div class="print-section-title">📐 DENTING PATTERN</div>
                 <div style="font-size:10px; font-weight:900; text-align:center; padding: 8px; border:1px solid #9caea4; background:#f8faf9; border-radius:4px; margin-bottom:10px;">
@@ -1866,9 +1973,6 @@ function buildDesignPrintContent() {
                         <span style="font-size:8px;">${escapeColourText(drawArr.join(", "))}</span>
                     </div>
                 </div>
-
-                <!-- WARP / WEFT ENTRY DATA FROM THE YARN ENTRY PAGE -->
-                ${buildWarpWeftEntryDetails(data)}
             </div>
         </div>
 
@@ -2125,6 +2229,16 @@ function triggerRealPrint() {
             .print-entry-details {
                 display:none !important;
             }
+            
+            .print-page-grid { display: grid !important; grid-template-columns: 58% 39% !important; gap: 3% !important; align-items: start !important; width: 100% !important; }
+            .print-col { min-width: 0 !important; max-width: 100% !important; overflow: hidden !important; }
+
+            .print-entry-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 8px !important; margin-top: 8px !important; }
+            .print-entry-mini { background: #f8faf9 !important; border: 1px solid #c9d4ce !important; border-radius: 4px !important; padding: 6px !important; }
+            .print-entry-mini-title { font-size: 9px !important; font-weight: 900 !important; color: #153c2c !important; border-bottom: 1px solid #d1dad5 !important; padding-bottom: 4px !important; margin-bottom: 4px !important; text-align: center !important; }
+            .print-entry-mini-table { width: 100% !important; border-collapse: collapse !important; font-size: 8px !important; text-align: left !important; }
+            .print-entry-mini-table th { font-weight: 800 !important; color: #596861 !important; padding: 3px 2px !important; border-bottom: 1px solid #d1dad5 !important; }
+            .print-entry-mini-table td { padding: 3px 2px !important; border-bottom: 1px solid #e8ecea !important; color: #111827 !important; }
 
             * {
                 -webkit-print-color-adjust:exact !important;
@@ -2439,7 +2553,6 @@ function closeColourPopup() {
     } catch(e) {}
 }
 
-/* FIXED: Sync logic relies on original name (data-orig) if available, falling back to exact hex match */
 function applySelectedColour() {
     if(!selectedColourForPopup) { closeColourPopup(); return; }
     const target = colourPopupTarget; let oldHex = ""; let oldOrig = "";
@@ -2522,10 +2635,10 @@ window.addEventListener("load", async () => {
 // ===== GRAPH SIZE FIX =====
 document.getElementById('printGraphScale')?.addEventListener('change', function() {
     let val = this.value; // small, medium, large
-    let size = "8mm";
-    if(val === "small") size = "6mm";
-    if(val === "medium") size = "8mm";
-    if(val === "large") size = "10mm";
+    let size = "6mm";
+    if(val === "small") size = "2mm";
+    if(val === "medium") size = "3mm";
+    if(val === "large") size = "4mm";
 
     document.querySelectorAll('.print-graph-table td').forEach(td => {
         if(!td.classList.contains('graph-axis')) {

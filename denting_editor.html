@@ -48,8 +48,8 @@
     .preset-grid button, .preset-grid select { border: 1px solid #39614f; background: #244638; color: #aee9ba; border-radius: 8px; padding: 10px 4px; font-size: 0.7rem; font-weight: 900; cursor: pointer; text-align: center; }
 
     .manual-box { background: #0d1813; border: 1px solid #315746; border-radius: 10px; padding: 12px; margin-top: 8px; }
-    .manual-row { display: grid; grid-template-columns: 55px 1fr 45px; gap: 8px; align-items: center; background: #172b23; border: 1px solid #2e5041; border-radius: 8px; padding: 8px; margin-bottom: 8px; }
-    .manual-row .num { color: #9be4a8; font-weight: 900; font-size: 0.75rem; text-align: center; }
+    .manual-row { display: grid; grid-template-columns: 75px 1fr 40px; gap: 8px; align-items: center; background: #172b23; border: 1px solid #2e5041; border-radius: 8px; padding: 8px; margin-bottom: 8px; }
+    .manual-row .num { color: #9be4a8; font-weight: 900; font-size: 0.7rem; text-align: left; }
     .manual-row button { height: 100%; min-height: 38px; border: 0; border-radius: 6px; background: #633b3b; color: #fff; font-weight: 900; cursor: pointer; }
     .btn-add { background: #2f9147; color: #fff; border: 0; border-radius: 6px; padding: 8px 14px; font-weight: bold; cursor: pointer; font-size: 0.75rem; }
 
@@ -170,7 +170,7 @@
     <div id="dentPane" class="denting-pane active">
         <div class="pm-form-box">
             <label class="pm-label-w">Denting Pattern (Short-hand)</label>
-            <input type="text" id="dentingPatternInput" value="2" oninput="saveHistory(); calculateAdvancedDenting(); buildManualDentingEditor();">
+            <input type="text" id="dentingPatternInput" value="2" oninput="saveHistory(); calculateAdvancedDenting(); buildManualDentingEditor(); buildGridEditor();">
             <div class="preset-grid" style="grid-template-columns: 1fr 1fr 1fr;">
                 <button onclick="setDentPreset('2')">2 per Dent</button>
                 <button onclick="setDentPreset('3')">3 per Dent</button>
@@ -197,7 +197,8 @@
         </div>
         <div class="pm-form-box">
             <label class="pm-label-w">Drawing / Frame Order</label>
-            <input type="text" id="drawingPatternInput" value="1,2,3,4" oninput="saveHistory(); calculateAdvancedDenting(); buildManualDrawingEditor();">
+            <!-- Here calling buildGridEditor() instantly updates the Simulation based on formula changes -->
+            <input type="text" id="drawingPatternInput" value="1,2,3,4" oninput="saveHistory(); calculateAdvancedDenting(); buildManualDrawingEditor(); buildGridEditor();">
             <div class="preset-grid">
                 <button onclick="setDrawingPreset('1,2,3,4')">1-2-3-4</button>
                 <select id="frameDropdown" onchange="generateFramesFromDropdown()">
@@ -257,7 +258,7 @@
                 
                 <div style="margin-bottom:10px; background:#0a1410; padding:10px; border-radius:8px; border:1px solid #1a2f24;">
                     <label class="pm-label-w" style="color:#f59e0b; font-size:0.65rem;">↔️ Weft (Pick) Repeats Formula</label>
-                    <input type="text" id="pickPatternInput" placeholder="Eg: (2-4)*2" style="font-size:0.8rem; padding:6px;" oninput="saveHistory(); buildGridEditor();">
+                    <input type="text" id="pickPatternInput" placeholder="Eg: (13-14)*20" style="font-size:0.8rem; padding:6px;" oninput="saveHistory(); buildGridEditor();">
                 </div>
 
                 <div class="matrix-grid-wrap">
@@ -509,10 +510,7 @@
     async function updateDesignStorage(d) {
         if (!d) return false;
         const name = String(d.designNo || d.name || "").trim();
-        if (!name) {
-            console.warn("⚠️ Design number/name missing. Local save skipped.");
-            return false;
-        }
+        if (!name) return false;
 
         try {
             let local = JSON.parse(localStorage.getItem("design_masters_data") || "[]");
@@ -534,8 +532,6 @@
             }
             localStorage.setItem("weave_designs_cache", JSON.stringify(cache));
         } catch (localErr) {
-            console.error("❌ LOCAL SAVE FAILED:", localErr);
-            alert("❌ Local save failed!");
             return false;
         }
 
@@ -543,15 +539,8 @@
             try {
                 const db = window.firebase.firestore();
                 const docId = String(d.id || d.designNo || d.name).trim();
-
                 await db.collection("weaves").doc(docId).set(d, { merge: true });
-                try {
-                    await db.collection("design_masters_data").doc(docId).set(d, { merge: true });
-                } catch (e2) {}
-                return true;
-            } catch (cloudErr) {
-                return true;
-            }
+            } catch (cloudErr) {}
         }
         return true;
     }
@@ -650,6 +639,45 @@
         buildGridEditor();
     }
 
+    // NEW FUNCTION: Returns array of matrix row indices based on pick formula
+    // Weaving matrices are drawn top to bottom on canvas. 
+    function getSimulationPicks(mRows, str) {
+        let seq = [];
+        let rowB = getPrintBracketMap(str, false); 
+        let hasBrackets = Object.keys(rowB.map).length > 0;
+        
+        // Default to playing Matrix Rows 1..N exactly once if no brackets
+        if (!hasBrackets) {
+            for(let i = 0; i < mRows; i++) seq.push(i);
+            return seq;
+        }
+
+        // Loop rows from TOP to BOTTOM visually (mRows down to 1)
+        for(let r = mRows; r >= 1; r--) {
+            if (rowB.isTop[r]) {
+                let bot = r;
+                for(let b = r; b >= 1; b--) {
+                    if (rowB.isBot[b]) { bot = b; break; }
+                }
+                
+                let txt = rowB.map[r].text;
+                let repeats = parseInt(txt.replace(/[^0-9]/g, '')) || 1;
+                
+                // Add the specified sequence 'repeats' times
+                for(let i = 0; i < repeats; i++) {
+                    for(let j = r; j >= bot; j--) {
+                        // Matrix index is inverse: m[0] is Row N, m[N-1] is Row 1
+                        seq.push(mRows - j); 
+                    }
+                }
+                r = bot; // Loop iteration will decrement 'r' to process next block
+            } else if (!rowB.skip[r]) {
+                seq.push(mRows - r); // Non-bracketed individual row
+            }
+        }
+        return seq;
+    }
+
     function buildGridEditor() {
         let box = document.getElementById("matrixZoomLayer");
         let t = document.getElementById("weaveType").value;
@@ -667,7 +695,7 @@
             
             let btnGrp = document.createElement("div"); btnGrp.style.display = "flex"; btnGrp.style.gap = "2px";
             let cBtn = document.createElement("button"); cBtn.className = "btn-col-act copy"; cBtn.textContent = "C"; cBtn.title = "Copy"; cBtn.onclick = () => copyCol(c);
-            let pBtn = document.createElement("button"); pBtn.className = "btn-col-act paste"; pBtn.textContent = "P"; pBtn.title = "Paste"; pBtn.onclick = () => pasteCol(c);
+            let pBtn = document.createElement("button"); cBtn.className = "btn-col-act paste"; pBtn.textContent = "P"; pBtn.title = "Paste"; pBtn.onclick = () => pasteCol(c);
             btnGrp.appendChild(cBtn); btnGrp.appendChild(pBtn);
             
             let dBtn = document.createElement("button"); dBtn.className = "btn-col-act del"; dBtn.textContent = "✕"; dBtn.title = "Delete"; dBtn.onclick = () => removeCol(c);
@@ -790,6 +818,7 @@
         drawFabricPreview();
     }
 
+    // UPDATED FABRIC SIMULATION: Reflects exact Drawing Order & Pick Repeat Formulas
     function drawFabricPreview() {
         const canvas = document.getElementById("fabricPreviewCanvas");
         if(!canvas) return;
@@ -802,22 +831,51 @@
         const m = weavePatterns.custom;
         if(!Array.isArray(m) || !m.length || !m[0].length) return;
 
-        const rows = m.length;   
-        const cols = m[0].length; 
-        const repX = 2;
-        const repY = 2;
+        const mRows = m.length;   
+        const mCols = m[0].length; 
+
+        // 1. Get Drawing Order (Warp Ends)
+        let drawArr = expandPattern(document.getElementById("drawingPatternInput")?.value || "");
+        if(!drawArr.length) drawArr = [1,2,3,4];
+        const warpSeq = drawArr.map(f => f - 1); // 0-indexed frame assignments
+        
+        // 2. Get Pick Sequences (Repeats handling)
+        const pickSeq = getSimulationPicks(mRows, document.getElementById("pickPatternInput")?.value || "");
+
+        const rows = pickSeq.length;   
+        const cols = warpSeq.length; 
+        
+        // Dynamically tile the simulation if they provided a very small pattern (like 4x4)
+        const minColsForDisplay = 16;
+        const repX = Math.max(1, Math.ceil(minColsForDisplay / cols));
+        const repY = Math.max(1, Math.ceil(minColsForDisplay / rows));
+        
         const totalCols = cols * repX;
         const totalRows = rows * repY;
+        
         const cell = Math.min(W / totalCols, H / totalRows);
-        const offX = (W - cell * totalCols) / 2;
-        const offY = (H - cell * totalRows) / 2;
+        const totalW = cell * totalCols;
+        const totalH = cell * totalRows;
+        
+        // Center the preview
+        const offX = (W - totalW) / 2;
+        const offY = (H - totalH) / 2;
 
+        // Render Simulation Fabric 
+        // Formula: Fabric[pick][thread] = PegPlan[pick][Frame_Of(thread)]
         for(let ry = 0; ry < totalRows; ry++) {
-            const pick = m[ry % rows];
+            const matrixRowIdx = pickSeq[ry % rows];
+            const pickRow = m[matrixRowIdx];
+            if(!pickRow) continue; 
+            
             for(let rx = 0; rx < totalCols; rx++) {
-                const val = pick[rx % cols];
+                const frameIdx = warpSeq[rx % cols];
+                // Safely get matrix data mapping thread's frame index
+                const val = pickRow[frameIdx % mCols]; 
+                
                 const x = offX + rx * cell;
                 const y = offY + ry * cell;
+                
                 if(val) {
                     const grad = ctx.createLinearGradient(x, y, x + cell, y);
                     grad.addColorStop(0, "#16283a");
@@ -1049,7 +1107,6 @@
             if(rowB.map[rowNum]) {
                 let span = rowB.map[rowNum].span;
                 let text = rowB.map[rowNum].text;
-                // Print Preview பக்கத்தில் உள்ள பிராக்கெட்டை சரியாக வலதுபுறமாக காட்ட SVG path மாற்றப்பட்டுள்ளது
                 html += `<td rowspan="${span}" style="padding-left:8px; padding-right:10px; border:none; vertical-align:middle; text-align:left; min-width:80px; white-space:nowrap;">
                             <div style="display:flex; align-items:center; height:${span*30}px; min-height:30px;">
                                 <svg preserveAspectRatio="none" width="14" height="90%" viewBox="0 0 10 100" style="overflow:visible; min-height:30px; flex-shrink:0;">
@@ -1106,7 +1163,7 @@
     }
 
     function setDentPreset(value) { saveHistory(); document.getElementById("dentingPatternInput").value = value; updateAll(); }
-    function setDrawingPreset(value) { saveHistory(); document.getElementById("drawingPatternInput").value = value; updateAll(); }
+    function setDrawingPreset(value) { saveHistory(); document.getElementById("drawingPatternInput").value = value; updateAll(); buildGridEditor(); }
 
     function generateFramesFromDropdown() {
         let val = parseInt(document.getElementById("frameDropdown").value);
@@ -1115,6 +1172,7 @@
         document.getElementById("drawingPatternInput").value = arr.join(",");
         document.getElementById("frameDropdown").value = "";
         updateAll();
+        buildGridEditor();
     }
 
     function updateAll() {
@@ -1127,9 +1185,14 @@
         const box = document.getElementById("dentingManualRows"); if(!box) return;
         const arr = expandPattern(document.getElementById("dentingPatternInput").value || "2");
         box.innerHTML = (arr.length ? arr : [2]).map((v,i) => `
-            <div class="manual-row"><div class="num">Dent ${i+1}</div>
-            <input type="number" min="0" value="${Math.max(0,v)}" oninput="syncManualDenting()">
-            <button onclick="removeDentingManualRow(${i})">✕</button></div>`).join("");
+            <div class="manual-row" style="grid-template-columns: 65px 1fr 40px;">
+                <div class="num">Dent ${i+1}</div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="color:#78d18a; font-size:0.65rem; font-weight:bold;">Ends</span>
+                    <input type="number" min="0" value="${Math.max(0,v)}" oninput="syncManualDenting()">
+                </div>
+                <button onclick="removeDentingManualRow(${i})">✕</button>
+            </div>`).join("");
     }
     
     function syncManualDenting() {
@@ -1137,27 +1200,33 @@
         const vals = [...document.getElementById("dentingManualRows").querySelectorAll("input")].map(x => Math.max(0, parseInt(x.value)||0));
         if(vals.length) document.getElementById("dentingPatternInput").value = vals.join(",");
         calculateAdvancedDenting();
+        buildGridEditor();
     }
 
     function addDentingManualRow() {
         saveHistory(); const vals = expandPattern(document.getElementById("dentingPatternInput").value || "2");
         vals.push(vals.length ? vals[vals.length-1] : 2);
-        document.getElementById("dentingPatternInput").value = vals.join(","); updateAll();
+        document.getElementById("dentingPatternInput").value = vals.join(","); updateAll(); buildGridEditor();
     }
 
     function removeDentingManualRow(i) {
         saveHistory(); const vals = expandPattern(document.getElementById("dentingPatternInput").value || "2");
         if(vals.length <= 1) return; vals.splice(i,1);
-        document.getElementById("dentingPatternInput").value = vals.join(","); updateAll();
+        document.getElementById("dentingPatternInput").value = vals.join(","); updateAll(); buildGridEditor();
     }
 
     function buildManualDrawingEditor() {
         const box = document.getElementById("drawingManualRows"); if(!box) return;
         const arr = expandPattern(document.getElementById("drawingPatternInput").value || "1,2,3,4");
         box.innerHTML = (arr.length ? arr : [1,2,3,4]).map((v,i) => `
-            <div class="manual-row"><div class="num">${i+1}</div>
-            <input type="number" min="1" value="${Math.max(1,v)}" oninput="syncManualDrawing()">
-            <button onclick="removeDrawingManualRow(${i})">✕</button></div>`).join("");
+            <div class="manual-row" style="grid-template-columns: 70px 1fr 40px;">
+                <div class="num">Thread ${i+1}</div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="color:#78d18a; font-size:0.65rem; font-weight:bold;">Frame</span>
+                    <input type="number" min="1" value="${Math.max(1,v)}" oninput="syncManualDrawing()">
+                </div>
+                <button onclick="removeDrawingManualRow(${i})">✕</button>
+            </div>`).join("");
     }
 
     function syncManualDrawing() {
@@ -1165,18 +1234,19 @@
         const vals = [...document.getElementById("drawingManualRows").querySelectorAll("input")].map(x => Math.max(1, parseInt(x.value)||1));
         if(vals.length) document.getElementById("drawingPatternInput").value = vals.join(",");
         calculateAdvancedDenting();
+        buildGridEditor();
     }
 
     function addDrawingManualRow() {
         saveHistory(); const vals = expandPattern(document.getElementById("drawingPatternInput").value || "1,2,3,4");
         vals.push(vals.length ? vals[vals.length-1] : 1);
-        document.getElementById("drawingPatternInput").value = vals.join(","); updateAll();
+        document.getElementById("drawingPatternInput").value = vals.join(","); updateAll(); buildGridEditor();
     }
 
     function removeDrawingManualRow(i) {
         saveHistory(); const vals = expandPattern(document.getElementById("drawingPatternInput").value || "1,2,3,4");
         if(vals.length <= 1) return; vals.splice(i,1);
-        document.getElementById("drawingPatternInput").value = vals.join(","); updateAll();
+        document.getElementById("drawingPatternInput").value = vals.join(","); updateAll(); buildGridEditor();
     }
 
     function calculateAdvancedDenting() {
