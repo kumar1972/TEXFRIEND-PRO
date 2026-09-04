@@ -318,7 +318,7 @@ body{
 
     padding:16px;
 
-    width:220px;
+    width:250px;
 
     z-index:999999;
 
@@ -343,6 +343,31 @@ body{
 
     letter-spacing:1px;
     text-transform:uppercase;
+}
+
+.resolution-select{
+    width:100%;
+    padding:10px 12px;
+    background:#020b08;
+    color:#fff;
+    border:1px solid #34D399;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:700;
+    outline:none;
+    cursor:pointer;
+}
+
+.resolution-select option{
+    background:#061814;
+    color:#fff;
+}
+
+.resolution-current{
+    font-size:10px;
+    color:#94A3B8;
+    font-weight:700;
+    padding:5px 0;
 }
 
 .zoom-controls-row{
@@ -1148,6 +1173,78 @@ body{
     }
 }
 
+
+/* =========================================================
+   LOGOUT CONFIRM MODAL
+========================================================= */
+
+.logout-modal-overlay{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999999;
+    padding:20px;
+}
+
+.logout-modal-box{
+    width:min(360px,100%);
+    background:#0F172A;
+    border:2px solid #38BDF8;
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.9);
+    text-align:center;
+}
+
+.logout-modal-box h3{
+    color:#38BDF8;
+    font-size:17px;
+    font-weight:900;
+    margin-bottom:10px;
+}
+
+.logout-modal-box p{
+    color:#CBD5E1;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.logout-modal-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+}
+
+.logout-cancel-btn,
+.logout-ok-btn{
+    flex:1;
+    min-height:44px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+    border:1px solid;
+}
+
+.logout-cancel-btn{
+    background:#1E293B;
+    color:#E2E8F0;
+    border-color:#64748B;
+}
+
+.logout-ok-btn{
+    background:#DC2626;
+    color:#FFF;
+    border-color:#F87171;
+}
+
 </style>
 
 </head>
@@ -1183,34 +1280,37 @@ body{
             <button
                 class="dropdown-btn"
                 onclick="toggleScreenZoomMenu(event)"
-                title="Adjust Screen Size">
+                title="Select Screen Resolution">
                 🔍
             </button>
 
             <div id="screenZoomMenu" class="screen-zoom-popup">
 
-                <h4>Screen Size</h4>
+                <h4>Screen Resolution</h4>
 
-                <div class="zoom-controls-row">
+                <select
+                    id="screenResolutionSelect"
+                    class="resolution-select"
+                    onchange="changeScreenResolution(this.value)">
 
-                    <button
-                        class="zoom-btn"
-                        onclick="adjustZoom(-10)">
-                        -
-                    </button>
+                    <option value="auto">Auto / Current Screen</option>
+                    <option value="320x568">320 × 568</option>
+                    <option value="360x640">360 × 640</option>
+                    <option value="375x667">375 × 667</option>
+                    <option value="390x844">390 × 844</option>
+                    <option value="414x896">414 × 896</option>
+                    <option value="768x1024">768 × 1024</option>
+                    <option value="1024x768">1024 × 768</option>
+                    <option value="1280x720">1280 × 720</option>
+                    <option value="1366x768">1366 × 768</option>
+                    <option value="1920x1080">1920 × 1080</option>
 
-                    <span
-                        id="zoomDisplayPercent"
-                        class="zoom-val-text">
-                        100%
-                    </span>
+                </select>
 
-                    <button
-                        class="zoom-btn"
-                        onclick="adjustZoom(10)">
-                        +
-                    </button>
-
+                <div
+                    id="resolutionCurrentText"
+                    class="resolution-current">
+                    Current Screen: detecting...
                 </div>
 
                 <button
@@ -1865,6 +1965,44 @@ body{
     ☁️ Connecting...
 </div>
 
+
+
+<!-- =========================================================
+     LOGOUT CONFIRM MODAL
+========================================================= -->
+
+<div
+    id="logoutConfirmModal"
+    class="logout-modal-overlay">
+
+    <div class="logout-modal-box">
+
+        <h3>🚪 Confirm Logout</h3>
+
+        <p>
+            Are you sure you want to log out?
+        </p>
+
+        <div class="logout-modal-actions">
+
+            <button
+                type="button"
+                class="logout-cancel-btn"
+                onclick="closeLogoutModal()">
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="logout-ok-btn"
+                onclick="confirmLogout()">
+                OK / Logout
+            </button>
+
+        </div>
+
+    </div>
+</div>
 
 <script>
 
@@ -2754,83 +2892,161 @@ function quickSearchDesign(){
 
 
 /* =========================================================
-   SCREEN ZOOM
+   SCREEN RESOLUTION
 ========================================================= */
 
-let currentZoomLevel =
-    parseInt(
-        localStorage.getItem(
-            "erp_dashboard_zoom"
-        ) || "100",
-        10
-    );
+let selectedResolution =
+    localStorage.getItem(
+        "erp_dashboard_resolution"
+    ) || "auto";
 
 
-if(
-    isNaN(currentZoomLevel)
-){
+function updateCurrentResolutionText(){
 
-    currentZoomLevel = 100;
+    const el =
+        document.getElementById(
+            "resolutionCurrentText"
+        );
+
+    if(!el)
+        return;
+
+    el.textContent =
+        `Current Screen: ${
+            window.innerWidth
+        } × ${
+            window.innerHeight
+        }`;
 }
 
 
-function applyZoom(zoom){
+function applySelectedResolution(value){
 
-    currentZoomLevel =
-        Math.min(
-            Math.max(
-                Number(zoom) || 100,
-                50
-            ),
-            200
-        );
+    selectedResolution =
+        String(value || "auto");
+
+    const body =
+        document.body;
+
+    if(!body)
+        return;
+
+
+    if(
+        selectedResolution === "auto"
+    ){
+
+        body.style.width = "";
+        body.style.minWidth = "";
+        body.style.maxWidth = "";
+        body.style.zoom = "";
+
+    }else{
+
+        const parts =
+            selectedResolution.split("x");
+
+        const width =
+            parseInt(parts[0],10);
+
+        const height =
+            parseInt(parts[1],10);
+
+
+        if(
+            !isNaN(width) &&
+            !isNaN(height)
+        ){
+
+            const screenWidth =
+                window.innerWidth;
+
+            const screenHeight =
+                window.innerHeight;
+
+
+            const scale =
+                Math.min(
+                    screenWidth / width,
+                    screenHeight / height,
+                    1
+                );
+
+
+            body.style.width =
+                width + "px";
+
+            body.style.minWidth =
+                width + "px";
+
+            body.style.maxWidth =
+                width + "px";
+
+            body.style.zoom =
+                String(scale);
+        }
+    }
+
+
+    updateCurrentResolutionText();
+}
+
+
+function changeScreenResolution(value){
+
+    selectedResolution =
+        String(value || "auto");
 
 
     localStorage.setItem(
-        "erp_dashboard_zoom",
-        String(currentZoomLevel)
+        "erp_dashboard_resolution",
+        selectedResolution
     );
 
 
-    const display =
+    applySelectedResolution(
+        selectedResolution
+    );
+
+
+    const menu =
         document.getElementById(
-            "zoomDisplayPercent"
+            "screenZoomMenu"
         );
 
 
-    if(display){
-
-        display.textContent =
-            currentZoomLevel + "%";
-    }
-
-
-    const bodyEl =
-        document.body;
-
-
-    if(bodyEl){
-
-        bodyEl.style.zoom =
-            String(
-                currentZoomLevel / 100
-            );
-    }
-}
-
-
-function adjustZoom(delta){
-
-    applyZoom(
-        currentZoomLevel +
-        Number(delta || 0)
-    );
+    if(menu)
+        menu.style.display =
+            "none";
 }
 
 
 function resetFitToScreen(){
 
-    applyZoom(100);
+    selectedResolution =
+        "auto";
+
+
+    localStorage.setItem(
+        "erp_dashboard_resolution",
+        "auto"
+    );
+
+
+    const select =
+        document.getElementById(
+            "screenResolutionSelect"
+        );
+
+
+    if(select)
+        select.value =
+            "auto";
+
+
+    applySelectedResolution(
+        "auto"
+    );
 
 
     const zoomMenu =
@@ -2842,12 +3058,6 @@ function resetFitToScreen(){
     if(zoomMenu)
         zoomMenu.style.display =
             "none";
-
-
-    /*
-     * Do not force fullscreen automatically.
-     * It is unreliable on some Android browsers.
-     */
 }
 
 
@@ -2891,6 +3101,25 @@ function toggleScreenZoomMenu(event){
             zoomMenu.style.display === "flex"
                 ? "none"
                 : "flex";
+
+
+        if(
+            zoomMenu.style.display === "flex"
+        ){
+
+            const select =
+                document.getElementById(
+                    "screenResolutionSelect"
+                );
+
+
+            if(select)
+                select.value =
+                    selectedResolution;
+
+
+            updateCurrentResolutionText();
+        }
     }
 }
 
@@ -3048,14 +3277,35 @@ function closeAllMenus(){
    LOGOUT
 ========================================================= */
 
-async function logoutUser(){
+function logoutUser(){
 
-    if(
-        !confirm(
-            "Are you sure you want to log out?"
-        )
-    )
-        return;
+    const modal =
+        document.getElementById(
+            "logoutConfirmModal"
+        );
+
+    if(modal)
+        modal.style.display =
+            "flex";
+}
+
+
+function closeLogoutModal(){
+
+    const modal =
+        document.getElementById(
+            "logoutConfirmModal"
+        );
+
+    if(modal)
+        modal.style.display =
+            "none";
+}
+
+
+async function confirmLogout(){
+
+    closeLogoutModal();
 
 
     try{
@@ -3124,7 +3374,8 @@ function clearCacheData(){
         "company_logo",
         "logo",
         "erp_theme_mode",
-        "erp_dashboard_zoom"
+        "erp_dashboard_zoom",
+        "erp_dashboard_resolution"
 
     ];
 
@@ -3371,8 +3622,25 @@ window.addEventListener(
 
         try{
 
-            applyZoom(
-                currentZoomLevel
+            const savedResolution =
+                localStorage.getItem(
+                    "erp_dashboard_resolution"
+                ) || "auto";
+
+            selectedResolution =
+                savedResolution;
+
+            const resolutionSelect =
+                document.getElementById(
+                    "screenResolutionSelect"
+                );
+
+            if(resolutionSelect)
+                resolutionSelect.value =
+                    selectedResolution;
+
+            applySelectedResolution(
+                selectedResolution
             );
 
 
@@ -3446,6 +3714,28 @@ window.addEventListener(
 
 
             loadDashboardStats();
+        }
+    }
+);
+
+
+/* =========================================================
+   RESOLUTION RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        updateCurrentResolutionText();
+
+        if(
+            selectedResolution !== "auto"
+        ){
+
+            applySelectedResolution(
+                selectedResolution
+            );
         }
     }
 );
