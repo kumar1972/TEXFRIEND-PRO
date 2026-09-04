@@ -32,15 +32,17 @@
         flex-direction: column;
         align-items: center;
     }
-.main-card.sskr-hidden .header-grid,
-.main-card.sskr-hidden .row-grid {
-    grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 1fr 65px;
-}
 
-.main-card.sskr-hidden .header-grid > div:nth-child(5),
-.main-card.sskr-hidden .row-grid .inp-sskr {
-    display: none;
-}
+    .main-card.sskr-hidden .header-grid,
+    .main-card.sskr-hidden .row-grid {
+        grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 1fr 65px;
+    }
+
+    .main-card.sskr-hidden .header-grid > div:nth-child(5),
+    .main-card.sskr-hidden .row-grid .inp-sskr {
+        display: none;
+    }
+
     .main-card {
         width: 100%;
         max-width: 900px;
@@ -304,7 +306,6 @@
         box-shadow: 0 6px 12px rgba(139, 92, 246, 0.35);
     }
 
-    /* 🟢 SSKR Settings Button 🟢 */
     .btn-sskr-settings {
         background: linear-gradient(135deg, #06B6D4, #0E7490);
         color: white;
@@ -358,7 +359,6 @@
         text-overflow: ellipsis;
     }
 
-    /* 🟢 SSKR % சேர்க்கப்பட்ட Grid அளவுகள் 🟢 */
     .header-grid {
         display: grid;
         grid-template-columns: 25px 1.2fr 1.2fr 1.2fr 0.8fr 1fr 65px;
@@ -796,7 +796,6 @@
             <label>Design Number</label>
 
             <div class="input-group-btn">
-                <!-- 🟢 Standard Select Dropdown 🟢 -->
                 <select id="designNo" onchange="loadDesignData()">
                     <option value="">Select Design No</option>
                 </select>
@@ -832,19 +831,17 @@
 
             <div class="form-group">
                 <label>Fabric Type</label>
-                <!-- 🟢 Editable Input with Datalist 🟢 -->
                 <select id="infoType" onchange="toggleSskrSettingsBtn()" style="width:100%; padding:12px; border:1px solid #e2c275; border-radius:10px; background:#FFFEF7; font-weight:700; color:#7a3d0a;">
-    <option value="Plain stripe">Plain stripe</option>
-    <option value="Plain check">Plain check</option>
-    <option value="Dobby stripe">Dobby stripe</option>
-    <option value="Dobby check">Dobby check</option>
-    <option value="Seersucker stripe">Seersucker  stripe</option>
-    <option value="Seersucker checks">Seersucker check</option>
-    <option value="Twill Checks">Twill Checks</option>
-    <option value="Twill Stripes">Twill Stripes</option>
-</select>
+                    <option value="Plain stripe">Plain stripe</option>
+                    <option value="Plain check">Plain check</option>
+                    <option value="Dobby stripe">Dobby stripe</option>
+                    <option value="Dobby check">Dobby check</option>
+                    <option value="Seersucker stripe">Seersucker  stripe</option>
+                    <option value="Seersucker checks">Seersucker check</option>
+                    <option value="Twill Checks">Twill Checks</option>
+                    <option value="Twill Stripes">Twill Stripes</option>
+                </select>
 
-                <!-- 🟢 SSKR % Settings Tab Button - Fabric Type "Seersucker" select ஆனா தான் தெரியும் 🟢 -->
                 <button type="button"
                         id="sskrSettingsBtn"
                         class="btn-sskr-settings"
@@ -883,7 +880,7 @@
                 <input type="text"
                        id="infoReed"
                        placeholder="Reed"
-                       oninput="calculateOnloomWidth()">
+                       oninput="calculateOnloomWidth(); calculateLiveWarpTotals();">
             </div>
 
             <div class="form-group">
@@ -893,7 +890,10 @@
 
             <div class="form-group">
                 <label>Onloom.Width</label>
-                <input type="text" id="infoWidth" placeholder="Width">
+                <input type="text" 
+                       id="infoWidth" 
+                       placeholder="Width"
+                       oninput="calculateLiveWarpTotals();">
             </div>
 
         </div>
@@ -933,7 +933,6 @@
 
             <div style="min-width:540px;">
 
-                <!-- 🟢 SSKR % Header சேர்க்கப்பட்டுள்ளது 🟢 -->
                 <div class="header-grid">
                     <div>#</div>
                     <div>Count</div>
@@ -980,6 +979,16 @@
 
         </div>
 
+    </div>
+
+    <!-- 🟢 WARP TOTAL SUMMARY BOX 🟢 -->
+    <div style="background:#FFFFFF; border-radius:14px; padding:12px 16px; border:1px solid #E2E8E2; margin-bottom:5px; box-shadow:0 4px 10px rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:13px; font-weight:700; color:#1E2B23;">
+            Total Pattern Ends: <span id="entryPatternEnds" style="color:#D97706;">0</span>
+        </div>
+        <div style="font-size:13px; font-weight:700; color:#059669;">
+            Total Ends: <span id="entryTotalEndsCalc">0 x 0 = 0.00</span>
+        </div>
     </div>
 
     <div class="action-btns-row">
@@ -1086,7 +1095,7 @@
 </div>
 
 
-<!-- 🟢 SSKR % SETTINGS MODAL (Fabric Type = Seersucker ஆனா தான் open ஆகும்) 🟢 -->
+<!-- SSKR % SETTINGS MODAL -->
 
 <div id="sskrModal"
      class="overlay-modal">
@@ -1134,6 +1143,7 @@
 <script>
 
 let currentBaseSpecs = {};
+
 /* ============================================================
    SAFE STORAGE
 ============================================================ */
@@ -1169,6 +1179,7 @@ function getLocalObject(key) {
         ? data
         : {};
 }
+
 /* ============================================================
    PERMISSION
 ============================================================ */
@@ -1197,6 +1208,7 @@ function checkUserPermission() {
 
     return true;
 }
+
 /* ============================================================
    INITIAL LOAD
 ============================================================ */
@@ -1215,7 +1227,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     loadDesignDropdown();
     toggleSskrSettingsBtn();
+    calculateLiveWarpTotals();
 });
+
 /* ============================================================
    MODALS
 ============================================================ */
@@ -1232,6 +1246,7 @@ function openModal(modalId) {
         modal.classList.add('show');
     }, 10);
 }
+
 function closeModal(modalId) {
 
     const modal = document.getElementById(modalId);
@@ -1244,8 +1259,9 @@ function closeModal(modalId) {
         modal.style.display = 'none';
     }, 300);
 }
+
 /* ============================================================
-   🟢 SSKR % SETTINGS TAB / MODAL 🟢
+   SSKR % SETTINGS TAB / MODAL
 ============================================================ */
 function toggleSskrSettingsBtn() {
 
@@ -1283,7 +1299,6 @@ function toggleSskrSettingsBtn() {
 
 let sskrGroupsCache = [];
 
-
 function openSskrSettingsModal() {
 
     const body =
@@ -1295,7 +1310,8 @@ function openSskrSettingsModal() {
         Array.from(
             document.querySelectorAll('.line-item')
         );
-const topBeamRows =
+
+    const topBeamRows =
         allRows.filter(function (row) {
             const beamElement = row.querySelector('.inp-beam');
             return (
@@ -1351,13 +1367,12 @@ const topBeamRows =
     openModal('sskrModal');
 }
 
-
 function syncSskrGroup(idx, val) {
 
     const countKey = sskrGroupsCache[idx];
     if (countKey === undefined) return;
 
-  document.querySelectorAll('.line-item').forEach(function (row) {
+    document.querySelectorAll('.line-item').forEach(function (row) {
         const beamElement = row.querySelector('.inp-beam');
         if (!beamElement || (beamElement.value !== 'Top Beam' && beamElement.value !== 'Seer sucker')) return;
         const countElement = row.querySelector('.inp-count');
@@ -1389,7 +1404,6 @@ window.openFullscreenImage = function (src) {
     modal.style.display = 'flex';
 };
 
-
 window.closeFullscreenImage = function () {
 
     const modal =
@@ -1406,6 +1420,7 @@ window.closeFullscreenImage = function () {
         img.src = '';
     }
 };
+
 /* ============================================================
    DESIGN NAME CLEAN
 ============================================================ */
@@ -1419,6 +1434,7 @@ function cleanDesignName(str) {
             .toLowerCase()
         : '';
 }
+
 /* ============================================================
    BITMAP
 ============================================================ */
@@ -1472,13 +1488,11 @@ function loadBitmapImage() {
                   title="Click to view full screen">`;
     }
 
-
     const oldCheckbox =
         document.getElementById('top_completed_status');
 
     const wasChecked =
         oldCheckbox ? oldCheckbox.checked : false;
-
 
     const checkboxHtml =
         `<div class="completed-checkbox">
@@ -1490,10 +1504,8 @@ function loadBitmapImage() {
             </label>
         </div>`;
 
-
     bitmapContainer.innerHTML =
         checkboxHtml + imgHtml;
-
 
     if (wasChecked) {
 
@@ -1505,8 +1517,9 @@ function loadBitmapImage() {
         }
     }
 }
+
 /* ============================================================
-   DESIGN DROPDOWN (UPGRADED TO SELECT DROPDOWN)
+   DESIGN DROPDOWN
 ============================================================ */
 
 function loadDesignDropdown() {
@@ -1573,6 +1586,7 @@ function loadDesignDropdown() {
         loadBitmapImage();
     }
 }
+
 /* ============================================================
    ON LOOM WIDTH
 ============================================================ */
@@ -1585,13 +1599,11 @@ function calculateOnloomWidth() {
             currentBaseSpecs.baseReed
         ) || 0;
 
-
     const baseWidth =
         parseFloat(
             currentBaseSpecs.width ||
             currentBaseSpecs.baseWidth
         ) || 0;
-
 
     const reedElement =
         document.getElementById('infoReed');
@@ -1599,13 +1611,10 @@ function calculateOnloomWidth() {
     const widthElement =
         document.getElementById('infoWidth');
 
-
     if (!reedElement || !widthElement) return;
-
 
     const onloomReed =
         parseFloat(reedElement.value) || 0;
-
 
     if (
         baseWidth > 0 &&
@@ -1623,6 +1632,7 @@ function calculateOnloomWidth() {
             baseWidth.toFixed(2);
     }
 }
+
 /* ============================================================
    LOAD DESIGN DATA
 ============================================================ */
@@ -1689,6 +1699,7 @@ function loadDesignData() {
         loadDefaultRow();
         refreshBulkColorDropdown();
         toggleSskrSettingsBtn();
+        calculateLiveWarpTotals();
         return;
     }
 
@@ -1724,8 +1735,6 @@ function loadDesignData() {
             cb.checked = true;
         }
     }
-
-    // 🟢 FIXED MAPPING: Pull EXACT values stored in Design Master 🟢
     
     // Warp 1 & Warp 2
     let c1Resolved =
@@ -1828,7 +1837,7 @@ function loadDesignData() {
                 l.count || '',
                 l.color || '',
                 l.beam || 'Ground',
-                l.seer || '', // 🟢 SSKR மதிப்பை load செய்கிறோம்
+                l.seer || '',
                 l.ends || ''
             );
         });
@@ -1860,8 +1869,8 @@ function loadDesignData() {
     updateLineNumbers();
     refreshBulkColorDropdown();
     toggleSskrSettingsBtn();
+    calculateLiveWarpTotals();
 }
-
 
 /* ============================================================
    DEFAULT ROW
@@ -1879,8 +1888,8 @@ function loadDefaultRow() {
     addWarpLine();
 
     refreshBulkColorDropdown();
+    calculateLiveWarpTotals();
 }
-
 
 /* ============================================================
    TOP BEAM
@@ -1894,17 +1903,13 @@ function calculateTopBeam() {
     const topBeamInput =
         document.getElementById('infoTopBeam');
 
-
     if (!orderElement || !topBeamInput) return;
-
 
     const orderMtr =
         parseFloat(orderElement.value) || 0;
 
-
     const topBeamStr =
         topBeamInput.value.trim();
-
 
     if (orderMtr > 0 && topBeamStr) {
 
@@ -1915,7 +1920,6 @@ function calculateTopBeam() {
                     .replace('%', '')
                     .trim()
             ) || 0;
-
 
         if (
             topBeamStr.includes('%') ||
@@ -1935,9 +1939,8 @@ function calculateTopBeam() {
     }
 }
 
-
 /* ============================================================
-   COPY DESIGN (UPGRADED FOR DATALIST -> SELECT)
+   COPY DESIGN
 ============================================================ */
 
 async function copyToNewDesign() {
@@ -1947,10 +1950,8 @@ async function copyToNewDesign() {
 
     if (!designElement) return;
 
-
     const currentDNo =
         designElement.value;
-
 
     if (!currentDNo) {
 
@@ -1961,25 +1962,20 @@ async function copyToNewDesign() {
         return;
     }
 
-
     let newDNo =
         prompt(
             `'${currentDNo}' டிசைனை காப்பி செய்கிறீர்கள்.\n\nபுதிய டிசைன் நம்பரை (New Design Number) உள்ளிடவும்:`
         );
 
-
     if (!newDNo || newDNo.trim() === '') {
         return;
     }
 
-
     newDNo =
         newDNo.trim();
 
-
     const preDesignList =
         getLocalArray('pre_design_numbers');
-
 
     const alreadyExists =
         preDesignList.some(function (d) {
@@ -1988,7 +1984,6 @@ async function copyToNewDesign() {
                    cleanDesignName(newDNo);
 
         });
-
 
     if (alreadyExists) {
 
@@ -1999,14 +1994,12 @@ async function copyToNewDesign() {
         return;
     }
 
-
     preDesignList.push(newDNo);
 
     localStorage.setItem(
         'pre_design_numbers',
         JSON.stringify(preDesignList)
     );
-
 
     try {
 
@@ -2026,7 +2019,6 @@ async function copyToNewDesign() {
         );
     }
 
-
     if (designElement) {
         const option = document.createElement('option');
         option.value = newDNo;
@@ -2040,13 +2032,10 @@ async function copyToNewDesign() {
         newDNo
     );
 
-
     currentBaseSpecs = {};
-
 
     document.getElementById('saveBtnTxt').innerText =
         "💾 Save";
-
 
     const cb =
         document.getElementById(
@@ -2057,12 +2046,10 @@ async function copyToNewDesign() {
         cb.checked = false;
     }
 
-
     alert(
         `✅ '${newDNo}' டிசைனுக்கு வெற்றிகரமாக காப்பி செய்யப்பட்டது!\n\nஇப்போது நீங்கள் 'Bulk Color Changer' மூலம் கலரை மாற்றிவிட்டு 'Save' பட்டனை அழுத்தவும்.`
     );
 }
-
 
 /* ============================================================
    BULK COLOR DROPDOWN
@@ -2072,7 +2059,6 @@ function refreshBulkColorDropdown() {
 
     const colorsSet =
         new Set();
-
 
     document
         .querySelectorAll('.inp-color')
@@ -2087,17 +2073,13 @@ function refreshBulkColorDropdown() {
 
         });
 
-
     const select =
         document.getElementById('bulkOldColor');
 
-
     if (!select) return;
-
 
     select.innerHTML =
         '<option value="">Select Old Color</option>';
-
 
     colorsSet.forEach(function (c) {
 
@@ -2112,7 +2094,6 @@ function refreshBulkColorDropdown() {
     });
 }
 
-
 /* ============================================================
    BULK COLOR CHANGE
 ============================================================ */
@@ -2124,12 +2105,10 @@ function applyBulkColorChange() {
             'bulkOldColor'
         ).value;
 
-
     const newColor =
         document.getElementById(
             'bulkNewColor'
         ).value.trim();
-
 
     if (!oldColor || !newColor) {
 
@@ -2140,7 +2119,6 @@ function applyBulkColorChange() {
         return;
     }
 
-
     if (
         confirm(
             `Are you sure you want to change all '${oldColor}' to '${newColor}'?`
@@ -2148,7 +2126,6 @@ function applyBulkColorChange() {
     ) {
 
         let changedCount = 0;
-
 
         document
             .querySelectorAll('.inp-color')
@@ -2163,19 +2140,15 @@ function applyBulkColorChange() {
 
             });
 
-
         document.getElementById(
             'bulkOldColor'
         ).value = '';
-
 
         document.getElementById(
             'bulkNewColor'
         ).value = '';
 
-
         refreshBulkColorDropdown();
-
 
         alert(
             `${changedCount} rows updated successfully! ✅`
@@ -2183,9 +2156,8 @@ function applyBulkColorChange() {
     }
 }
 
-
 /* ============================================================
-   ADD WARP LINE (🟢 ENHANCED AUTO-FILL FOR COUNT & SSKR % 🟢)
+   ADD WARP LINE
 ============================================================ */
 
 function addWarpLine(
@@ -2208,17 +2180,13 @@ function addWarpLine(
             'warpLinesContainer'
         );
 
-
     if (!container) return;
-
 
     const row =
         document.createElement('div');
 
-
     row.className =
         'row-grid line-item';
-
 
     row.innerHTML = `
         <div class="line-no"></div>
@@ -2343,6 +2311,7 @@ function addWarpLine(
                     this.parentElement.parentElement.remove();
                     updateLineNumbers();
                     refreshBulkColorDropdown();
+                    calculateLiveWarpTotals();
                 "
                 title="Delete row">
                 ×
@@ -2350,7 +2319,6 @@ function addWarpLine(
 
         </div>
     `;
-
 
     if (
         insertAfterElem &&
@@ -2367,11 +2335,10 @@ function addWarpLine(
         container.appendChild(row);
     }
 
-
     updateLineNumbers();
     refreshBulkColorDropdown();
+    calculateLiveWarpTotals();
 }
-
 
 /* ============================================================
    HTML ATTRIBUTE ESCAPE
@@ -2386,7 +2353,6 @@ function escapeHtmlAttribute(value) {
         return '';
     }
 
-
     return String(value)
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
@@ -2394,7 +2360,6 @@ function escapeHtmlAttribute(value) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
-
 
 /* ============================================================
    ADD RANGE
@@ -2411,17 +2376,13 @@ function addWarpRange(
             'warpRangesContainer'
         );
 
-
     if (!container) return;
-
 
     const row =
         document.createElement('div');
 
-
     row.className =
         'row-grid-range range-item';
-
 
     row.innerHTML = `
 
@@ -2464,15 +2425,14 @@ function addWarpRange(
 
         <button
             class="btn-del-small"
-            onclick="this.parentElement.remove()">
+            onclick="this.parentElement.remove(); calculateLiveWarpTotals();">
             ×
         </button>
     `;
 
-
     container.appendChild(row);
+    calculateLiveWarpTotals();
 }
-
 
 /* ============================================================
    LINE NUMBERS
@@ -2489,7 +2449,6 @@ function updateLineNumbers() {
         });
 }
 
-
 /* ============================================================
    QUICK COMPLETE
 ============================================================ */
@@ -2501,7 +2460,6 @@ async function quickCompleteToggle() {
         alert(
             "Access Denied! You do not have permission to modify status on this page. ❌"
         );
-
 
         const cb =
             document.getElementById(
@@ -2515,23 +2473,18 @@ async function quickCompleteToggle() {
         return;
     }
 
-
     const designElement =
         document.getElementById('designNo');
-
 
     const cb =
         document.getElementById(
             'top_completed_status'
         );
 
-
     if (!designElement || !cb) return;
-
 
     const dNo =
         designElement.value;
-
 
     if (!dNo) {
 
@@ -2544,26 +2497,21 @@ async function quickCompleteToggle() {
         return;
     }
 
-
     const isCompleted =
         cb.checked;
-
 
     const statusText =
         isCompleted
             ? 'completed'
             : 'running';
 
-
     const cleanDNo =
         cleanDesignName(dNo);
-
 
     const masters =
         getLocalArray(
             'design_masters_data'
         );
-
 
     let idx =
         masters.findIndex(function (m) {
@@ -2574,7 +2522,6 @@ async function quickCompleteToggle() {
             ) === cleanDNo;
 
         });
-
 
     if (idx > -1) {
 
@@ -2594,18 +2541,15 @@ async function quickCompleteToggle() {
         });
     }
 
-
     localStorage.setItem(
         'design_masters_data',
         JSON.stringify(masters)
     );
 
-
     const designSpecs =
         getLocalObject(
             'design_specs'
         );
-
 
     const specKey =
         Object.keys(designSpecs)
@@ -2616,21 +2560,17 @@ async function quickCompleteToggle() {
 
             }) || dNo;
 
-
     if (!designSpecs[specKey]) {
         designSpecs[specKey] = {};
     }
 
-
     designSpecs[specKey].status =
         statusText;
-
 
     localStorage.setItem(
         'design_specs',
         JSON.stringify(designSpecs)
     );
-
 
     try {
 
@@ -2646,7 +2586,6 @@ async function quickCompleteToggle() {
                 designSpecs
             );
         }
-
 
         if (
             window.firebaseSaveIndividual
@@ -2666,18 +2605,15 @@ async function quickCompleteToggle() {
         );
     }
 
-
     renderSavedList();
-
 
     alert(
         `Design ${dNo} status '${isCompleted ? 'COMPLETED' : 'RUNNING'}' ah update aagiduchu ✅`
     );
 }
 
-
 /* ============================================================
-   SAVE WARP DESIGN (🟢 ENHANCED SSKR % 🟢)
+   SAVE WARP DESIGN
 ============================================================ */
 
 window.saveWarpDesign = async function () {
@@ -2691,17 +2627,13 @@ window.saveWarpDesign = async function () {
         return;
     }
 
-
     const designElement =
         document.getElementById('designNo');
 
-
     if (!designElement) return;
-
 
     const dNo =
         designElement.value;
-
 
     if (!dNo) {
 
@@ -2712,22 +2644,18 @@ window.saveWarpDesign = async function () {
         return;
     }
 
-
     const cleanDNo =
         cleanDesignName(dNo);
-
 
     let masters =
         getLocalArray(
             'design_masters_data'
         );
 
-
     const hasCurrentBaseSpecs =
         currentBaseSpecs &&
         typeof currentBaseSpecs === 'object' &&
         Object.keys(currentBaseSpecs).length > 0;
-
 
     const hasExistingWarpPattern =
         masters.some(function (m) {
@@ -2740,7 +2668,6 @@ window.saveWarpDesign = async function () {
             m.warpLines.length > 0;
 
         });
-
 
     if (
         !hasCurrentBaseSpecs &&
@@ -2759,7 +2686,6 @@ window.saveWarpDesign = async function () {
 
             });
 
-
         if (alreadyExists) {
 
             const confirmReEntry =
@@ -2767,11 +2693,9 @@ window.saveWarpDesign = async function () {
                     "இந்த டிசைனுக்கு ஏற்கனவே வார்ப் பேட்டர்ன் என்ட்ரி செய்யப்பட்டுள்ளது. மீண்டும் ரீ-என்ட்ரி செய்ய வேண்டுமா?"
                 );
 
-
             if (!confirmReEntry) {
                 return;
             }
-
 
             masters =
                 masters.filter(function (m) {
@@ -2785,24 +2709,19 @@ window.saveWarpDesign = async function () {
         }
     }
 
-
     calculateTopBeam();
-
 
     const completedElement =
         document.getElementById(
             'top_completed_status'
         );
 
-
     const isCompleted =
         completedElement
             ? completedElement.checked
             : false;
 
-
     const lines = [];
-
 
     document
         .querySelectorAll('.line-item')
@@ -2833,7 +2752,6 @@ window.saveWarpDesign = async function () {
                     '.inp-ends'
                 );
 
-
             if (
                 !countElement ||
                 !colorElement ||
@@ -2844,14 +2762,11 @@ window.saveWarpDesign = async function () {
                 return;
             }
 
-
             const count =
                 countElement.value.trim();
 
-
             const color =
                 colorElement.value.trim();
-
 
             const beam =
                 beamElement.value;
@@ -2859,10 +2774,8 @@ window.saveWarpDesign = async function () {
             const sskr =
                 parseInt(sskrElement.value) || 0;
 
-
             const ends =
                 endsElement.value.trim();
-
 
             if (
                 count ||
@@ -2875,7 +2788,7 @@ window.saveWarpDesign = async function () {
                     count: count,
                     color: color,
                     beam: beam,
-                    seer: sskr, // 🟢 Saved in Object
+                    seer: sskr,
                     ends: ends
 
                 });
@@ -2883,9 +2796,7 @@ window.saveWarpDesign = async function () {
 
         });
 
-
     const ranges = [];
-
 
     document
         .querySelectorAll('.range-item')
@@ -2906,7 +2817,6 @@ window.saveWarpDesign = async function () {
                     '.inp-set'
                 );
 
-
             if (
                 !startElement ||
                 !endElement ||
@@ -2915,18 +2825,14 @@ window.saveWarpDesign = async function () {
                 return;
             }
 
-
             const start =
                 startElement.value.trim();
-
 
             const end =
                 endElement.value.trim();
 
-
             const set =
                 setElement.value.trim();
-
 
             if (
                 start &&
@@ -2945,25 +2851,21 @@ window.saveWarpDesign = async function () {
 
         });
 
-
     const saveBtn =
         document.getElementById(
             'saveBtnTxt'
         );
-
 
     const originalText =
         saveBtn
             ? saveBtn.innerText
             : "💾 Save";
 
-
     if (saveBtn) {
         saveBtn.innerText =
             "⏳ Saving to Cloud...";
         saveBtn.disabled = true;
     }
-
 
     const patternData = {
 
@@ -3013,7 +2915,6 @@ window.saveWarpDesign = async function () {
                 : 'running'
     };
 
-
     const idx =
         masters.findIndex(function (m) {
 
@@ -3023,7 +2924,6 @@ window.saveWarpDesign = async function () {
             ) === cleanDNo;
 
         });
-
 
     if (idx === -1) {
 
@@ -3039,12 +2939,10 @@ window.saveWarpDesign = async function () {
             );
     }
 
-
     const designSpecs =
         getLocalObject(
             'design_specs'
         );
-
 
     const specKey =
         Object.keys(designSpecs)
@@ -3055,11 +2953,9 @@ window.saveWarpDesign = async function () {
 
             }) || dNo;
 
-
     if (!designSpecs[specKey]) {
         designSpecs[specKey] = {};
     }
-
 
     designSpecs[specKey].status =
         isCompleted
@@ -3077,12 +2973,10 @@ window.saveWarpDesign = async function () {
         JSON.stringify(designSpecs)
     );
 
-
     localStorage.setItem(
         'design_masters_data',
         JSON.stringify(masters)
     );
-
 
     try {
 
@@ -3099,7 +2993,6 @@ window.saveWarpDesign = async function () {
             );
         }
 
-
         if (
             window.firebaseSaveIndividual
         ) {
@@ -3110,18 +3003,15 @@ window.saveWarpDesign = async function () {
             );
         }
 
-
         if (saveBtn) {
             saveBtn.innerText =
                 originalText;
             saveBtn.disabled = false;
         }
 
-
         alert(
             "Warp Pattern Saved to Cloud Successfully! ✅☁️"
         );
-
 
     } catch (e) {
 
@@ -3130,20 +3020,17 @@ window.saveWarpDesign = async function () {
             e
         );
 
-
         if (saveBtn) {
             saveBtn.innerText =
                 originalText;
             saveBtn.disabled = false;
         }
 
-
         alert(
             "Data saved locally, but Cloud Sync failed. Please check your internet/Firebase connection. ⚠️"
         );
     }
 };
-
 
 /* ============================================================
    STATUS TOGGLE
@@ -3163,7 +3050,6 @@ async function toggleStatus(
         return;
     }
 
-
     if (
         !confirm(
             newStatus === 'completed'
@@ -3174,16 +3060,13 @@ async function toggleStatus(
         return;
     }
 
-
     const cleanDNo =
         cleanDesignName(dNo);
-
 
     const masters =
         getLocalArray(
             'design_masters_data'
         );
-
 
     const index =
         masters.findIndex(function (m) {
@@ -3195,24 +3078,20 @@ async function toggleStatus(
 
         });
 
-
     if (index > -1) {
 
         masters[index].status =
             newStatus;
-
 
         localStorage.setItem(
             'design_masters_data',
             JSON.stringify(masters)
         );
 
-
         const designSpecs =
             getLocalObject(
                 'design_specs'
             );
-
 
         const specKey =
             Object.keys(designSpecs)
@@ -3223,21 +3102,17 @@ async function toggleStatus(
 
                 }) || dNo;
 
-
         if (!designSpecs[specKey]) {
             designSpecs[specKey] = {};
         }
 
-
         designSpecs[specKey].status =
             newStatus;
-
 
         localStorage.setItem(
             'design_specs',
             JSON.stringify(designSpecs)
         );
-
 
         try {
 
@@ -3253,7 +3128,6 @@ async function toggleStatus(
                     designSpecs
                 );
             }
-
 
             if (
                 window.firebaseSaveIndividual
@@ -3273,11 +3147,9 @@ async function toggleStatus(
             );
         }
 
-
         renderSavedList();
     }
 }
-
 
 /* ============================================================
    SAVED MODAL
@@ -3292,7 +3164,6 @@ function openSavedModal() {
     );
 }
 
-
 /* ============================================================
    SAVED LIST
 ============================================================ */
@@ -3304,21 +3175,16 @@ function renderSavedList() {
             'design_masters_data'
         );
 
-
     const tbody =
         document.getElementById(
             'savedPatternsBody'
         );
 
-
     if (!tbody) return;
-
 
     tbody.innerHTML = '';
 
-
     let hasData = false;
-
 
     masters.forEach(function (m) {
 
@@ -3330,32 +3196,26 @@ function renderSavedList() {
             return;
         }
 
-
         hasData = true;
-
 
         if (!m.status) {
             m.status = "running";
         }
-
 
         const designName =
             m.name ||
             m.designNo ||
             '-';
 
-
         const statusColor =
             m.status === 'running'
                 ? '#D97706'
                 : '#526E51';
 
-
         const safeDesign =
             String(designName)
                 .replace(/\\/g, '\\\\')
                 .replace(/'/g, "\\'");
-
 
         const statusBtn =
             m.status === 'running'
@@ -3371,7 +3231,6 @@ function renderSavedList() {
                     onclick="toggleStatus('${safeDesign}', 'running')">
                     Running
                    </button>`;
-
 
         tbody.innerHTML += `
 
@@ -3413,7 +3272,6 @@ function renderSavedList() {
         `;
     });
 
-
     if (!hasData) {
 
         tbody.innerHTML = `
@@ -3435,7 +3293,6 @@ function renderSavedList() {
     }
 }
 
-
 /* ============================================================
    TEXT ESCAPE
 ============================================================ */
@@ -3449,7 +3306,6 @@ function escapeHtmlText(value) {
         return '';
     }
 
-
     return String(value)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -3457,7 +3313,6 @@ function escapeHtmlText(value) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
 }
-
 
 /* ============================================================
    EDIT
@@ -3469,12 +3324,10 @@ function editDesignPattern(dNo) {
         'savedListModal'
     );
 
-
     const select =
         document.getElementById(
             'designNo'
         );
-
 
     if (!select) return;
 
@@ -3482,16 +3335,14 @@ function editDesignPattern(dNo) {
 
     loadDesignData();
 
-
     window.scrollTo({
         top: 0,
         behavior: 'smooth'
     });
 }
 
-
 /* ============================================================
-   PREVIEW (DYNAMIC BEAM HEADER FIX)
+   PREVIEW (DYNAMIC BEAM HEADER & TOTAL FIX)
 ============================================================ */
 
 function previewPattern() {
@@ -3499,721 +3350,215 @@ function previewPattern() {
     calculateTopBeam();
     calculateOnloomWidth();
 
-
-    const designElement =
-        document.getElementById(
-            'designNo'
-        );
-
-
+    const designElement = document.getElementById('designNo');
     if (!designElement) return;
 
-
-    const dNo =
-        designElement.value;
-
-
+    const dNo = designElement.value;
     const warpLines = [];
 
+    document.querySelectorAll('.line-item').forEach(function (row) {
+        const count = row.querySelector('.inp-count').value.trim();
+        const color = row.querySelector('.inp-color').value.trim();
+        const beam = row.querySelector('.inp-beam').value;
+        const sskrElement = row.querySelector('.inp-sskr');
+        const sskr = sskrElement ? (parseInt(sskrElement.value) || 0) : 0;
+        const ends = parseFloat(row.querySelector('.inp-ends').value) || 0;
 
-    document
-        .querySelectorAll('.line-item')
-        .forEach(function (row) {
-
-            const count =
-                row.querySelector(
-                    '.inp-count'
-                ).value.trim();
-
-
-            const color =
-                row.querySelector(
-                    '.inp-color'
-                ).value.trim();
-
-
-            const beam =
-                row.querySelector(
-                    '.inp-beam'
-                ).value;
-                
-            const sskrElement = 
-                row.querySelector(
-                    '.inp-sskr'
-                );
-                
-            const sskr = sskrElement ? (parseInt(sskrElement.value) || 0) : 0;
-
-
-            const ends =
-                parseFloat(
-                    row.querySelector(
-                        '.inp-ends'
-                    ).value
-                ) || 0;
-
-
-            if (
-                count ||
-                color ||
-                ends
-            ) {
-
-                warpLines.push({
-
-                    count: count,
-                    color: color,
-                    beam: beam,
-                    seer: sskr, // 🟢 Saved in Object
-                    ends: ends
-
-                });
-            }
-
-        });
-
+        if (count || color || ends) {
+            warpLines.push({
+                count: count,
+                color: color,
+                beam: beam,
+                seer: sskr,
+                ends: ends
+            });
+        }
+    });
 
     const ranges = [];
+    document.querySelectorAll('.range-item').forEach(function (row) {
+        const start = parseInt(row.querySelector('.inp-start').value) || 0;
+        const end = parseInt(row.querySelector('.inp-end').value) || 0;
+        const set = parseInt(row.querySelector('.inp-set').value) || 0;
 
-
-    document
-        .querySelectorAll('.range-item')
-        .forEach(function (row) {
-
-            const start =
-                parseInt(
-                    row.querySelector(
-                        '.inp-start'
-                    ).value
-                ) || 0;
-
-
-            const end =
-                parseInt(
-                    row.querySelector(
-                        '.inp-end'
-                    ).value
-                ) || 0;
-
-
-            const set =
-                parseInt(
-                    row.querySelector(
-                        '.inp-set'
-                    ).value
-                ) || 0;
-
-
-            if (
-                start &&
-                end &&
-                set
-            ) {
-
-                ranges.push({
-                    start,
-                    end,
-                    set
-                });
-            }
-
-        });
-
+        if (start && end && set) {
+            ranges.push({ start, end, set });
+        }
+    });
 
     if (warpLines.length === 0) {
-
-        alert(
-            "No pattern to preview! Please add lines."
-        );
-
+        alert("No pattern to preview! Please add lines.");
         return;
     }
 
+    const designSpecs = getLocalObject('design_specs');
+    const specKey = Object.keys(designSpecs).find(function (k) {
+        return cleanDesignName(k) === cleanDesignName(dNo);
+    });
 
-    const designSpecs =
-        getLocalObject(
-            'design_specs'
-        );
-
-
-    const specKey =
-        Object.keys(designSpecs)
-            .find(function (k) {
-
-                return cleanDesignName(k) ===
-                       cleanDesignName(dNo);
-
-            });
-
-
-    const sp =
-        specKey
-            ? designSpecs[specKey]
-            : {};
-
-
-    const baseReed =
-        parseFloat(
-            sp.reed ||
-            sp.baseReed
-        ) || 0;
-
-
-    const baseWidth =
-        parseFloat(
-            sp.width ||
-            sp.baseWidth
-        ) || 0;
-
-
-    const baseTotalEnds =
-        Math.round(
-            baseReed *
-            baseWidth
-        );
-
-
-    /* ========================================================
-       HEADER
-    ======================================================== */
+    const sp = specKey ? designSpecs[specKey] : {};
 
     let headerHtml = `
-
-        <div style="
-            display:flex;
-            justify-content:space-between;
-            flex-wrap:wrap;
-            background:#F4F7F4;
-            border:1px solid #4A7C59;
-            padding:8px 12px;
-            border-radius:6px;
-            margin-bottom:8px;
-            font-size:11px;
-            font-weight:700;
-            color:#1E2B23;
-        ">
-
-            <span style="margin-right:8px;">
-                Design:
-                <span style="color:#4A7C59;">
-                    ${escapeHtmlText(dNo || '-')}
-                </span>
-            </span>
-
-            <span style="margin-right:8px;">
-                Counts:
-                ${escapeHtmlText(
-                    document.getElementById('infoCount1').value || '-'
-                )},
-                ${escapeHtmlText(
-                    document.getElementById('infoCount2').value || '-'
-                )}
-            </span>
-
-            <span style="margin-right:8px;">
-                Order Mtr:
-                ${escapeHtmlText(
-                    document.getElementById('infoOrderMtr').value || '-'
-                )}
-            </span>
-
-            <span style="margin-right:8px;">
-                Top Beam:
-                ${escapeHtmlText(
-                    document.getElementById('infoTopBeam').value || '-'
-                )}
-            </span>
-
-            <span style="margin-right:8px;">
-                Type:
-                ${escapeHtmlText(
-                    document.getElementById('infoType').value || 'Plain'
-                )}
-            </span>
-
-            <span style="margin-right:8px;">
-                Reed:
-                ${escapeHtmlText(
-                    document.getElementById('infoReed').value || '-'
-                )}
-            </span>
-
-            <span style="margin-right:8px;">
-                Pick:
-                ${escapeHtmlText(
-                    document.getElementById('infoPick').value || '-'
-                )}
-            </span>
-
-            <span>
-                Width:
-                ${escapeHtmlText(
-                    document.getElementById('infoWidth').value || '-'
-                )}
-            </span>
-
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;background:#F4F7F4;border:1px solid #4A7C59;padding:8px 12px;border-radius:6px;margin-bottom:8px;font-size:11px;font-weight:700;color:#1E2B23;">
+            <span style="margin-right:8px;">Design: <span style="color:#4A7C59;">${escapeHtmlText(dNo || '-')}</span></span>
+            <span style="margin-right:8px;">Counts: ${escapeHtmlText(document.getElementById('infoCount1').value || '-')}, ${escapeHtmlText(document.getElementById('infoCount2').value || '-')}</span>
+            <span style="margin-right:8px;">Order Mtr: ${escapeHtmlText(document.getElementById('infoOrderMtr').value || '-')}</span>
+            <span style="margin-right:8px;">Top Beam: ${escapeHtmlText(document.getElementById('infoTopBeam').value || '-')}</span>
+            <span style="margin-right:8px;">Type: ${escapeHtmlText(document.getElementById('infoType').value || 'Plain')}</span>
+            <span style="margin-right:8px;">Reed: ${escapeHtmlText(document.getElementById('infoReed').value || '-')}</span>
+            <span style="margin-right:8px;">Pick: ${escapeHtmlText(document.getElementById('infoPick').value || '-')}</span>
+            <span>Width: ${escapeHtmlText(document.getElementById('infoWidth').value || '-')}</span>
         </div>
     `;
 
-
     let col1Html = '';
     let col2Html = '';
-
     let currentLinesInCol1 = 0;
-
     const MAX_LINES_COL1 = 45;
-
 
     let groundTotal = 0;
     let topTotal = 0;
-
     let flatPattern = [];
-
-
     let i = 0;
 
-
-    const tdStyle =
-        "padding:4px 6px;text-align:center;color:#1E2B23;font-size:11px;border-bottom:1px dashed #A0AFA0;";
-
-
-    const tdStyleColor =
-        "padding:4px 6px;text-align:left;color:#1E2B23;font-size:11px;white-space:nowrap;border-bottom:1px dashed #A0AFA0;";
-
-
-    const tdStyleLast =
-        "padding:4px 6px;vertical-align:middle;color:#1E2B23;text-align:left;padding-left:10px;font-size:11px;border-bottom:1px dashed #A0AFA0;";
-
+    const tdStyle = "padding:4px 6px;text-align:center;color:#1E2B23;font-size:11px;border-bottom:1px dashed #A0AFA0;";
+    const tdStyleColor = "padding:4px 6px;text-align:left;color:#1E2B23;font-size:11px;white-space:nowrap;border-bottom:1px dashed #A0AFA0;";
+    const tdStyleLast = "padding:4px 6px;vertical-align:middle;color:#1E2B23;text-align:left;padding-left:10px;font-size:11px;border-bottom:1px dashed #A0AFA0;";
 
     while (i < warpLines.length) {
-
-        const start =
-            i + 1;
-
-
-        const range =
-            ranges.find(function (r) {
-
-                return r.start === start;
-
-            });
-
-
+        const start = i + 1;
+        const range = ranges.find(r => r.start === start);
         let blockHtml = '';
-
         let blockLineCount = 0;
 
-
-        if (
-            range &&
-            range.end >= range.start
-        ) {
-
-            const end =
-                range.end;
-
-
-            const set =
-                range.set;
-
-
+        if (range && range.end >= range.start) {
+            const end = range.end;
+            const set = range.set;
             const blockLines = [];
-
-
             let blockGroundEnds = 0;
             let blockTopEnds = 0;
 
-
-            for (
-                let j = start - 1;
-                j < end;
-                j++
-            ) {
-
+            for (let j = start - 1; j < end; j++) {
                 if (warpLines[j]) {
+                    const lineItem = Object.assign({}, warpLines[j]);
+                    lineItem.lineNo = j + 1;
+                    blockLines.push(lineItem);
 
-                    const lineItem =
-                        Object.assign(
-                            {},
-                            warpLines[j]
-                        );
-
-
-                    lineItem.lineNo =
-                        j + 1;
-
-
-                    blockLines.push(
-                        lineItem
-                    );
-
-
-                    if (
-                        warpLines[j].beam === 'Top Beam' || 
-                        warpLines[j].beam === 'Seer sucker'
-                    ) {
-
-                        blockTopEnds +=
-                            parseInt(
-                                warpLines[j].ends
-                            ) || 0;
-
+                    if (warpLines[j].beam === 'Top Beam' || warpLines[j].beam === 'Seer sucker') {
+                        blockTopEnds += parseInt(warpLines[j].ends) || 0;
                     } else {
-
-                        blockGroundEnds +=
-                            parseInt(
-                                warpLines[j].ends
-                            ) || 0;
+                        blockGroundEnds += parseInt(warpLines[j].ends) || 0;
                     }
 
-
-                    for (
-                        let rep = 0;
-                        rep < set;
-                        rep++
-                    ) {
-
+                    for (let rep = 0; rep < set; rep++) {
                         flatPattern.push({
-
-                            lineNo:
-                                j + 1,
-
-                            count:
-                                lineItem.count || '-',
-
-                            color:
-                                lineItem.color || '-',
-
-                            ends:
-                                parseFloat(
-                                    lineItem.ends
-                                ) || 0,
-
-                            beam:
-                                lineItem.beam
-
+                            lineNo: j + 1,
+                            count: lineItem.count || '-',
+                            color: lineItem.color || '-',
+                            ends: parseFloat(lineItem.ends) || 0,
+                            beam: lineItem.beam
                         });
                     }
                 }
             }
 
-
             let total = 0;
-
-
-            for (
-                let j = start - 1;
-                j < end;
-                j++
-            ) {
-
-                total +=
-                    parseInt(
-                        warpLines[j]?.ends
-                    ) || 0;
+            for (let j = start - 1; j < end; j++) {
+                total += parseInt(warpLines[j]?.ends) || 0;
             }
+            total = total * set;
 
+            groundTotal += blockGroundEnds * set;
+            topTotal += blockTopEnds * set;
 
-            total =
-                total * set;
+            blockLines.forEach(function (item, index) {
+                let endsDisplay = '';
+                if (item.beam === 'Seer sucker') {
+                    endsDisplay = `<span style="display:inline-block;padding-left:15px;color:#8B5CF6;font-weight:bold;" title="SSKR">${item.ends}</span>`;
+                } else if (item.beam === 'Top Beam') {
+                    endsDisplay = `<span style="display:inline-block;padding-left:15px;color:#D97706;" title="Dobby">${item.ends}</span>`;
+                } else {
+                    endsDisplay = `<span style="display:inline-block;padding-right:15px;color:#2F4F38;" title="Bottom">${item.ends}</span>`;
+                }
 
+                const colorTamil = typeof translateColorToTamil === 'function' ? translateColorToTamil(item.color) : item.color;
 
-            groundTotal +=
-                blockGroundEnds * set;
+                blockHtml += `
+                    <tr>
+                        <td style="${tdStyle}font-weight:700;color:#4A554A;">${item.lineNo}</td>
+                        <td style="${tdStyle}">${escapeHtmlText(item.count || '-')}</td>
+                        <td style="${tdStyleColor}">${escapeHtmlText(colorTamil)}</td>
+                        <td style="${tdStyle}font-weight:bold;">${endsDisplay}</td>
+                `;
 
-
-            topTotal +=
-                blockTopEnds * set;
-
-
-            blockLines.forEach(
-                function (item, index) {
-
-                    let endsDisplay = '';
-                    if (item.beam === 'Seer sucker') {
-                        endsDisplay = `<span style="
-                                display:inline-block;
-                                padding-left:15px;
-                                color:#8B5CF6;
-                                font-weight:bold;
-                              "
-                              title="SSKR">
-                                ${item.ends}
-                              </span>`;
-                    } else if (item.beam === 'Top Beam') {
-                        endsDisplay = `<span style="
-                                display:inline-block;
-                                padding-left:15px;
-                                color:#D97706;
-                              "
-                              title="Dobby">
-                                ${item.ends}
-                              </span>`;
-                    } else {
-                        endsDisplay = `<span style="
-                                display:inline-block;
-                                padding-right:15px;
-                                color:#2F4F38;
-                              "
-                              title="Bottom">
-                                ${item.ends}
-                              </span>`;
-                    }
-
-
-                    const colorTamil =
-                        typeof translateColorToTamil === 'function'
-                            ? translateColorToTamil(
-                                item.color
-                              )
-                            : item.color;
-
-
+                if (index === 0) {
                     blockHtml += `
-
-                        <tr>
-
-                            <td style="
-                                ${tdStyle}
-                                font-weight:700;
-                                color:#4A554A;
-                            ">
-                                ${item.lineNo}
-                            </td>
-
-                            <td style="${tdStyle}">
-                                ${escapeHtmlText(
-                                    item.count || '-'
-                                )}
-                            </td>
-
-                            <td style="${tdStyleColor}">
-                                ${escapeHtmlText(
-                                    colorTamil
-                                )}
-                            </td>
-
-                            <td style="
-                                ${tdStyle}
-                                font-weight:bold;
-                            ">
-                                ${endsDisplay}
-                            </td>
-                    `;
-
-
-                    if (index === 0) {
-
-                        blockHtml += `
-
-                            <td
-                                rowspan="${blockLines.length}"
-                                style="${tdStyleLast}"
-                            >
-
-                                <div style="
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:flex-start;
-                                    gap:4px;
-                                    font-weight:700;
-                                    font-size:16px;
-                                ">
-
-                                    <span style="
-                                        font-size:${blockLines.length * 18}px;
-                                        font-weight:300;
-                                        line-height:0.5;
-                                        display:inline-block;
-                                    ">
-                                        }
-                                    </span>
-
-                                    <span>
-                                        X ${set}
-                                        =
-                                        <span style="color:#D97706">
-                                            ${total}
-                                        </span>
-                                    </span>
-
-                                </div>
-
-                            </td>
-                        `;
-                    }
-
-
-                    blockHtml += `
-                        </tr>
+                        <td rowspan="${blockLines.length}" style="${tdStyleLast}">
+                            <div style="display:flex;align-items:center;justify-content:flex-start;gap:4px;font-weight:700;font-size:16px;">
+                                <span style="font-size:${blockLines.length * 18}px;font-weight:300;line-height:0.5;display:inline-block;">}</span>
+                                <span>X ${set} = <span style="color:#D97706">${total}</span></span>
+                            </div>
+                        </td>
                     `;
                 }
-            );
-
-
-            i = end;
-
-            blockLineCount =
-                blockLines.length;
-
-
-        } else {
-
-            const item =
-                Object.assign(
-                    {},
-                    warpLines[i]
-                );
-
-
-            item.lineNo =
-                i + 1;
-
-
-            if (
-                item.beam === 'Top Beam' || 
-                item.beam === 'Seer sucker'
-            ) {
-
-                topTotal +=
-                    parseFloat(
-                        item.ends
-                    ) || 0;
-
-            } else {
-
-                groundTotal +=
-                    parseFloat(
-                        item.ends
-                    ) || 0;
-            }
-
-
-            flatPattern.push({
-
-                lineNo:
-                    item.lineNo,
-
-                count:
-                    item.count || '-',
-
-                color:
-                    item.color || '-',
-
-                ends:
-                    parseFloat(
-                        item.ends
-                    ) || 0,
-
-                beam:
-                    item.beam
-
+                blockHtml += `</tr>`;
             });
 
+            i = end;
+            blockLineCount = blockLines.length;
+
+        } else {
+            const item = Object.assign({}, warpLines[i]);
+            item.lineNo = i + 1;
+
+            if (item.beam === 'Top Beam' || item.beam === 'Seer sucker') {
+                topTotal += parseFloat(item.ends) || 0;
+            } else {
+                groundTotal += parseFloat(item.ends) || 0;
+            }
+
+            flatPattern.push({
+                lineNo: item.lineNo,
+                count: item.count || '-',
+                color: item.color || '-',
+                ends: parseFloat(item.ends) || 0,
+                beam: item.beam
+            });
 
             let endsDisplay = '';
             if (item.beam === 'Seer sucker') {
-                endsDisplay = `<span style="
-                        display:inline-block;
-                        padding-left:15px;
-                        color:#8B5CF6;
-                        font-weight:bold;
-                      "
-                      title="SSKR">
-                        ${item.ends}
-                      </span>`;
+                endsDisplay = `<span style="display:inline-block;padding-left:15px;color:#8B5CF6;font-weight:bold;" title="SSKR">${item.ends}</span>`;
             } else if (item.beam === 'Top Beam') {
-                endsDisplay = `<span style="
-                        display:inline-block;
-                        padding-left:15px;
-                        color:#D97706;
-                      "
-                      title="Dobby">
-                        ${item.ends}
-                      </span>`;
+                endsDisplay = `<span style="display:inline-block;padding-left:15px;color:#D97706;" title="Dobby">${item.ends}</span>`;
             } else {
-                endsDisplay = `<span style="
-                        display:inline-block;
-                        padding-right:15px;
-                        color:#2F4F38;
-                      "
-                      title="Bottom">
-                        ${item.ends}
-                      </span>`;
+                endsDisplay = `<span style="display:inline-block;padding-right:15px;color:#2F4F38;" title="Bottom">${item.ends}</span>`;
             }
 
-            const colorTamil =
-                typeof translateColorToTamil === 'function'
-                    ? translateColorToTamil(
-                        item.color
-                      )
-                    : item.color;
-
+            const colorTamil = typeof translateColorToTamil === 'function' ? translateColorToTamil(item.color) : item.color;
 
             blockHtml += `
-
                 <tr>
-
-                    <td style="
-                        ${tdStyle}
-                        font-weight:700;
-                        color:#4A554A;
-                    ">
-                        ${item.lineNo}
-                    </td>
-
-                    <td style="${tdStyle}">
-                        ${escapeHtmlText(
-                            item.count || '-'
-                        )}
-                    </td>
-
-                    <td style="${tdStyleColor}">
-                        ${escapeHtmlText(
-                            colorTamil
-                        )}
-                    </td>
-
-                    <td style="
-                        ${tdStyle}
-                        font-weight:bold;
-                    ">
-                        ${endsDisplay}
-                    </td>
-
+                    <td style="${tdStyle}font-weight:700;color:#4A554A;">${item.lineNo}</td>
+                    <td style="${tdStyle}">${escapeHtmlText(item.count || '-')}</td>
+                    <td style="${tdStyleColor}">${escapeHtmlText(colorTamil)}</td>
+                    <td style="${tdStyle}font-weight:bold;">${endsDisplay}</td>
                     <td style="${tdStyleLast}"></td>
-
                 </tr>
             `;
 
-
             i++;
-
             blockLineCount = 1;
         }
 
-
-        if (
-            currentLinesInCol1 <
-            MAX_LINES_COL1
-        ) {
-
+        if (currentLinesInCol1 < MAX_LINES_COL1) {
             col1Html += blockHtml;
-
-            currentLinesInCol1 +=
-                blockLineCount;
-
+            currentLinesInCol1 += blockLineCount;
         } else {
-
             col2Html += blockHtml;
         }
     }
 
-
-    const finalTotal =
-        groundTotal +
-        topTotal;
-
+    const finalTotal = groundTotal + topTotal;
     let hasGround = false;
     let hasTop = false;
     let hasSskr = false;
@@ -4232,418 +3577,119 @@ function previewPattern() {
     let dynamicBeamHeader = beamLabels.length > 0 ? beamLabels.join(" / ") : "Bottom";
     let topLabelStr = hasSskr && !hasTop ? "SSKR" : (hasTop && !hasSskr ? "Dobby" : "Dobby/SSKR");
 
-    const finalTotalDisplay =
-        topTotal > 0
+    const finalTotalDisplay = topTotal > 0
+        ? `<span style="color:#3F5A3E;">${groundTotal} <span style="font-size:9px;">(Bottom)</span></span> + <span style="color:#D97706;">${topTotal} <span style="font-size:9px;">(${topLabelStr})</span></span> = ${finalTotal}`
+        : `${finalTotal}`;
 
-            ? `<span style="color:#3F5A3E;">
-                    ${groundTotal}
-                    <span style="font-size:9px;">
-                        (Bottom)
-                    </span>
-               </span>
-               +
-               <span style="color:#D97706;">
-                    ${topTotal}
-                    <span style="font-size:9px;">
-                        (${topLabelStr})
-                    </span>
-               </span>
-               =
-               ${finalTotal}`
-
-            : `${finalTotal}`;
-
-
-    let html =
-        headerHtml;
-
+    let html = headerHtml;
 
     const tableHeader = `
-
         <tr style="background:#EAF0EA;">
-
-            <th style="
-                padding:6px;
-                text-align:center;
-                color:#2F4F38;
-                text-transform:uppercase;
-                font-size:10px;
-                border-bottom:2px solid #4A7C59;
-                width:10%;
-            ">
-                No
-            </th>
-
-            <th style="
-                padding:6px;
-                text-align:center;
-                color:#2F4F38;
-                text-transform:uppercase;
-                font-size:10px;
-                border-bottom:2px solid #4A7C59;
-                width:15%;
-            ">
-                Count
-            </th>
-
-            <th style="
-                padding:6px;
-                text-align:left;
-                color:#2F4F38;
-                text-transform:uppercase;
-                font-size:10px;
-                border-bottom:2px solid #4A7C59;
-                width:25%;
-            ">
-                Colour
-            </th>
-
-            <th style="
-                padding:6px;
-                text-align:center;
-                color:#2F4F38;
-                text-transform:uppercase;
-                font-size:10px;
-                border-bottom:2px solid #4A7C59;
-                line-height:1.2;
-                width:15%;
-            ">
-                Ends<br>
-                <span style="
-                    font-size:7px;
-                    color:#4A554A;
-                ">
-                    ${dynamicBeamHeader}
-                </span>
-            </th>
-
-            <th style="
-                padding:6px;
-                text-align:left;
-                padding-left:10px;
-                color:#2F4F38;
-                text-transform:uppercase;
-                font-size:10px;
-                border-bottom:2px solid #4A7C59;
-                width:35%;
-            ">
-                Set
-            </th>
-
+            <th style="padding:6px;text-align:center;color:#2F4F38;text-transform:uppercase;font-size:10px;border-bottom:2px solid #4A7C59;width:10%;">No</th>
+            <th style="padding:6px;text-align:center;color:#2F4F38;text-transform:uppercase;font-size:10px;border-bottom:2px solid #4A7C59;width:15%;">Count</th>
+            <th style="padding:6px;text-align:left;color:#2F4F38;text-transform:uppercase;font-size:10px;border-bottom:2px solid #4A7C59;width:25%;">Colour</th>
+            <th style="padding:6px;text-align:center;color:#2F4F38;text-transform:uppercase;font-size:10px;border-bottom:2px solid #4A7C59;line-height:1.2;width:15%;">Ends<br><span style="font-size:7px;color:#4A554A;">${dynamicBeamHeader}</span></th>
+            <th style="padding:6px;text-align:left;padding-left:10px;color:#2F4F38;text-transform:uppercase;font-size:10px;border-bottom:2px solid #4A7C59;width:35%;">Set</th>
         </tr>
     `;
 
-
     html += `
-
-        <div
-            class="print-flex-row"
-            style="
-                display:flex;
-                gap:20px;
-                align-items:flex-start;
-                justify-content:space-between;
-                width:100%;
-            "
-        >
-
-            <div
-                class="print-col-box"
-                style="
-                    flex:1;
-                    width:48%;
-                    background:#FFF;
-                "
-            >
-
-                <table style="
-                    width:100%;
-                    border-collapse:collapse;
-                    font-size:11px;
-                ">
-
+        <div class="print-flex-row" style="display:flex;gap:20px;align-items:flex-start;justify-content:space-between;width:100%;">
+            <div class="print-col-box" style="flex:1;width:48%;background:#FFF;">
+                <table style="width:100%;border-collapse:collapse;font-size:11px;">
                     ${tableHeader}
-
                     ${col1Html}
-
                 </table>
-
             </div>
-
-
-            <div
-                class="print-col-box"
-                style="
-                    flex:1;
-                    width:48%;
-                    background:#FFF;
-                "
-            >
+            <div class="print-col-box" style="flex:1;width:48%;background:#FFF;">
     `;
 
-
     if (col2Html !== '') {
-
         html += `
-
-            <table style="
-                width:100%;
-                border-collapse:collapse;
-                font-size:11px;
-            ">
-
-                ${tableHeader}
-
-                ${col2Html}
-
-            </table>
+                <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                    ${tableHeader}
+                    ${col2Html}
+                </table>
         `;
     }
 
-
     html += `
-
             </div>
-
         </div>
     `;
 
+    // Calculation for Warp Width x Reed
+    const curWidth = parseFloat(document.getElementById('infoWidth')?.value) || 0;
+    const curReed = parseFloat(document.getElementById('infoReed')?.value) || 0;
+    const calcEnds = (curWidth * curReed).toFixed(2);
+    const grandTotalPattern = groundTotal + topTotal;
+    const curTotalEnds = Math.round(curWidth * curReed);
 
     html += `
-
-        <div style="
-            margin-top:15px;
-            border-top:2px solid #4A7C59;
-            padding-top:5px;
-            page-break-inside:avoid;
-        ">
-
-            <table style="
-                width:100%;
-                border-collapse:collapse;
-                font-size:11px;
-                background:#FFF;
-            ">
-
-                <tr style="
-                    font-weight:bold;
-                    font-size:12px;
-                    background:#F8FAF8;
-                    border-bottom:1px dashed #A0AFA0;
-                ">
-
-                    <td style="
-                        padding:8px;
-                        text-align:right;
-                        color:#2F4F38;
-                        width:60%;
-                    ">
-                        Total Pattern Ends:
+        <div style="margin-top:15px;border-top:2px solid #4A7C59;padding-top:5px;page-break-inside:avoid;">
+            <table style="width:100%;border-collapse:collapse;font-size:11px;background:#FFF;">
+                <tr style="font-weight:bold;font-size:12px;background:#F8FAF8;border-bottom:1px dashed #A0AFA0;">
+                    <td style="padding:8px;text-align:right;color:#2F4F38;width:60%;">Total Pattern Ends:</td>
+                    <td style="padding:8px;font-weight:bold;text-align:left;padding-left:15px;white-space:nowrap;color:#1E2B23;">${finalTotalDisplay}</td>
+                </tr>
+                <tr style="background:#FFFFFF;border-bottom:1px dashed #A0AFA0;">
+                    <td colspan="2" style="padding:8px;text-align:center;font-size:12px;font-weight:700;color:#1E2B23;">
+                        Warp Width ${curWidth} X Reed ${curReed} = <span style="color:#059669;">${calcEnds}</span> Total Ends
                     </td>
-
-                    <td style="
-                        padding:8px;
-                        font-weight:bold;
-                        text-align:left;
-                        padding-left:15px;
-                        white-space:nowrap;
-                        color:#1E2B23;
-                    ">
-                        ${finalTotalDisplay}
-                    </td>
-
                 </tr>
     `;
 
-
-    const grandTotalPattern =
-        groundTotal +
-        topTotal;
-
-
-    if (
-        baseReed > 0 &&
-        baseWidth > 0 &&
-        grandTotalPattern > 0
-    ) {
-
-        const repeats =
-            Math.floor(
-                baseTotalEnds /
-                grandTotalPattern
-            );
-
-
-        const remEnds =
-            baseTotalEnds %
-            grandTotalPattern;
-
-
+    if (curReed > 0 && curWidth > 0 && grandTotalPattern > 0) {
+        const repeats = Math.floor(curTotalEnds / grandTotalPattern);
+        const remEnds = curTotalEnds % grandTotalPattern;
         const countTotals = {};
 
+        flatPattern.forEach(function (item) {
+            countTotals[item.count] = (countTotals[item.count] || 0) + (item.ends * repeats);
+        });
 
-        flatPattern.forEach(
-            function (item) {
-
-                countTotals[item.count] =
-                    (
-                        countTotals[item.count] ||
-                        0
-                    ) +
-                    (
-                        item.ends *
-                        repeats
-                    );
-
-            }
-        );
-
-
-        let endsToDistribute =
-            remEnds;
-
-
-        for (
-            const item of flatPattern
-        ) {
-
-            if (
-                endsToDistribute <= 0
-            ) {
-                break;
-            }
-
-
-            const take =
-                Math.min(
-                    item.ends,
-                    endsToDistribute
-                );
-
-
-            countTotals[item.count] =
-                (
-                    countTotals[item.count] ||
-                    0
-                ) + take;
-
-
-            endsToDistribute -=
-                take;
+        let endsToDistribute = remEnds;
+        for (const item of flatPattern) {
+            if (endsToDistribute <= 0) break;
+            const take = Math.min(item.ends, endsToDistribute);
+            countTotals[item.count] = (countTotals[item.count] || 0) + take;
+            endsToDistribute -= take;
         }
 
-
         html += `
-
-            <tr style="
-                font-weight:700;
-                font-size:12px;
-                background:#FFFFFF;
-                color:#2F4F38;
-                border-bottom:1px dashed #A0AFA0;
-            ">
-
-                <td colspan="2"
-                    style="
-                        padding:10px;
-                        text-align:center;
-                    "
-                >
-
-                    ${repeats}
-                    Set +
-                    ${remEnds}
-                    Ends =
-
-                    <span style="
-                        font-size:13px;
-                        color:#1E2B23;
-                    ">
-                        ${baseTotalEnds}
-                    </span>
-
-                    Total Ends
-
+            <tr style="font-weight:700;font-size:12px;background:#FFFFFF;color:#2F4F38;border-bottom:1px dashed #A0AFA0;">
+                <td colspan="2" style="padding:10px;text-align:center;">
+                    <span style="color:#D97706;font-weight:800;">${repeats} Repeat</span> + 
+                    <span style="color:#D97706;font-weight:800;">${remEnds} Ends</span> = 
+                    <span style="font-size:13px;color:#1E2B23;font-weight:800;">${curTotalEnds} Total Ends</span>
                 </td>
-
             </tr>
         `;
 
-
-        const breakdownHtml =
-            Object.keys(countTotals)
-                .map(function (c) {
-
-                    return `
-                        <span style="color:#1E2B23;">
-                            <b>${escapeHtmlText(c)}</b>:
-                            ${countTotals[c]}
-                            Ends
-                        </span>
-                    `;
-
-                })
-                .join(
-                    ' &nbsp;&nbsp;|&nbsp;&nbsp; '
-                );
-
+        const breakdownHtml = Object.keys(countTotals)
+            .map(c => `<span style="color:#1E2B23;"><b>${escapeHtmlText(c)}</b>: ${countTotals[c]} Ends</span>`)
+            .join(' &nbsp;&nbsp;|&nbsp;&nbsp; ');
 
         html += `
-
-            <tr style="
-                font-size:11px;
-                background:#EAF0EA;
-            ">
-
-                <td colspan="2"
-                    style="
-                        padding:10px;
-                        text-align:center;
-                    "
-                >
-
-                    <span style="
-                        color:#4A7C59;
-                        font-weight:800;
-                        margin-right:8px;
-                        text-transform:uppercase;
-                    ">
-                        Count Wise Total:
-                    </span>
-
+            <tr style="font-size:11px;background:#EAF0EA;">
+                <td colspan="2" style="padding:10px;text-align:center;">
+                    <span style="color:#4A7C59;font-weight:800;margin-right:8px;text-transform:uppercase;">Count Wise Total:</span>
                     ${breakdownHtml}
-
                 </td>
-
             </tr>
         `;
     }
 
-
     html += `
-
             </table>
-
         </div>
     `;
 
-
-    const previewContent =
-        document.getElementById(
-            'previewContent'
-        );
-
-
+    const previewContent = document.getElementById('previewContent');
     if (!previewContent) return;
 
-
-    previewContent.innerHTML =
-        html;
-
-
-    openModal(
-        'previewModal'
-    );
+    previewContent.innerHTML = html;
+    openModal('previewModal');
 }
 
 /* ============================================================
@@ -4681,6 +3727,78 @@ function update3DPreviewData() {
         console.error("3D Preview Data Link Error:", e);
     }
 }
+
+/* ============================================================
+   🟢 LIVE WARP TOTALS CALCULATION 🟢
+============================================================ */
+function calculateLiveWarpTotals() {
+    let patternEnds = 0;
+    
+    const ranges = [];
+    document.querySelectorAll('.range-item').forEach(function(row) {
+        const s = parseInt(row.querySelector('.inp-start')?.value) || 0;
+        const e = parseInt(row.querySelector('.inp-end')?.value) || 0;
+        const set = parseInt(row.querySelector('.inp-set')?.value) || 0;
+        if (s && e && set) {
+            ranges.push({ start: s, end: e, set: set });
+        }
+    });
+
+    const lines = [];
+    document.querySelectorAll('.line-item').forEach(function(row) {
+        const val = parseFloat(row.querySelector('.inp-ends')?.value) || 0;
+        lines.push(val);
+    });
+
+    let i = 0;
+    while (i < lines.length) {
+        const lineNo = i + 1;
+        const range = ranges.find(r => r.start === lineNo);
+
+        if (range && range.end >= range.start) {
+            let blockEnds = 0;
+            for (let j = lineNo - 1; j < range.end; j++) {
+                blockEnds += lines[j] || 0;
+            }
+            patternEnds += blockEnds * range.set;
+            i = range.end;
+        } else {
+            patternEnds += lines[i] || 0;
+            i++;
+        }
+    }
+
+    const reed = parseFloat(document.getElementById('infoReed')?.value) || 0;
+    const width = parseFloat(document.getElementById('infoWidth')?.value) || 0;
+    const totalEnds = (width * reed).toFixed(2);
+
+    const patternEndsElem = document.getElementById('entryPatternEnds');
+    const totalEndsElem = document.getElementById('entryTotalEndsCalc');
+
+    if (patternEndsElem) patternEndsElem.innerText = patternEnds;
+    if (totalEndsElem) totalEndsElem.innerText = `${width} x ${reed} = ${totalEnds}`;
+}
+
+// Input மாறும்போது தானாக கணக்கிடும் Event Listener
+document.addEventListener('input', function(e) {
+    if (
+        e.target.classList.contains('inp-ends') || 
+        e.target.classList.contains('inp-start') || 
+        e.target.classList.contains('inp-end') || 
+        e.target.classList.contains('inp-set') || 
+        e.target.id === 'infoReed' || 
+        e.target.id === 'infoWidth'
+    ) {
+        calculateLiveWarpTotals();
+    }
+});
+
+// Row அல்லது Range Delete செய்யப்படும்போது தானாக கணக்கிடும் Event Listener
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-del-small')) {
+        setTimeout(calculateLiveWarpTotals, 50);
+    }
+});
 
 </script>
 

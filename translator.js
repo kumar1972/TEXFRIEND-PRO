@@ -10,10 +10,10 @@ function translateColorToTamil(colorName) {
         'red': 'ரெட்',
         'grey': 'கிரே',
         'gray': 'கிரே',
-        'L grey': 'L. கிரே',
-        'L gray': 'L. கிரே',
-        'D grey': 'D. கிரே',
-        'D gray': 'D. கிரே',
+        'l grey': 'L. கிரே',
+        'l gray': 'L. கிரே',
+        'd grey': 'D. கிரே',
+        'd gray': 'D. கிரே',
         'khaki': 'காக்கி',
         'l khaki': 'L. காக்கி',
         'd khaki': 'D. காக்கி',
@@ -26,7 +26,6 @@ function translateColorToTamil(colorName) {
         'black': 'கருப்பு',
         'blue': 'ப்ளூ',
         'yellow': 'மஞ்சள்',
-        'mint': 'மிண்ட்',
         '1/2 salavai': '1/2 சலவை',
         '1/2 white': '1/2 சலவை',
         't salavai': 'T. சலவை',
@@ -44,6 +43,7 @@ function translateColorToTamil(colorName) {
         'beige': 'பேஜ்',
         'silver': 'சில்வர்',
         'peach': 'பீச்'
+        'Mint': 'மிண்ட்'
     };
 
     if (map[c]) return map[c];
@@ -57,7 +57,7 @@ function translateColorToTamil(colorName) {
     let colorMap = {
         'grey': 'கிரே', 'gray': 'கிரே', 'red': 'ரெட்', 'green': 'கிரீன்',
         'blue': 'ப்ளூ', 'navy': 'நேவி', 'cream': 'கிரீம்', 'salavai': 'சலவை',
-        'yellow': 'மஞ்சள்', 'khaki': 'காக்கி','mint': 'மிண்ட்',
+        'khaki': 'காக்கி','Mint': 'மிண்ட்'
     };
 
     for (let key in colorMap) {
