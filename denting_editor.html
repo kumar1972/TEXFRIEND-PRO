@@ -105,6 +105,9 @@
     body.full-draw-mode #drawFsExitBar { display: flex; }
 
     .matrix-grid-wrap { position: relative; flex: 1; min-height: 0; }
+
+    /* FIX: added missing style for the pinch/drag hint text (was referenced in markup but never defined) */
+    .zoom-hint { font-size: 0.65rem; color: #8fb99a; text-align: center; margin-top: 6px; }
     
     /* ================= HD LIVE FABRIC PREVIEW BOX (முழு பாக்ஸும் Zoom ஆகும் அமைப்பு) ================= */
     .fabric-preview-wrap {
@@ -718,7 +721,7 @@
             
             let btnGrp = document.createElement("div"); btnGrp.style.display = "flex"; btnGrp.style.gap = "2px";
             let cBtn = document.createElement("button"); cBtn.className = "btn-col-act copy"; cBtn.textContent = "C"; cBtn.title = "Copy"; cBtn.onclick = () => copyCol(c);
-            let pBtn = document.createElement("button"); cBtn.className = "btn-col-act paste"; pBtn.textContent = "P"; pBtn.title = "Paste"; pBtn.onclick = () => pasteCol(c);
+            let pBtn = document.createElement("button"); pBtn.className = "btn-col-act paste"; pBtn.textContent = "P"; pBtn.title = "Paste"; pBtn.onclick = () => pasteCol(c);
             btnGrp.appendChild(cBtn); btnGrp.appendChild(pBtn);
             
             let dBtn = document.createElement("button"); dBtn.className = "btn-col-act del"; dBtn.textContent = "✕"; dBtn.title = "Delete"; dBtn.onclick = () => removeCol(c);
